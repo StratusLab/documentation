@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:m="http://www.w3.org/1998/Math/MathML"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Administrators Guide</title>
+
+    <subtitle><?eval ${project.version}?></subtitle>
+
+    <authorgroup>
+      <editor>
+        <orgname>StratusLab Collaborators</orgname>
+      </editor>
+    </authorgroup>
+
+    <pubdate><?eval ${buildTimestamp}?></pubdate>
+
+    <productnumber><?eval ${project.version}?></productnumber>
+
+    <date><?eval ${buildTimestamp}?></date>
+
+    <copyright>
+      <year>2013</year>
+
+      <holder>StratusLab Collaborators</holder>
+    </copyright>
+
+    <legalnotice>
+      <para>This work is licensed under the Creative Commons Attribution 3.0
+      Unported License. To view a copy of this license, visit <uri
+      xlink:href="http://creativecommons.org/licenses/by/3.0/">http://creativecommons.org/licenses/by/3.0/</uri>
+      or send a letter to Creative Commons, 171 Second Street, Suite 300, San
+      Francisco, California, 94105, USA.</para>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" contentwidth="3cm" fileref="images/by.png"
+                     format="PNG" valign="middle" width="15%"></imagedata>
+        </imageobject>
+
+        <imageobject>
+          <imagedata align="center" contentwidth="3cm" fileref="images/by.svg"
+                     format="SVG" valign="middle" width="15%"></imagedata>
+        </imageobject>
+      </mediaobject>
+    </legalnotice>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" contentwidth="10cm"
+                   fileref="images/stratuslab_logo.png" format="PNG"></imagedata>
+      </imageobject>
+
+      <imageobject>
+        <imagedata align="center" contentwidth="10cm" depth=""
+                   fileref="images/stratuslab_logo.svg" format="SVG"></imagedata>
+      </imageobject>
+
+      <imageobject>
+        <imagedata align="center" contentwidth="10cm"
+                   fileref="images/stratuslab_logo.pdf" format="PDF"></imagedata>
+      </imageobject>
+    </mediaobject>
+  </info>
+
+  <preface>
+    <title>Preface</title>
+
+    <section>
+      <title>Organization</title>
+
+      <para>Overall organization and intended audience.</para>
+    </section>
+
+    <section>
+      <title>Typographic Conventions</title>
+
+      <table>
+        <title>Typographic Conventions</title>
+
+        <tgroup cols="2">
+          <colspec align="left" colnum="1" colwidth="1*" />
+
+          <colspec align="left" colnum="2" colwidth="4*" />
+
+          <tbody>
+            <row>
+              <entry><filename>filename</filename></entry>
+
+              <entry>References to files are typeset in this style. In this
+              book, these are usually references to configuration
+              templates.</entry>
+            </row>
+
+            <row>
+              <entry>command</entry>
+
+              <entry>Commands to be executed from the command line are typeset
+              in this style. This is usually a direct or indirect invocation
+              of the pan configuration language compiler.</entry>
+            </row>
+
+            <row>
+              <entry><literal>keyword</literal></entry>
+
+              <entry>Pan configuration language keywords are typeset in this
+              style. They represent the language's reserved words and should
+              appear in configuration files exactly as written.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+  </preface>
+
+  <chapter>
+    <title>StratusLab Services</title>
+
+    <para>Describe all of the services and how they fit together in detail.
+    Provide a detailed view of a cloud deployment and the terminology. </para>
+
+    <para>How StratusLab fits into the various cloud service models. It is a
+    IaaS! </para>
+
+    <para>Different types of deployments: public, private, community.</para>
+  </chapter>
+
+  <chapter>
+    <title>Installation Overview</title>
+
+    <para>How the installation method works--scripted installation. Other
+    types of installations (e.g. Quattor) not covered here. Manual
+    installation information can be found in GitHub in the service README
+    documents. </para>
+
+    <section>
+      <title>Supported Operating Systems</title>
+
+      <para>RedHat Enterprise Linux and derivations.</para>
+
+      <para>SuSE and derivations. </para>
+    </section>
+
+    <section>
+      <title>Hardware Requirements</title>
+
+      <para>Hardware requirements for the machines. General need for "fat"
+      machines in a cloud. </para>
+    </section>
+
+    <section>
+      <title>Network Requirements</title>
+
+      <para>Need for range of addresses. Show the ideal layout with three
+      separate VLANs: service control, storage access, and VM network. </para>
+
+      <para>DHCP setup.</para>
+
+      <para>Network bridge.</para>
+
+      <para>Provide an overview of all of the services and their ports.
+      </para>
+    </section>
+
+    <section>
+      <title>Installation Procedure</title>
+
+      <para>Description of general procedure with setting values and then
+      running the installation. </para>
+    </section>
+
+    <section>
+      <title>Storage Service</title>
+
+      <para>The various storage services that are supported. Distinction
+      between physical storage and access to that storage. </para>
+    </section>
+
+    <section>
+      <title>Installation of Cloud Entry Point (CEP)</title>
+
+      <para>Services that run here and their parameters. </para>
+    </section>
+
+    <section>
+      <title>Installation of VM Host (VMH)</title>
+
+      <para>Hypervisor and associated scripts/services. </para>
+    </section>
+
+    <section>
+      <title>Distributed Database</title>
+
+      <para>Installation of CouchBase. Choice whether this should be installed
+      on CEPs or on VMHs. Can also be installed on separate nodes for very
+      large installations. </para>
+    </section>
+
+    <section>
+      <title>DHCP</title>
+
+      <para>Possibility to setup DHCP automatically. This can also be done by
+      hand on a central server if that is preferred. </para>
+    </section>
+
+    <section>
+      <title>Network Bridge</title>
+
+      <para>Automatic configuration of the network bridge on VMH. </para>
+    </section>
+
+    <section>
+      <title>Marketplace Installation</title>
+
+      <para>Installation of package and configuration of databases for
+      queries. </para>
+    </section>
+
+    <section>
+      <title>Registration Service &amp; LDAP</title>
+
+      <para>Optional services for managing users. Command line tools for user
+      notification, etc. </para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Running the Cloud</title>
+
+    <para>Information on running the cloud as a service.</para>
+
+    <section>
+      <title>Service Logging Information</title>
+
+      <para>Where are the service logs?</para>
+    </section>
+
+    <section>
+      <title>Monitoring Activity</title>
+
+      <para>Where to find monitoring information.</para>
+    </section>
+
+    <section>
+      <title>Security Concerns</title>
+
+      <para></para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Troubleshooting</title>
+
+    <para>Information about common problems.</para>
+  </chapter>
+</book>
