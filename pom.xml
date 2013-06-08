@@ -4,7 +4,7 @@
 
   <groupId>eu.stratuslab.documentation</groupId>
   <artifactId>guides</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name>StratusLab Guides</name>
   <description>StratusLab User and Administrator Guides</description>
 
@@ -19,144 +19,124 @@
     <plugins>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <classesDirectory>${project.build.directory}/docbkx</classesDirectory>
-          <includes>
-            <include>html/*.html</include>
-            <include>pdf/*.pdf</include>
-          </includes>
-          <phase>install</phase>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.agilejava.docbkx</groupId>
-        <artifactId>docbkx-maven-plugin</artifactId>
-        <executions>
-
-          <execution>
-            <id>create-pdf</id>
-            <goals>
-              <goal>generate-pdf</goal>
-            </goals>
-            <configuration>
-              <foCustomization>${basedir}/src/docbkx/stratuslab-docbook-fo.xsl</foCustomization>
-            </configuration>
-            <phase>prepare-package</phase>
-          </execution>
-
-          <execution>
-            <id>create-html</id>
-            <goals>
-              <goal>generate-html</goal>
-            </goals>
-            <configuration>
-              <paperType>A4</paperType>
-              <sectionAutolabel>true</sectionAutolabel>
-              <calloutGraphics>false</calloutGraphics>
-              <calloutUnicode>true</calloutUnicode>
-              <htmlStylesheet>stratuslab.css</htmlStylesheet>
-            </configuration>
-            <phase>prepare-package</phase>
-          </execution>
-
-          <execution>
-            <id>create-epub</id>
-            <goals>
-              <goal>generate-epub</goal>
-            </goals>
-            <configuration>
-              <epubCustomization>${basedir}/src/docbkx/epub-customization.xsl</epubCustomization>
-              <epubAutolabel>true</epubAutolabel>
-              <epubNcxDepth>2</epubNcxDepth>
-              <htmlStylesheet>stratuslab.css</htmlStylesheet>
-              <preProcess>
-                <copy todir="${project.build.directory}/docbkx/epub/pan-book/images">
-                  <fileset dir="src/docbkx/images">
-                    <include name="**/*.png" />
-                  </fileset>
-                 </copy>
-		 <!--
-                <copy todir="${project.build.directory}/docbkx/epub/pan-tutorial/images">
-                  <fileset dir="src/docbkx/images">
-                    <include name="**/hello.png" />
-                  </fileset>
-                 </copy>
-		 -->
-                 <copy todir="${project.build.directory}/docbkx/epub/pan-book/" file="src/docbkx/stratuslab.css">
-                 </copy>
-		 <!--
-                 <copy todir="${project.build.directory}/docbkx/epub/pan-tutorial/" file="src/docbkx/stratuslab.css">
-                 </copy>
-		 -->
-              </preProcess>
-            </configuration>
-            <phase>prepare-package</phase>
-          </execution>
-
-          <execution>
-            <id>create-manpages</id>
-            <goals>
-              <goal>generate-manpages</goal>
-            </goals>
-            <configuration>
-              <manOutputBaseDir>${project.build.directory}/docbkx/man/</manOutputBaseDir>
-              <manOutputInSeparateDir>true</manOutputInSeparateDir>
-              <manOutputSubdirsEnabled>true</manOutputSubdirsEnabled>
-            </configuration>
-            <phase>prepare-package</phase>
-          </execution>
-
-        </executions>
-        <configuration>
-          <xincludeSupported>true</xincludeSupported>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-
-        <executions>
-
-          <execution>
-            <id>bundle</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <descriptors>
-                <descriptor>src/main/assembly/bundle.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-          
-        </executions>
-
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
+
           <execution>
-            <id>regenerate-epub</id>
+            <id>make-target</id>
             <goals>
-              <goal>java</goal>
+              <goal>exec</goal>
             </goals>
-            <phase>package</phase>
+            <phase>compile</phase>
             <configuration>
-              <mainClass>org.quattor.epub.EpubCreator</mainClass>
-              <classpathScope>compile</classpathScope>
+              <workingDirectory>${basedir}</workingDirectory>
+              <executable>mkdir</executable>
               <arguments>
-                <argument>target/docbkx/epub</argument>
+                <argument>-p</argument>
+                <argument>target</argument>
               </arguments>
             </configuration>
           </execution>
+
+          <execution>
+            <id>pandoc-html</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown/users-guide</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>-o</argument>
+                <argument>${basedir}/target/users-guide.html</argument>
+                <argument>title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-quick-start.md</argument>
+                <argument>03-client-install.md</argument>
+                <argument>04-web-interfaces.md</argument>
+                <argument>05-vm-mgt.md</argument>
+                <argument>06-storage-mgt.md</argument>
+                <argument>07-image-mgt.md</argument>
+                <argument>08-apis.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-html-admin</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown/administrators-guide</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>-o</argument>
+                <argument>${basedir}/target/administrators-guide.html</argument>
+                <argument>title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-install-overview.md</argument>
+                <argument>03-running-a-cloud.md</argument>
+                <argument>04-troubleshooting.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-pdf</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown/users-guide</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>-o</argument>
+                <argument>${basedir}/target/users-guide.pdf</argument>
+                <argument>title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-quick-start.md</argument>
+                <argument>03-client-install.md</argument>
+                <argument>04-web-interfaces.md</argument>
+                <argument>05-vm-mgt.md</argument>
+                <argument>06-storage-mgt.md</argument>
+                <argument>07-image-mgt.md</argument>
+                <argument>08-apis.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-pdf-admin</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown/administrators-guide</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>-o</argument>
+                <argument>${basedir}/target/administrators-guide.pdf</argument>
+                <argument>title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-install-overview.md</argument>
+                <argument>03-running-a-cloud.md</argument>
+                <argument>04-troubleshooting.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
         </executions>
+
       </plugin>
 
     </plugins>
@@ -168,21 +148,8 @@
       <name>Creative Commons Attribution 3.0 Unported</name>
       <url>http://creativecommons.org/licenses/by/3.0/legalcode</url>
       <distribution>repo</distribution>
-      <comments>Copyright (c) 2010, Centre National de la Recherche Scientifique (CNRS)</comments>
+      <comments>Copyright (c) 2010, StratusLab Collaborators</comments>
     </license>
   </licenses>
-
-  <developers>
-    <developer>
-      <id>loomisc</id>
-      <name>Charles LOOMIS</name>
-      <email>loomis@lal.in2p3.fr</email>
-      <organization>CNRS/LAL</organization>
-      <organizationUrl>http://www.lal.in2p3.fr/</organizationUrl>
-      <roles>
-	<role>maintainer</role>
-      </roles>
-    </developer>
-  </developers>
 
 </project>
