@@ -6,7 +6,7 @@
   <artifactId>admins-guide</artifactId>
   <packaging>pom</packaging>
   <name>Administrators Guide</name>
-  <description>Administrators Guide</description>
+  <description>StratusLab Administrator's Guide</description>
 
   <parent>
     <groupId>eu.stratuslab.documentation</groupId>
@@ -62,7 +62,7 @@
                 <argument>--number-sections</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/${project.artifactId}-${project.version}/index.html</argument>
-                <argument>title.txt</argument>
+                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-install-overview.md</argument>
@@ -89,7 +89,7 @@
                 <argument>--listings</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/${project.artifactId}-${project.version}.pdf</argument>
-                <argument>title.txt</argument>
+                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-install-overview.md</argument>

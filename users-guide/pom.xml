@@ -6,7 +6,7 @@
   <artifactId>users-guide</artifactId>
   <packaging>pom</packaging>
   <name>Users Guide</name>
-  <description>Users Guide</description>
+  <description>StratusLab User's Guide</description>
 
   <parent>
     <groupId>eu.stratuslab.documentation</groupId>
@@ -62,7 +62,7 @@
                 <argument>--number-sections</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/${project.artifactId}-${project.version}/index.html</argument>
-                <argument>title.txt</argument>
+                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-quick-start.md</argument>
@@ -93,7 +93,7 @@
                 <argument>--listings</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/${project.artifactId}-${project.version}.pdf</argument>
-                <argument>title.txt</argument>
+                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-quick-start.md</argument>
