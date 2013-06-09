@@ -9,10 +9,9 @@ body {
 /* Title bar of the document. */
 
 header {
-/*
+  display: block;
   padding-left: 200px;
-  background: url(../images/stratuslab.png) no-repeat;
-*/
+  background: #eee url(../images/stratuslab_website.png) no-repeat 15px center;
 }
 
 header h1, header h2, header h3, header h4, header h5, header h6 {
