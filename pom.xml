@@ -19,6 +19,34 @@
     <plugins>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <id>copy-html-resources</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <outputDirectory>${basedir}/target/css</outputDirectory>
+              <nonFilteredFileExtensions>
+                <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+                <nonFilteredFileExtension>png</nonFilteredFileExtension>
+              </nonFilteredFileExtensions>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/markdown/users-guide/css</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
@@ -49,6 +77,11 @@
               <workingDirectory>src/main/markdown/users-guide</workingDirectory>
               <executable>pandoc</executable>
               <arguments>
+                <argument>--write=html5</argument>
+                <argument>--css=css/screen.css</argument>
+                <argument>--standalone</argument>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/users-guide.html</argument>
                 <argument>title.txt</argument>
@@ -65,6 +98,7 @@
             </configuration>
           </execution>
 
+<!--
           <execution>
             <id>pandoc-html-admin</id>
             <goals>
@@ -86,6 +120,7 @@
               </arguments>
             </configuration>
           </execution>
+-->
 
           <execution>
             <id>pandoc-pdf</id>
@@ -97,6 +132,8 @@
               <workingDirectory>src/main/markdown/users-guide</workingDirectory>
               <executable>pandoc</executable>
               <arguments>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/users-guide.pdf</argument>
                 <argument>title.txt</argument>
@@ -113,6 +150,7 @@
             </configuration>
           </execution>
 
+<!--
           <execution>
             <id>pandoc-pdf-admin</id>
             <goals>
@@ -134,7 +172,7 @@
               </arguments>
             </configuration>
           </execution>
-
+-->
         </executions>
 
       </plugin>
