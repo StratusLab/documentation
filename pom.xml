@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>eu.stratuslab.documentation</groupId>
-  <artifactId>guides</artifactId>
+  <artifactId>docs</artifactId>
   <packaging>pom</packaging>
-  <name>StratusLab Guides</name>
-  <description>StratusLab User and Administrator Guides</description>
+  <name>Documentation</name>
+  <description>Documentation</description>
 
   <parent>
     <groupId>eu.stratuslab</groupId>
@@ -14,179 +14,17 @@
     <version>13.05-SNAPSHOT</version>
   </parent>
 
-  <build>
-
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-
-        <executions>
-          <execution>
-            <id>copy-html-resources</id>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <phase>process-resources</phase>
-            <configuration>
-              <outputDirectory>${basedir}/target/css</outputDirectory>
-              <nonFilteredFileExtensions>
-                <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
-                <nonFilteredFileExtension>png</nonFilteredFileExtension>
-              </nonFilteredFileExtensions>
-              <resources>
-                <resource>
-                  <directory>${basedir}/src/main/markdown/users-guide/css</directory>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
-
-          <execution>
-            <id>make-target</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>${basedir}</workingDirectory>
-              <executable>mkdir</executable>
-              <arguments>
-                <argument>-p</argument>
-                <argument>target</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>pandoc-html</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown/users-guide</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>--write=html5</argument>
-                <argument>--css=css/screen.css</argument>
-                <argument>--standalone</argument>
-                <argument>--toc</argument>
-                <argument>--number-sections</argument>
-                <argument>-o</argument>
-                <argument>${basedir}/target/users-guide.html</argument>
-                <argument>title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-quick-start.md</argument>
-                <argument>03-client-install.md</argument>
-                <argument>04-web-interfaces.md</argument>
-                <argument>05-vm-mgt.md</argument>
-                <argument>06-storage-mgt.md</argument>
-                <argument>07-image-mgt.md</argument>
-                <argument>08-apis.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-<!--
-          <execution>
-            <id>pandoc-html-admin</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown/administrators-guide</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>-o</argument>
-                <argument>${basedir}/target/administrators-guide.html</argument>
-                <argument>title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-install-overview.md</argument>
-                <argument>03-running-a-cloud.md</argument>
-                <argument>04-troubleshooting.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
--->
-
-          <execution>
-            <id>pandoc-pdf</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown/users-guide</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>--toc</argument>
-                <argument>--number-sections</argument>
-                <argument>-o</argument>
-                <argument>${basedir}/target/users-guide.pdf</argument>
-                <argument>title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-quick-start.md</argument>
-                <argument>03-client-install.md</argument>
-                <argument>04-web-interfaces.md</argument>
-                <argument>05-vm-mgt.md</argument>
-                <argument>06-storage-mgt.md</argument>
-                <argument>07-image-mgt.md</argument>
-                <argument>08-apis.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-<!--
-          <execution>
-            <id>pandoc-pdf-admin</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown/administrators-guide</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>-o</argument>
-                <argument>${basedir}/target/administrators-guide.pdf</argument>
-                <argument>title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-install-overview.md</argument>
-                <argument>03-running-a-cloud.md</argument>
-                <argument>04-troubleshooting.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
--->
-        </executions>
-
-      </plugin>
-
-    </plugins>
-
-  </build>
+  <modules>
+    <module>users-guide</module>
+    <module>admins-guide</module>
+  </modules>
 
   <licenses>
     <license>
       <name>Creative Commons Attribution 3.0 Unported</name>
       <url>http://creativecommons.org/licenses/by/3.0/legalcode</url>
       <distribution>repo</distribution>
-      <comments>Copyright (c) 2010, StratusLab Collaborators</comments>
+      <comments>Copyright (c) 2010-2013, StratusLab Collaborators</comments>
     </license>
   </licenses>
 

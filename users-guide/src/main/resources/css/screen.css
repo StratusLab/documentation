@@ -1,0 +1,59 @@
+
+body {
+  font-family: serif;
+}
+
+header {
+  background-color: #eee;
+}
+
+header h1, h2, h3, h4, h5, h6 {
+  font-family: sans-serif;
+}
+
+nav {
+  font-family: sans-serif;
+}
+
+nav ul {
+  padding-left: 0;
+  margin-left: 0;
+  list-style-type:none;
+}
+
+nav ul li {
+  margin-top: 0.5em;
+}
+
+nav ul ul {
+  padding-left: 0;
+  margin-left: 1em;
+  list-style-type:none;
+}
+
+nav ul ul li {
+  margin-top: 0;
+}
+
+nav ul ul ul{
+  padding-left: 0;
+  margin-left: 1em;
+  list-style-type:none;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5 a {
+  font-family: courier;
+  border: none;
+  text-decoration: none;
+}
+
+.header-section-number {
+  font-family: sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
