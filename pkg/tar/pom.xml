@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>eu.stratuslab.documentation</groupId>
+  <artifactId>stratuslab-docs</artifactId>
+  <packaging>pom</packaging>
+  <name>Documentation Packaging (TAR)</name>
+  <description>Documentation Packaging (TAR)</description>
+
+  <parent>
+    <groupId>eu.stratuslab.documentation</groupId>
+    <artifactId>pkg</artifactId>
+    <version>13.05-SNAPSHOT</version>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>eu.stratuslab.documentation</groupId>
+      <artifactId>users-guide</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>eu.stratuslab.documentation</groupId>
+      <artifactId>administrators-guide</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+	<artifactId>maven-dependency-plugin</artifactId>
+
+	<executions>
+	  <execution>
+	    <phase>process-sources</phase>
+	    <goals>
+	      <goal>unpack-dependencies</goal>
+	    </goals>
+	    <configuration>
+	      <stripVersion>true</stripVersion>
+	      <type>zip</type>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	
+	<executions>
+	  <execution>
+	    <id>bundle</id>
+	    <goals>
+	      <goal>single</goal>
+	    </goals>
+	    <phase>package</phase>
+	    <configuration>
+	      <appendAssemblyId>false</appendAssemblyId>
+	      <descriptors>
+		<descriptor>src/main/assembly/bundle.xml</descriptor>
+	      </descriptors>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+      
+    </plugins>
+
+  </build>
+
+</project>

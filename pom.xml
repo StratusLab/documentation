@@ -17,6 +17,7 @@
   <modules>
     <module>users-guide</module>
     <module>admins-guide</module>
+    <module>pkg</module>
   </modules>
 
   <licenses>
