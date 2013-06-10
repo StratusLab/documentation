@@ -3,7 +3,7 @@ body {
   font-family: serif;
   color: black;
   background-color: white;
-  max-width: 60em;
+  max-width: 700px;
 }
 
 /* Title bar of the document. */
