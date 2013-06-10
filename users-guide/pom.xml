@@ -90,6 +90,7 @@
                 <argument>--number-sections</argument>
                 <argument>--include-in-header=pdf-header-includes.txt</argument>
                 <argument>--variable=documentclass:book</argument>
+                <argument>--variable=graphics:1</argument>
                 <argument>--listings</argument>
                 <argument>-o</argument>
                 <argument>${basedir}/target/${project.artifactId}-${project.version}.pdf</argument>
