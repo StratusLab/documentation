@@ -74,7 +74,7 @@
 	  <mappings>
 	    
 	    <mapping>
-	      <directory>/usr/share/stratuslab/${project.version}</directory>
+	      <directory>/usr/share/stratuslab</directory>
 	      <filemode>644</filemode>
 	      <username>root</username>
 	      <groupname>root</groupname>
