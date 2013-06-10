@@ -19,6 +19,27 @@
     <plugins>
 
       <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	
+	<executions>
+	  <execution>
+	    <id>bundle</id>
+	    <goals>
+	      <goal>single</goal>
+	    </goals>
+	    <phase>package</phase>
+	    <configuration>
+	      <appendAssemblyId>false</appendAssemblyId>
+	      <descriptors>
+		<descriptor>src/main/assembly/bundle.xml</descriptor>
+	      </descriptors>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+      
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
@@ -28,7 +49,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/${project.artifactId}-${project.version}</outputDirectory>
+              <outputDirectory>${basedir}/target/${project.version}/${project.artifactId}</outputDirectory>
               <resources>
                 <resource>
                   <directory>${basedir}/src/main/resources</directory>
@@ -61,8 +82,8 @@
                 <argument>--toc</argument>
                 <argument>--number-sections</argument>
                 <argument>-o</argument>
-                <argument>${basedir}/target/${project.artifactId}-${project.version}/index.html</argument>
-                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/${project.artifactId}.html</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-quick-start.md</argument>
@@ -93,8 +114,37 @@
                 <argument>--variable=graphics:1</argument>
                 <argument>--listings</argument>
                 <argument>-o</argument>
-                <argument>${basedir}/target/${project.artifactId}-${project.version}.pdf</argument>
-                <argument>${basedir}/target/${project.artifactId}-${project.version}/title.txt</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}.pdf</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-quick-start.md</argument>
+                <argument>03-client-install.md</argument>
+                <argument>04-web-interfaces.md</argument>
+                <argument>05-vm-mgt.md</argument>
+                <argument>06-storage-mgt.md</argument>
+                <argument>07-image-mgt.md</argument>
+                <argument>08-apis.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-epub</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>--write=epub</argument>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
+                <argument>-o</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}.epub</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
                 <argument>00-preface.md</argument>
                 <argument>01-intro.md</argument>
                 <argument>02-quick-start.md</argument>
