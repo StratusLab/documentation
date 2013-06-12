@@ -48,4 +48,4 @@ morekeywords={__global__, __device__},  % CUDA specific keywords
 
 \usepackage{graphicx}
 
-\titlepic{\includegraphics{../resources/images/stratuslab_logo.pdf}}
+\titlepic{\Oldincludegraphics[width=0.7\textwidth]{../resources/images/stratuslab_logo.pdf}}
