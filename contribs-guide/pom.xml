@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>eu.stratuslab.documentation</groupId>
+  <artifactId>contributors-guide</artifactId>
+  <packaging>pom</packaging>
+  <name>Contributors Guide</name>
+  <description>StratusLab Contributors's Guide</description>
+
+  <parent>
+    <groupId>eu.stratuslab.documentation</groupId>
+    <artifactId>docs</artifactId>
+    <version>13.05.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	
+	<executions>
+	  <execution>
+	    <id>bundle</id>
+	    <goals>
+	      <goal>single</goal>
+	    </goals>
+	    <phase>package</phase>
+	    <configuration>
+	      <appendAssemblyId>false</appendAssemblyId>
+	      <descriptors>
+		<descriptor>src/main/assembly/bundle.xml</descriptor>
+	      </descriptors>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/${project.version}/${project.artifactId}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+
+          <execution>
+            <id>pandoc-html</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>--write=html5</argument>
+                <argument>--css=css/screen.css</argument>
+                <argument>--standalone</argument>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
+                <argument>-o</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/${project.artifactId}.html</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-code-mgt.md</argument>
+                <argument>03-integration.md</argument>
+                <argument>04-releases.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-pdf</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
+                <argument>--include-in-header=pdf-header-includes.txt</argument>
+                <argument>--variable=documentclass:book</argument>
+                <argument>--variable=graphics:1</argument>
+                <argument>--listings</argument>
+                <argument>-o</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}.pdf</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-code-mgt.md</argument>
+                <argument>03-integration.md</argument>
+                <argument>04-releases.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pandoc-epub</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <workingDirectory>src/main/markdown</workingDirectory>
+              <executable>pandoc</executable>
+              <arguments>
+                <argument>--write=epub</argument>
+                <argument>--toc</argument>
+                <argument>--number-sections</argument>
+                <argument>-o</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}.epub</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
+                <argument>00-preface.md</argument>
+                <argument>01-intro.md</argument>
+                <argument>02-code-mgt.md</argument>
+                <argument>03-integration.md</argument>
+                <argument>04-releases.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+        </executions>
+
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <licenses>
+    <license>
+      <name>Creative Commons Attribution 3.0 Unported</name>
+      <url>http://creativecommons.org/licenses/by/3.0/legalcode</url>
+      <distribution>repo</distribution>
+      <comments>Copyright (c) 2010, StratusLab Collaborators</comments>
+    </license>
+  </licenses>
+
+</project>

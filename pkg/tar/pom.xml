@@ -27,6 +27,12 @@
       <version>${project.version}</version>
       <type>zip</type>
     </dependency>
+    <dependency>
+      <groupId>eu.stratuslab.documentation</groupId>
+      <artifactId>contributors-guide</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
   </dependencies>
 
   <build>
