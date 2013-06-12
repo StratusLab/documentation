@@ -23,8 +23,8 @@
   </modules>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com/StratusLab/distribution.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/StratusLab/distribution.git</developerConnection>
+    <connection>scm:git:ssh://git@github.com/StratusLab/documentation.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/StratusLab/documentation.git</developerConnection>
   </scm>
 
   <repositories>
