@@ -1,0 +1,89 @@
+\section{Security Considerations}
+\label{sec:security}
+
+\subsection{Security Policies}
+
+{\em Describe efforts to work towards general policies in the EGI
+  community concerning the handling and trust of virtual machine
+  images.  Also efforts towards wider standardization, if
+  appropriate.}
+
+\subsection{Policy Implementation}
+
+{\em Describe the policy management tools and how they support
+  flexible but rigorous site policies.}
+
+\subsection{Specific Attacks}
+
+\subsubsection{Replay of Signed Metadata}
+
+As all of the signed metadata data entries are publicly available,
+there is a risk that an older entry would be ``replayed'' to replace a
+newer entry.  This would be done, for instance, to make an image that
+has been deprecated to appear to still be valid.
+
+The implementation makes this difficult to do by:
+\begin{itemize}
+\item Requiring that all metadata entries explicitly include the
+  endorsement timestamp as part of the signed content.
+\item Only allowing uploaded entries that have a timestamp close to
+  the current time.
+\item Confirming all changes via the email address in the metadata
+  entry.
+\end{itemize}
+To successfully replay a previous entry would require that the
+endorser's private key be compromised (to update timestamp) as well as
+his email account.
+
+\subsubsection{Confidentiality of Data}
+
+{\em Expand to copyright and IPR.  Safe haven provisions in not
+  directly hosting images.}
+
+As all of the metadata descriptions on the servers are considered
+public, there are no concerns about confidentiality.  Thus the
+Marketplace implementation does not need to do anything special.
+
+\subsubsection{Validity and Completeness of Data}
+
+{\em Probably split this into two sections.  Need to introduce the
+  idea of a ``timeline'' of endorsements for an image.}
+
+If there were an open communication channel between the Marketplace
+and the user, then responses from the server could be altered in
+transit.  To prevent this, the server must be deployed with a valid
+certificate and communications must take place over a connection using
+TLS\@.
+
+\subsubsection{Altered Images}
+
+As the images will be downloaded from other sites, there is a danger
+that they will be altered (either intentionally or maliciously).  As
+images are selected and evaluated based on the associated metadata,
+altered images must not correspond to the unaltered image's metadata
+or to another valid image's metadata.
+
+The image identifier is based on the SHA-1 hash of the image.
+Although difficult to modify an image while maintaining the SHA-1 hash
+is difficult, it is possible.  Hence an altered image could masquerade
+as a valid image if only the SHA-1 hash information were used to
+validate a downloaded image file.
+
+To ensure that altered images are detected in the validation
+additional information is provided in the metadata descriptions:
+\begin{itemize}
+\item Length of the file in bytes.
+\item MD5, SHA-1, SHA-256, and SHA-512 hash values.
+\end{itemize}
+All of these should be verified with a newly downloaded image.  The
+likelihood that someone can create an altered image with exactly the
+same length and multiple checksums is miniscule.
+
+\subsubsection{Compromised Marketplace Server}
+
+If someone were to take control of the Marketplace server, he could
+not alter individual metadata entries as those are signed by the
+endorser's whose keys are not available on the server.  However, he
+could delete entries making, for instance, deprecated images appear
+valid.  This is a significant risk and the server should be operated
+according to modern best practices.

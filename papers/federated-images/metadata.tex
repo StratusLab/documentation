@@ -1,0 +1,213 @@
+\section{Metadata Schema and Format}
+\label{chap:metadata}
+
+{\em Should this be a separate section or just be included in the
+  implementation section?  In any case, it should cover the main
+  points of the metadata, leaving open a possible
+  transition/incorporation of OVF.  It should emphasize that the
+  format is extensible to allow various domains to develop their own
+  conventions.}
+
+Sharing machine and disk images requires standardized, trusted
+metadata to allow users to find appropriate images and to allow system
+administrators to judge the suitability of them.
+
+As stated in the previous chapter, the metadata descriptions are in
+RDF/XML~\cite{rdfxml} format and cryptographically signed following
+the XML Signature~\cite{xmlsig} specification.  The connection between
+the described image and the metadata description is the image
+identifier based on the SHA-1 hash.
+
+Figure~\ref{fig:metadata-example} shows an (unsigned) example of the
+metadata description.  The first element is the description of the
+image containing information about the image file, contained operating
+system, and location.  It also contains the endorsement of the
+information with information on who endorsed the image and when.  The
+email of the endorser is used as the key and is consequently a
+required element of the description.  A digital signature element
+(``xmldsig:Signature'') follows the ``rdf:Description'' element for
+signed metadata entries.  (Relevant XML namespaces are listed in
+Table~\ref{table:ns}.)
+
+The entries in the Marketplace deal with {\em individual} images.  If
+it is desired that collections of images are signed, then one
+possibility is to include in each individual entry references to the
+other image descriptions in the collection.  This allows the full
+collection to be reconstructed from any individual entry.  One method
+of doing this is shown in the example metadata description.
+
+\begin{table}
+\caption{XML Namespaces and Prefixes}
+\label{table:ns}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+  rdf & {\tt http://www.w3.org/1999/02/22-rdf-syntax-ns\#} \tnl
+  dcterms & {\tt http://purl.org/dc/terms/} \tnl
+  slreq & {\tt http://mp.stratuslab.eu/slreq\#} \tnl
+  slterms & {\tt http://mp.stratuslab.eu/slterms\#} \tnl
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{figure}
+\begin{center}
+\tiny
+\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rdf:RDF 
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:slreq="http://mp.stratuslab.eu/slreq#"
+  xmlns:slterms="http://mp.stratuslab.eu/slterms#"
+  xmlns:ex="http://example.org/"
+  xml:base="http://mp.stratuslab.eu/">
+
+  <rdf:Description rdf:about="#MMZu9WvwKIro-rtBQfDk4PsKO7_">
+
+    <dcterms:identifier>MMZu9WvwKIro-rtBQfDk4PsKO7_</dcterms:identifier>
+
+    <slreq:bytes>100</slreq:bytes>
+
+    <slreq:checksum rdf:parseType="Resource">
+      <slreq:algorithm>SHA-1</slreq:algorithm>
+      <slreq:value>c319bbd5afc0a22ba3eaed0507c39383ec28eeff</slreq:value>
+    </slreq:checksum>
+
+    <slreq:endorsement rdf:parseType="Resource">
+      <dcterms:created>2011-01-24T09:59:42Z</dcterms:created>
+      <slreq:endorser rdf:parseType="Resource">
+        <slreq:email>jane.tester@example.org</slreq:email>
+        <slreq:subject>CN=Jane Tester,OU=...</slreq:subject>
+        <slreq:issuer>CN=Jane Tester,OU=...</slreq:issuer>
+      </slreq:endorser>
+    </slreq:endorsement>
+
+    <dcterms:type>machine</dcterms:type>
+
+    <dcterms:valid>2011-07-23T10:59:42Z</dcterms:valid>
+
+    <dcterms:publisher>StratusLab</dcterms:publisher>
+    <dcterms:title>linux-with-my-apps</dcterms:title>
+    <dcterms:description>A 32-bit ttylinux...</dcterms:description>
+
+    <slterms:location>http://example.org/...</slterms:location>
+
+    <slterms:serial-number>0</slterms:serial-number>
+    <slterms:version>1.0</slterms:version>
+
+    <slterms:hypervisor>kvm</slterms:hypervisor>
+
+    <slterms:inbound-port>443</slterms:inbound-port>
+    <slterms:outbound-port>25</slterms:outbound-port>
+    <slterms:icmp>8</slterms:icmp>
+
+    <slterms:os>ttylinux</slterms:os>
+    <slterms:os-version>9.7</slterms:os-version>
+    <slterms:os-arch>i486</slterms:os-arch>
+
+    <slterms:deprecated>security issue with app</slterms:deprecated>
+
+    <ex:other-info>additional metadata</ex:other-info>
+    <ex:yet-more>still more info</ex:yet-more>
+    
+    <ex:relatedImages rdf:parseType="Resource">
+      <dcterms:identifier>MMZu9WvwKIro-rtBQfDk4PsKO7_</dcterms:identifier>
+      <dcterms:identifier>NMZu9WvwKIro-rtBQfDk4PsKO7_</dcterms:identifier>
+      <dcterms:identifier>OMZu9WvwKIro-rtBQfDk4PsKO7_</dcterms:identifier>
+      <dcterms:identifier>PMZu9WvwKIro-rtBQfDk4PsKO7_</dcterms:identifier>
+    </ex:relatedImages>
+
+  </rdf:Description>
+</rdf:RDF>
+\end{verbatim}
+\end{center}
+\caption{Example (Abbreviated) Metadata Description}
+\label{fig:metadata-example}
+\end{figure}
+
+\subsection{Signing and Validating StratusLab Metadata files}
+
+For signing and validating metadata files we are using XML
+Signature~\cite{xmlsig} specification.  Commands to support metadata
+signatures have been written in Java as recent Java virtual machines
+contain an API implementing this standard.
+
+Metadata files can be signed using grid certificates (in PKCS12
+format), PGP key pairs, or DSA/RSA key pairs.  Verification and
+validation automatically detects signature algorithm and type of
+private key used for signing metadata files, verifies the metadata
+file and prints, for grid certificates, the DN of the user who signed
+the metadata file.
+
+\subsection{Metadata Elements}
+
+Where possible the Dublin Core metadata vocabulary~\cite{dcterms} has
+been used for the metadata description.  Table~\ref{table:dcterms}
+shows the terms taken from the Dublin Core specification.  Additional
+terms have been defined by StratusLab to complete the metadata
+description (see Table~\ref{table:slterms}).
+
+Additional terms can be added to the metadata descriptions, but they
+should appear in their own XML namespaces.  {\em This allows for
+  application-specific metadata and also evolution of the standard
+  schema.}  These should appear after the endorsement element in the
+description.
+
+\begin{table}
+\caption{Metadata Elements from Dublin Core}
+\label{table:dcterms}
+\begin{center}
+\begin{tabular}{lllllp{4cm}}
+\hline
+NS & qname & freq. & XSD & Constraints & Notes \tnl
+\hline
+dcterms & identifier & 1 & string & valid identifier & image identifier \tnl
+dcterms & isReplacedBy & ? & string & valid identifier & image identifier for replacement image \tnl
+dcterms & replaces & ? & string & valid identifier & image identifier for image replaced by this one \tnl
+dcterms & isVersionOf & ? & string & valid identifier & image identifier for parent image \tnl
+dcterms & valid & ? & dateTime &  XML DateTime format & expiration date for image metadata \tnl
+dcterms & title & ? & string &  & short title for humans \tnl
+dcterms & description & 1 & string & & longer description of the image \tnl
+dcterms & type & 1 & string & ``machine'' or ``disk'' & type of the described image \tnl
+dcterms & creator & ? & string & & name of image or metadata record creator \tnl
+dcterms & created & ? & string & & date when metadata record was created \tnl
+dcterms & publisher & ? & string & & publisher (group, experiment, project) of image \tnl
+dcterms & format & 1 & string & & format of machine or disk image \tnl
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Metadata Elements from StratusLab Schema}
+\label{table:slterms}
+\begin{center}
+\begin{tabular}{lllllp{8cm}}
+\hline
+NS & qname & freq. & XSD & Constraints & Notes \tnl
+\hline
+slreq & endorsement & 1 & complex & & endorsement information \tnl
+slreq & endorser & 1 & complex & & endorser information \tnl
+slreq & bytes & 1 & positive integer & & bytes of described image \tnl
+slreq & checksum & + & string & lowercase hex digits only & checksum in hex with algorithm prefix \tnl
+slreq & email & 1 & string & & email address of the metadata record creator \tnl
+slreq & subject & 1 & string & & certificate subject \tnl
+slreq & issuer & + & string & & certificate issuer \tnl
+\hline
+slterms & location & * & URI & & location hint for download (none if unavailable) \tnl
+slterms & serial-number & ? & non-negative integer & & numeric index of image within a series \tnl
+slterms & version & ? & string & & version of the image \tnl
+slterms & hypervisor & ? & string & & appropriate hypervisors for machine image \tnl
+slterms & inbound-port & * & unsigned short & 0 for all & required inbound port \tnl
+slterms & outbound-port & * & unsigned short & 0 for all & required outbound port \tnl
+slterms & icmp & * & unsigned byte & & ICMP packet types \tnl
+slterms & os-arch & ? & string & & OS architecture \tnl
+slterms & os-version & ? & string & & OS version \tnl
+slterms & os & ? & string & & OS \tnl
+slterms & deprecated & ? & string & & reason that image is deprecated (missing if OK) \tnl
+\hline
+\end{tabular}
+\end{center}
+\end{table}

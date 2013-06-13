@@ -1,0 +1,27 @@
+\section{Integration with Cloud Implementations}
+\label{sec:related-components}
+
+{\em Describe what components are necessary to integrate the
+  Marketplace with a IaaS cloud implementation. This should emphasize
+  that it could be integrated into different cloud stacks.  This
+  should be easy!}
+
+To integrate the Marketplace with cloud deployments, three additional
+components are necessary:
+
+\paragraph{Resolver} This resolves a given URL into a set of metadata
+  entries.  Currently only Marketplace metadata URLs are supported, so
+  this is simply an HTTP GET on the URL and not a separate component.
+
+\paragraph{Download} This is implemented in the
+  \cmd{stratus-download-image} command.  It supports any transport
+  supported natively by python.
+
+\paragraph{Policy Engine} This is implemented in \cmd{stratus-policy-image}
+  command.  It will validate the metadata entries against a site
+  policy.  It currently implements signature validation, endorser
+  white and black lists, and checksum blacklist.
+
+All of these are used on the cloud side and are not visible to end
+users.  Cloud administrators, however, may find them useful in certain
+circumstances.
