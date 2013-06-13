@@ -1,0 +1,96 @@
+
+Image Mgt. in a Federated Cloud Environment
+
+# Abstract
+
+Overview of paper highlighting the StratusLab contributions to image
+management.
+
+# Introduction
+
+Goal: Promote ecosystem of trusted images allowing users to more
+effectively and efficiently exploit a number of IaaS cloud
+infrastructures.
+
+General introduction to image management in cloud environments.  Point
+out the main features needed for image management and use: storage,
+transport, generation, and **trust**.  This last point is the crucial
+piece in a federated environment and what the StratusLab Marketplace
+provides. 
+
+Description of actors (creator, endorser, user, and cloud
+administrator) with a short description of their needs in the
+ecosystem. 
+
+# Existing Tools and Techniques
+
+Provide in each case at least one example of how other cloud
+distributions implement the given feature. 
+
+## Image Repositories (storage)
+
+OpenStack: Glance.
+
+StratusLab: standard web server.
+
+## Image Factories (generation)
+
+Bitnami, Puppet, etc.
+
+StratusLab: stratus-create-image and base images
+
+## Image Transport
+
+EGI: vm-caster/catcher
+
+StratusLab: HTTP(S) from webserver or from storage
+
+## Image Registry
+
+StratusLab: Marketplace and policy enforcement.
+
+# Marketplace Requirements
+
+Highlight the major requirements of the system, perhaps concentrating
+on the primary Marketplace workflows. 
+
+# Marketplace Implementation
+
+Description of the technology choices made, especially those that
+affect the outward functionality of the system. 
+
+The metadata schema should be covered along with an explaination of
+why something like OVF was not used. 
+
+# Security Considerations
+
+Various scenarios that have been identified and how the system works
+to prevent security incidents. 
+
+# Production Experience
+
+Identify the good points in the system.  Also use this to identify
+problems used to motivate the next Marketplace implementation. 
+
+# Future Work
+
+Description of the current issues and how the next implementation will
+deal with them. 
+
+Points for improvement:
+
+* Difficult to determine the quality of listed images.  Croudsource
+  this with something like DISCUS?
+* Single point of failure.  Need to allow for replication.  (Git as
+  storage mechanism?)
+* Need for public/private instances (Git as management backend to
+  merge different repositories?)
+* SPARQL queries are essentially unused by users (but used
+  internally).  Remove to simplify code?
+* Need to have fixed URL for latest in a series of images.
+* Allow 'prettier' descriptions of the images in the Marketplace.
+
+# Acknowledgements 
+
+Thanks to the EC?  I don't think we're required to do this, but it
+might be a good gesture. 
