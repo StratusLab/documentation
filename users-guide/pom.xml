@@ -93,6 +93,9 @@
                 <argument>06-storage-mgt.md</argument>
                 <argument>07-image-mgt.md</argument>
                 <argument>08-apis.md</argument>
+                <argument>09-appendix.md</argument>
+                <argument>10-python-and-utilities.md</argument>
+                <argument>11-ssh-client.md</argument>
               </arguments>
             </configuration>
           </execution>
@@ -125,6 +128,9 @@
                 <argument>06-storage-mgt.md</argument>
                 <argument>07-image-mgt.md</argument>
                 <argument>08-apis.md</argument>
+                <argument>09-appendix.md</argument>
+                <argument>10-python-and-utilities.md</argument>
+                <argument>11-ssh-client.md</argument>
               </arguments>
             </configuration>
           </execution>
@@ -154,6 +160,9 @@
                 <argument>06-storage-mgt.md</argument>
                 <argument>07-image-mgt.md</argument>
                 <argument>08-apis.md</argument>
+                <argument>09-appendix.md</argument>
+                <argument>10-python-and-utilities.md</argument>
+                <argument>11-ssh-client.md</argument>
               </arguments>
             </configuration>
           </execution>
