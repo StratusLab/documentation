@@ -96,6 +96,7 @@
                 <argument>09-appendix.md</argument>
                 <argument>10-python-and-utilities.md</argument>
                 <argument>11-ssh-client.md</argument>
+                <argument>12-java.md</argument>
               </arguments>
             </configuration>
           </execution>
@@ -131,6 +132,7 @@
                 <argument>09-appendix.md</argument>
                 <argument>10-python-and-utilities.md</argument>
                 <argument>11-ssh-client.md</argument>
+                <argument>12-java.md</argument>
               </arguments>
             </configuration>
           </execution>
@@ -163,6 +165,7 @@
                 <argument>09-appendix.md</argument>
                 <argument>10-python-and-utilities.md</argument>
                 <argument>11-ssh-client.md</argument>
+                <argument>12-java.md</argument>
               </arguments>
             </configuration>
           </execution>
