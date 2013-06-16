@@ -1,7 +1,7 @@
 
 # Programmatic Access
 
-How to use the various StratusLab APIs.
+How to use the various StratusLab APIs.  Overview of API status.  
 
 ## Libcloud API
 
@@ -122,7 +122,14 @@ not support sftp will not work.  This include, notably, ttylinux.
 
 ## StratusLab API
 
+Will change significantly.  REST, specific services.  Python, better
+abstraction.
+
 ## CIMI API
+
+Will become standard API for all services.  Better to plan for this if
+immediate programmatic access isn't needed. 
+
 
 
 [lc-web]: http://libcloud.apache.org/
