@@ -27,40 +27,12 @@ StratusLab command line are satisfied:
   * You have an active StratusLab account and connection parameters.
 
 For the first three points, more information can be found in the
-appendix.  Below are quick recipes for checking that the prerequisites
-are OK. 
+following chapter and in the appendix.  
 
-You can quickly verify the availability of Python and utilities with
-the following commands:
-
-    $ python --version 
-    Python 2.6.6
-
-    $ which virtualenv 
-    /usr/bin/virtualenv
-
-Note that pip is always installed with virtualenv.
-
-Similarly for java use the following:
-
-    $ java -version
-    java version "1.7.0_19"
-    OpenJDK Runtime Environment (rhel-2.3.9.1.el6_4-x86_64)
-    OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
- 
-Note that there is only one hyphen in the option. 
-
-For SSH check to see if the directory `$HOME/.ssh/` contains files
-starting with "`id_`".
-
-    $ ls $HOME/.ssh/id_* 
-    /home/sluser/.ssh/id_rsa  /home/sluser/.ssh/id_rsa.pub
-
-Lastly, the administrator of your StratusLab cloud provider must give
-you 1) your credentials and 2) the service endpoints of the cloud
-infrastructure.  The following parts of this chapter presume that you
-have a username/password pair for credentials and are using the
-StratusLab reference infrastructure at LAL. 
+For the StratusLab account, you must contact the administrator of your
+cloud infrastructure.  The following parts of this chapter presume
+that you have a username/password pair for credentials and are using
+the StratusLab reference infrastructure at LAL.
 
 ## Client Installation
 

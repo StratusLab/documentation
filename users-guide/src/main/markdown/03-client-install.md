@@ -1,355 +1,348 @@
 
-# Command Line Client Installation
+# Command Line Client
 
 StratusLab provides a simple command line client that is easy to
 install on all platforms. This client provides access to all of the
-StratusLab services; it provides a scriptable alternative to access
-via a web browser.
+StratusLab services.
 
-After installation and configuration of the client follow the
-instructions to [launch a Virtual Machine][launch-vm] and then, read
-the in-depth [documentation][docs] on the use of the StratusLab cloud.
+## Overview
 
-## Prerequisites
+The command line client is the principal method for accessing the
+StratusLab services.  It is written almost entirely in portable python
+and is easy to install and configure on all platforms (Linux, Mac OS
+X, Windows).
 
-* Python >= 2.6 and < 3.x
-* Java 1.6+
-* SSH client
-* SSH user key-pair
+A list of the commands along with brief descriptions are provided in
+the table.  All of the commands start with the `stratus-` prefix.  On
+platforms that support it, tab completion can be used to find all of
+the commands.  All of the commands support the `--help` option, which
+provides detailed information about the command and its options.  All
+of the commands also support the `--version` option that will display
+the version of the client being used.
 
-### Python
+-----------------------------  ----------------------------------------------
+`stratus-copy-config`          copy reference configuration file into
+                               the correct location
 
-Ensure that you have a recent version of Python **>= 2.6**, but <
-**3.0** installed on your system. From the command line type
+`stratus-describe-instance`    list VM instances
 
-    $ python -V
-      Python 2.6.1
+`stratus-run-instance`         start a new VM instance
 
-See the [python site][python] for Python downloads and instructions.
+`stratus-kill-instance`        destroy and release resources for a
+                               given VM instance
 
-### SSH Setup
+`stratus-shutdown-instance`    stop and save a VM instance, must be 
+                               used with `--save` option when starting
+                               VM instance
 
-In most of the cases SSH will be used to log into virtual machines
-that have been started in the cloud. Ensure that you have SSH public
-and private key pair.
+`stratus-describe-volumes`     list persistent disk volumes
 
-#### Linux/UNIX
+`stratus-create-volume`        create a new persistent disk volume
 
-The private and public keys are usually located under `~/.ssh/` and
-have names like `id_rsa` and `id_rsa.pub`.
+`stratus-delete-volume`        destroy an existing persistent disk
+                               volume
 
-You can generate them with the following command
+`stratus-attach-volume`        dynamically attach a persistent disk 
+                               volume to a VM instance
 
-    $ ssh-keygen
+`stratus-detach-volume`        dynamically detach a persistent disk
+                               volume from a VM instance
 
-The default values are appropriate in most cases, but you should
-provide a passphrase and not leave it empty.
+`stratus-update-volume`        update the metadata for a persistent
+                               disk volume
 
-Verify the generated key pair permissions. The `id_rsa` should have
-permissions 0600 (read/write access for owner only) and the
-`id_rsa.pub` - 0644 (read access for all; write access for owner).
+`stratus-build-metadata`       create a Marketplace entry for a VM
+                               image
 
-**Be sure to remember the passphrase that you have used!**
+`stratus-sign-metadata`        cryptographically sign a Marketplace
+                               entry for a VM image
 
-Be careful if an ssh agent is configured by default for your operating
-system.  Ensure that it is setup to use the correct key and that it
-provides the correct password for that key.
+`stratus-validate-metadata`    verify that a VM image entry is
+                               syntactically correct and signed
 
-#### Windows
+`stratus-upload-metadata`      upload a VM image entry to the
+                               Marketplace
 
-* You need to generate an SSH key pair on a linux or Unix system.
-* Import the private key into Putty
+`stratus-deprecate-metadata`   deprecate a Marketplace entry for a VM
+                               image
 
-To generate an SSH key pair on a linux or Unix system, follow the
-above instructions described in the Linux/UNIX part above.  In your
-Windows machine, install Putty and PuttyGen from [page][putty-gen].
+`stratus-create-image`         create a new VM image from an existing
+                               image
 
-To import your id_rsa file to Putty:
-  1. Start PuttyGen,
-  2. Click "Load", and browse to your id_rsa file,
-  3. Click "Save private key". Your private key will be saved in the
-     format required by Putty.
+`stratus-upload-image`         (deprecated) upload an image to the 
+                               appliance repository
 
-To log in your virtual machine using Putty:
-  1. Start Putty,
-  2. In "session" category provide the Host Name or IP address
-  3. In Connection/SSh/Auth category, in "Private key for
-     authentication" field, browse to your private key.
-  4. Open
+`stratus-connect-instance`     connect via ssh to a given VM instance
 
-More information on how to "Connecting to Linux/UNIX Instances from
-Windows Using PuTTY" can be found on this [page][amazon-ssh]
+`stratus-hash-password`        hash a password to give to cloud
+                               administrator
 
-## Individual Client Installation
+`stratus-prepare-context`      prepare a CloudInit contextualization
+                               file
 
-Look for the latest version of the command-line client tarball
-`stratuslab-cli-user-*.tar.gz` in the [yum
-repositories][yum-repo-centos]. (Even though this is a CentOS
-repository, **all of the tarballs and zip files work on all
-platforms**.)  Unpack the tarball in a convenient location.
+`stratus-run-cluster`          utility to run a batch cluster on the
+                               cloud
+-----------------------------  ----------------------------------------------
 
-Update your `PATH` and `PYTHONPATH` variables:
+Table: Overview of StratusLab commands.
 
-    export PATH=$PATH:<install location>/bin
-    export PYTHONPATH=$PYTHONPATH:<install location>/lib/stratuslab/python
+## Installation
 
-The above are appropriate for Bourne-type shells. Modify the commands
-as necessary if you are using a different shell.
+### Verifying the Prerequisities
 
-## System Wide Client Installation
+Before starting, you must verify that the prerequisites for the
+StratusLab command line are satisfied:
 
-These packages only work on RedHat Enterprise Linux systems (and its
-derivatives like CentOS and ScientificLinux) and OpenSuSE.  You must
-have root access to your machine to install them.
+  * Python 2 (2.6+), virtualenv and pip are installed.
+  * Java 1.6 or later is installed.
+  * An SSH client is installed with an SSH key pair.
+  * You have an active StratusLab account and connection parameters.
 
+Quick recipes for checking the first three points are below, with more
+detailed information in the appendices. 
+
+For the StratusLab account, you must contact the administrator of your
+cloud infrastructure.  The administrator must give you 1) your
+credentials and 2) the service endpoints of the cloud infrastructure.
+
+You can quickly verify the availability of Python and utilities with
+the following commands:
+
+    $ python --version 
+    Python 2.6.6
+
+    $ which virtualenv 
+    /usr/bin/virtualenv
+
+Note that pip is always installed with virtualenv.
+
+Similarly for java use the following:
+
+    $ java -version
+    java version "1.7.0_19"
+    OpenJDK Runtime Environment (rhel-2.3.9.1.el6_4-x86_64)
+    OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
+ 
+Note that there is only one hyphen in the option. 
+
+For SSH check to see if the directory `$HOME/.ssh/` contains files
+starting with "`id_`".
+
+    $ ls $HOME/.ssh/id_* 
+    /home/sluser/.ssh/id_rsa  /home/sluser/.ssh/id_rsa.pub
+
+### Local Installation
+
+For local installations of the StratusLab client, for example within a
+non-priviledged user account or on a user's laptop, an installation
+using virtualenv and pip is very strongly recommended.
+
+Assuming that the prerequisites are installed, the installation is
+just a matter of a few commands.  First create a virtual environment
+to hold the StratusLab client and its dependencies.
+
+    $ virtualenv $HOME/env/SL
+    New python executable in /home/sluser/env/SL/bin/python
+    Installing setuptools............done.
+    Installing pip...............done.
+
+You may want to choose a different name or location for your virtual
+environment.  Now you will need to activate that environment.
+
+    $ source $HOME/env/SL/bin/activate 
+    (SL)$ 
+
+The prompt should change to include the name of the virtual
+environment. 
+
+Now use pip to install the StratusLab client:
+
+    (SL)$ pip install stratuslab-client 
+    Downloading/unpacking stratuslab-client
+      Downloading stratuslab-client-13.05.0.RC1.tar.gz ...
+    ...
+    Successfully installed stratuslab-client dirq ...
+    Cleaning up...
+
+This will also install all of the required Python dependencies for the
+client as well.  (The above output has been abridged.)
+
+You can verify that the client is installed and accessible with by
+searching for one of the StratusLab commands:
+
+    (SL)$ which stratus-copy-config 
+    ~/env/SL/bin/stratus-copy-config
+
+All of the StratusLab commands begin with `stratus-`.  On systems
+that support it, you can use tab completion to see all of the
+available commands. 
+
+Once the client is installed, it must be configured.  See the
+instructions below. 
+
+### System Wide Installation
+
+The above method can also be used for system wide installations for
+multi-user machines.  Simply use pip directly without using
+virtualenv.
+
+Additionally, StratusLab provides client packages for RedHat
+Enterprise Linux (RHEL) systems.  These packages work also on
+derivatives of these systems like CentOS, ScientificLinux, and
+OpenSuSE.  
+
+You must have root access to your machine to install these packages.
 For RHEL and RHEL-like systems, it is recommended to do the
-installation with [yum][yum]. The configuration for yum can be found
-[here][yum-config], choosing the "centos-6.2" repository.  Execute:
+installation with yum.  The [configuration for
+yum](http://yum.stratuslab.eu/) tells yum where to find the StratusLab
+packages.  Choose the `centos-6` repository.  Use the command:
 
     $ yum install stratuslab-cli-user
 
 to install the latest version of the client tools.
 
-For OpenSuSE, configure zypper for the StratusLab OpenSuSE repository
+For SuSE, configure zypper for the StratusLab OpenSuSE repository
 ("opensuse-12.1") and use it to install the package.
+
+Users must then configure the client within their accounts.
 
 ## Client Configuration
 
-One has to know at least one endpoint of the StratusLab cloud
-deployment and possess valid credentials to access it. Refer to
-[StratusLab Reference infrastructure][sl-ref-infra].
+The values of the configuration parameters for the client can be
+provided in several different ways.  The various mechanisms in order
+of precedence are:
+
+  * Command line parameters
+  * Environment variables (`STRATUSLAB_*`)
+  * Configuration file parameters
+  * Defaults in the code
+
+The names of the command line parameters and the environmental
+variables can be derived from the name of the configuration file
+parameter.  The table gives an example for one parameter and the
+algorithm for deriving the other names. 
+
+---------------------------- -----------------------------------------
+`pdisk_endpoint`             configuration file parameter
+
+`--pdisk-endpoint`           command line option: change underscores
+                             to hyphens and prefix with two 
+                             hyphens (`--`) 
+                             
+`STRATUSLAB_PDISK_ENDPOINT`  environmental variable: make all letters 
+                             uppercase, prefix with `STRATUSLAB_` 
+---------------------------- -----------------------------------------
+
+Table: Deriving command line option and environmental names from 
+the configuration file parameter.
+
+The configuration file is in the standard INI format.  The file
+**must** contain the `[default]` section.  It may also contain
+additional sections describing parameters for different cloud
+infrastructures.
+
+A minimal configuration file, assuming that a username/password pair
+is used for credentials is:
+
+    [default]
+    endpoint = cloud.lal.stratuslab.eu
+    pdisk_endpoint = pdisk.lal.stratuslab.eu
+    username = sluser
+    password = slpass
+
+The values will obviously have to change to correspond to your
+credentials and the cloud infrastructure that you are using.
 
 ### Credentials
 
-For working with user command-line tools one needs to possess the
-following credentials (requirement depends on use-case and utility
-used)
+StratusLab provides a very flexible authentication system, supporting
+username/password pairs, X509 certificates, Globus/VOMS certificate
+proxies, and PKCS12 certificates.
 
-    username/password of the account in StratusLab Cloud frontend(s)
-    X509 key/pair
-    Globus/VOMS proxy
-    PKCS12 certificate
+------------------ --------------------------------
+`username`         user's StratusLab username
+`password`         user's password
+`pem_certificate`  X509 or proxy certificate file
+`pem_key`          X509 or proxy key file
+------------------ --------------------------------
 
-For more see [documentation on user credentials][user-creds-docu].
+Table: Parameters for supplying user credentials.
 
-### Configuration file
+Users should specify either the username/password or the
+pem_certificate/pem_key parameters but not both sets.  If both are
+specified, then the username/password will take precedence.  
 
-Configuration file should contain definitions of StratusLab services
-endpoints and credentials required for the user client. For example
+The default for the pem certificate and key are the files
+`usercert.pem` and `userkey.pem`, respectively in the directory
+`$HOME/.globus`.  Contrary to the usual rules, the command line
+parameter for `pem_certificate` is `--pem-cert`. 
 
-    endpoint = cloud.lal.stratuslab.eu
-    pdisk_endpoint = pdisk.lal.stratuslab.eu
-    username = clouduser
-    password = cloudpass
-    pem_certificate = /Users/localuser/.globus/usercert.pem
-    pem_key = /Users/localuser/.globus/userkey.pem
+### Service Endpoints
 
-#### Linux/UNIX
+The user must also specify the cloud service endpoints.  These will be
+provided by the cloud administrator.  
 
-By default the user client expects the configuration file at
-`$HOME/.stratuslab/stratuslab-user.cfg`.
+------------------ --------------------------------
+`endpoint`         cloud entry point (VM mgt.)
+`pdisk_endpoint`   pdisk entry point (storage mgt.)
+`marketplace`      Marketplace URL
+------------------ --------------------------------
 
-The client ships with a reference configuration file
+Table: Cloud service endpoints.
 
-* in tarball &lt;install location&gt;/conf/stratuslab-user.cfg.ref 
-* in RPM /etc/stratuslab/stratuslab-user.cfg.ref 
+If the `pdisk_endpoint` parameter is not specified, then the value for
+`endpoint` will be used.  The default value for the `marketplace`
+parameter is `https://marketplace.stratuslab.eu/`, the central
+StratusLab Marketplace.
 
-User has to copy the file to the default location
-`$HOME/.stratuslab/stratuslab-user.cfg` and modify it following
-explanations to the variables in the file. The variables that are
-commented out (e.g. p12_certificate) take their default values from
-the code.
+### Other Credentials
 
-#### Windows
+Various other credentials are used to access running virtual machines
+and for signing information for the Marketplace.
 
-By default the user client expects the configuration file at
-`%HOMEDRIVE%%HOMEPATH%\.stratuslab\stratuslab-user.cfg`.
+----------------------- --------------------------------
+`user_public_key_file`  user public SSH key file
+`p12_certificate`       PKCS12-formatted certificate
+`p12_password`          password for PKCS12 certificate
+----------------------- --------------------------------
 
-    mkdir %HOMEDRIVE%%HOMEPATH%\.stratuslab
+Table: Other user credentials. 
 
-The reference configuration file 
+The default for the public SSH key file is `$HOME/.ssh/id_rsa.pub`.
+Contrary to the usual rules, the environmental variable and command
+line parameter are `STRATUSLAB_KEY` and `--key`, respectively. 
 
-* in zip package `<install location>\conf\stratuslab-user.cfg.ref`
+The PKCS12 certificate is used to sign image metadata entries before
+uploading them to the Marketplace.  Contrary to the usual rules, the
+command line option for the parameter `p12_certificate` is
+`--p12-cert`.
 
-User has to copy the file to the default location
-`%HOMEDRIVE%%HOMEPATH%\.stratuslab\stratuslab-user.cfg` and modify it
-following explanations to the variables in the file. The variables
-that are commented out (e.g. p12_certificate) take their default
-values from the code.
+## Multi-cloud Configuration
 
+If more than one StratusLab cloud infrastructure is being used, then
+the configuration for all of these can be kept in a single file.  This
+allows you to quickly switch between the various clouds.
 
-## Providing user parameters
-
-The following are they means of providing user parameters and
-presented in the order of precedence
-
-  * via command line parameters
-  * via environment variables (STRATUSLAB_\*)
-  * in configuration file (by default:
-    HOME/.stratuslab/stratuslab-user.cfg)
-  * default in the code
-
-## Cloud Endpoint
-
-Used for VMs instantiation. There is no default value for the endpoint in the 
-code.
-
-Command-line parameters
-
-    --endpoint
-    --username
-    --password
-
-Environment variables
-
-    STRATUSLAB_ENDPOINT
-    STRATUSLAB_USERNAME
-    STRATUSLAB_PASSWORD
-
-Configuration file
-
-    endpoint
-    username
-    password
-
-## Persistent Disk service
-
-Used for manipulation machine and disk images (create, delete, 
-hot-attach/detach) in the Persisten Disk storage service. There is no default 
-for PDisk endpoint in the code. If not provided, the client will use the value 
-of 'endpoint'.
-
-Command-line parameters
-
-    --pdisk-endpoint
-    --pdisk-username
-    --pdisk-password
-
-Environment variables
-
-    STRATUSLAB_PDISK_ENDPOINT
-    STRATUSLAB_PDISK_PROTOCOL  # default 'https'
-    STRATUSLAB_PDISK_PORT      # default '8445'
-    STRATUSLAB_PDISK_USERNAME
-    STRATUSLAB_PDISK_PASSWORD
-
-Configuration file
-
-    pdisk_endpoint
-    pdisk_port
-
-NB! If 'pdisk-username' and/or 'pdisk-password' are not provided by any of the 
-means the ones defined for 'endpoint' will be used.
-
-## Marketplace
-
-Marketplace endpoint to be used when uploading metadata, and/or when creating 
-instance of VM.
-
-Default value for Marketplace endpoint in the code
-
-    https://marketplace.stratuslab.eu
-
-Command-line parameter
-
-    --marketplace-endpoint
-
-Environment variable
-
-    STRATUSLAB_MARKETPLACE_ENDPOINT
-
-Configuration file
-
-    marketplace_endpoint
-
-## Private/Public keys
-
-### SSH
-
-SSH public key file. Used at VM instantiation. The public key is pushed to the 
-VM to enable password-less SSH access. Default: **HOME/.ssh/id_rsa.pub**.
-
-Command-line parameter
-
-    --key
-    
-Environment variable
-
-    STRATUSLAB_KEY
-
-Configuration file
-
-    user_public_key_file
-
-### PEM
-
-Used to authenticate to the cloud endpoint. If you want to use authentication 
-with grid certificate and if username/password and PEM key/cert are both 
-enabled, PEM key/cert takes precedence.
-
-Default: **HOME/.globus/userkey.pem**, **HOME/.globus/usercert.pem**
-
-Command-line parameters
-
-    --pem-cert
-    --pem-key
-
-Environment variables
-
-    STRATUSLAB_PEM_CERTIFICATE
-    STRATUSLAB_PEM_KEY
-
-Configuration file
-
-    pem_key
-    pem_certificate
-
-### PKCS12
-
-PKSC12-formatted certificate, for signing and validating image metadata.
-
-Default: **HOME/.globus/usercert.p12**
-
-Command-line parameters
-
-    --p12-cert
-    --p12-password
-
-Environment variables
-
-    STRATUSLAB_P12_CERTIFICATE
-    STRATUSLAB_P12_PASSWORD
-
-Configuration file
-
-    p12_certificate
-    p12_password
-
-## Custom sections in configuration file
-
-In the configuration file it is possible to create uniquely named user specific 
-sections to define any of the variables described above. Example of 'endpoint'
+In the configuration file it is possible to create uniquely named user
+specific sections to define any of the variables described
+above. Example of 'endpoint'
 
     [my-section]
     endpoint = <another.cloud.frontend.hostname>
     username = <another.username>
     password = <another.password>
 
-which can be activated using the **selected_section** parameter in the 
-**default** section of the configuration file
+which can be activated using the `selected_section` parameter in the 
+`[default]` section of the configuration file:
 
     selected_section = my-section
 
-or using command-line option
- 
-    --user-config-section or -S
+It can also be activated using command-line options
+`--user-config-section` or `-S` or via the environmental variable
+`STRATUSLAB_USER_CONFIG_SECTION`.
 
-or using environment variable
-
-    STRATUSLAB_USER_CONFIG_SECTION
-
-Example. Configuration file defines custom 'fav-cloud' section with 
-endpoint/credentials and custom SSH key
+This example configuration file defines custom 'fav-cloud' section
+with endpoint/credentials and a custom SSH key:
 
     [fav-cloud]
     endpoint = favorit-cloud.tld
@@ -357,18 +350,5 @@ endpoint/credentials and custom SSH key
     password = cloudpass
     user_public_key_file = /home/clouduser/.ssh/id_rsa-favcloud.pub
 
-Launch a ttylinux image on the cloud endpoint defined by 'fav-cloud' section
-
-    stratus-run-instance -S fav-cloud $TTYLINUX_IMAGE
-
-
-[python]: http://python.org/
-[yum]: http://yum.baseurl.org/
-[yum-config]: http://yum.stratuslab.eu/
-[yum-repo-centos]: http://yum.stratuslab.eu/releases/centos-6.2/
-[amazon-ssh]: http://docs.amazonwebservices.com/AWSEC2/latest/UserGuide/putty.html
-[docs]: /documentation/
-[sl-ref-infra]: /try/2012/12/04/try-reference-cloud-infrastructures.html
-[launch-vm]: /try/2012/01/01/try-launch-vm.html
-[user-creds-docu]: /documentation/2012/10/05/docs-tutor-user-credentials.html
-[putty-gen]: http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+Values for parameters not specified in this section will be taken from
+the `[default]` section. 
