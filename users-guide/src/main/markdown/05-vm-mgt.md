@@ -1,9 +1,7 @@
 
 # Virtual Machine Lifecycle
 
-## Using the CLI
-
-### Launch
+## Launch
 
 [Configure][user-client-config] Cloud endpoint and credentials in the
 configuration file (default: `$HOME/.stratuslab/stratuslab-user.cfg`).
@@ -24,7 +22,7 @@ Launch an instance of the image
              Public ip: 134.158.75.75
       :: Done!
 
-### Connect
+## Connect
 
 Check the VM is up and running
 
@@ -41,7 +39,7 @@ Connect to the VM
     Connection to vm-75.lal.stratuslab.eu closed.
     $
 
-### Terminate
+## Terminate
 
     $ stratus-kill-instance 5507
 

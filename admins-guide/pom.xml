@@ -43,21 +43,53 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
+
           <execution>
             <phase>process-resources</phase>
             <goals>
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target/${project.version}/${project.artifactId}</outputDirectory>
+              <outputDirectory>${basedir}/target/resources</outputDirectory>
+              <nonFilteredFileExtensions>
+                <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+              </nonFilteredFileExtensions>
               <resources>
                 <resource>
                   <directory>${basedir}/src/main/resources</directory>
                   <filtering>true</filtering>
                 </resource>
+                <resource>
+                  <directory>${basedir}/src/main/markdown</directory>
+                  <filtering>false</filtering>
+                </resource>
               </resources>
             </configuration>
           </execution>
+
+          <execution>
+            <id>final-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/${project.version}/${project.artifactId}</outputDirectory>
+              <nonFilteredFileExtensions>
+                <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+              </nonFilteredFileExtensions>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources</directory>
+                  <filtering>true</filtering>
+                  <excludes>
+                    <exclude>title.txt</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
         </executions>
       </plugin>
 
@@ -67,82 +99,17 @@
         <executions>
 
           <execution>
-            <id>pandoc-html</id>
+            <id>all-docs</id>
             <goals>
               <goal>exec</goal>
             </goals>
             <phase>compile</phase>
             <configuration>
-              <workingDirectory>src/main/markdown</workingDirectory>
-              <executable>pandoc</executable>
+              <workingDirectory>${basedir}/target/resources</workingDirectory>
+              <executable>${basedir}/src/main/scripts/process-docs.py</executable>
               <arguments>
-                <argument>--write=html5</argument>
-                <argument>--css=css/screen.css</argument>
-                <argument>--standalone</argument>
-                <argument>--toc</argument>
-                <argument>--number-sections</argument>
-                <argument>-o</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}/${project.artifactId}.html</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-install-overview.md</argument>
-                <argument>03-running-a-cloud.md</argument>
-                <argument>04-troubleshooting.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>pandoc-pdf</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>--toc</argument>
-                <argument>--number-sections</argument>
-                <argument>--include-in-header=pdf-header-includes.txt</argument>
-                <argument>--variable=geometry:a4paper</argument>
-                <argument>--variable=documentclass:book</argument>
-                <argument>--variable=graphics:1</argument>
-                <argument>--listings</argument>
-                <argument>-o</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}.pdf</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-install-overview.md</argument>
-                <argument>03-running-a-cloud.md</argument>
-                <argument>04-troubleshooting.md</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>pandoc-epub</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <workingDirectory>src/main/markdown</workingDirectory>
-              <executable>pandoc</executable>
-              <arguments>
-                <argument>--write=epub</argument>
-                <argument>--toc</argument>
-                <argument>--number-sections</argument>
-                <argument>-o</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}.epub</argument>
-                <argument>${basedir}/target/${project.version}/${project.artifactId}/title.txt</argument>
-                <argument>00-preface.md</argument>
-                <argument>01-intro.md</argument>
-                <argument>02-install-overview.md</argument>
-                <argument>03-running-a-cloud.md</argument>
-                <argument>04-troubleshooting.md</argument>
+                <argument>${basedir}/target/${project.version}/${project.artifactId}</argument>
+                <argument>${project.artifactId}</argument>
               </arguments>
             </configuration>
           </execution>
