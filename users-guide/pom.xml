@@ -114,6 +114,7 @@
                 <argument>--toc</argument>
                 <argument>--number-sections</argument>
                 <argument>--include-in-header=pdf-header-includes.txt</argument>
+                <argument>--variable=geometry:a4paper</argument>
                 <argument>--variable=documentclass:book</argument>
                 <argument>--variable=graphics:1</argument>
                 <argument>--listings</argument>
