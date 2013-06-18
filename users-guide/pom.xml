@@ -53,6 +53,7 @@
               <outputDirectory>${basedir}/target/resources</outputDirectory>
               <nonFilteredFileExtensions>
                 <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                <nonFilteredFileExtension>graffle</nonFilteredFileExtension>
               </nonFilteredFileExtensions>
               <resources>
                 <resource>

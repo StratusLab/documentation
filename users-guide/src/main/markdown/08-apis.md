@@ -1,7 +1,53 @@
 
 # Programmatic Access
 
-How to use the various StratusLab APIs.  Overview of API status.  
+Application developers often desire to have programmatic access to
+cloud services.  This allows them to easily integrate those services
+into existing applications and analysis frameworks.
+
+StratusLab provides several mechanisms by which application developers
+can access its services.  All services provide REST interfaces, making
+them easily accessible from all languages via standard HTTP(S) client
+libraries.  The collaboration also provides the python APIs that are
+used internally by the command line interface and a Libcloud plug-in.
+
+## REST Interfaces
+
+Services with a resource-oriented architecture expose a set of
+resources or objects via well defined URLs, standard CRUD (create,
+read, update, and delete) operations are then supported for those
+resources.  Although not required, nearly all such services use the
+HTTP(S) protocol and reuse the standard HTTP actions for implementing
+the CRUD functionality.
+
+Using the standard HTTP protocol and having a well defined hierarchy
+of URLs representing resources, makes access easy from any programming
+language with a HTTP client library.  Because of this universal
+accessibility and the intuitive mapping between resources and URLs,
+StratusLab using a resource-oriented architecture for all of its
+services.
+
+However, because of significant underlying changes in the StratusLab
+service implementations at this time, it is recommended that
+application developers either use the Libcloud API or script the
+command line interface.  This will protect them from the significant,
+incompatible changes in the APIs that are currently taking place. 
+
+### StratusLab API
+
+As mentioned above, the REST APIs and the corresponding StratusLab
+python API are undergoing significant changes at the moment.
+Application developers should avoid these interfaces if possible.
+Contact the StratusLab support for more information about the current
+status. 
+
+### CIMI API
+
+The CIMI API, a standard REST API for IaaS clouds, will become the
+standard interface for all of the StratusLab services.  Application
+developers planning to port their software to the StratusLab cloud
+should target this API.  This API should appear over the next couple
+of StratusLab releases (i.e. 3-6 months). 
 
 ## Libcloud API
 
@@ -10,6 +56,9 @@ cloud resources from multiple providers.  StratusLab now provides a
 Libcloud compute driver allowing users to access StratusLab cloud
 infrastructures via this API.
 
+Application developers who desire a stable interface should prefer
+this API.  It is available now and will remain stable despite the
+underlying changes to the StratusLab service implementations.
 
 ### Installing the Driver
 
@@ -34,7 +83,6 @@ You can download the package directly from [PyPi][pypi].  The name of
 the package is "stratuslab-libcloud-drivers".  You will also need to
 download and install all of the dependencies.  **Using pip is very
 strongly recommended.**
-
 
 ### Configuring the StratusLab Client
 
@@ -83,9 +131,6 @@ information on the Apache Libcloud website.
 
 ### Driver Status
 
-This driver is currently a prototype and of beta quality.  This driver
-is probably _not_ suitable for production.
-
 The driver is functionally complete and should work with all of the
 standard Libcloud workflows.  Problems encountered when using the
 driver should be reported via the StratusLab support mailing list.
@@ -119,17 +164,6 @@ functionality is not provided by a StratusLab cloud.
 2. This function uses sftp to transfer the script between the client
 and the virtual machine.  Consequently, SSH implementations that do
 not support sftp will not work.  This include, notably, ttylinux. 
-
-## StratusLab API
-
-Will change significantly.  REST, specific services.  Python, better
-abstraction.
-
-## CIMI API
-
-Will become standard API for all services.  Better to plan for this if
-immediate programmatic access isn't needed. 
-
 
 
 [lc-web]: http://libcloud.apache.org/
