@@ -1,16 +1,15 @@
 \begin{abstract}
-%\boldmath
-StratusLab provides a complete, open-source solution for deploying an
-``Infrastructure as a Service'' (IaaS) cloud infrastructure.  Use of
-IaaS clouds requires the preparation of virtual machine images (or
-appliances)--a tedious and error-prone process that represents a
-significant hurdle for users.  The Marketplace helps overcome this
-hurdle by facilitating the sharing of appliances.  It serves as a
-registry for shared appliances for the StratusLab distribution and
-could be easily adapted to any IaaS cloud implementation.  Through its
-use of crytographically-signed image metadata, the Marketplace
-promotes trust between the appliance creators, users, and cloud
-administrators.  This paper discusses in detail the Marketplace design
-goals, implementation, security concerns, and experiences from running
-the service in several production settings.
+To effectively use federated cloud infrastructures, users must be able
+to create identical computational environments on all of the clouds in
+the federation.  Although creating separate appliances for each cloud
+solves this problem; this solution is neither scalable nor reliable.
+A better solution allows users to create a single appliance and to use
+it transparently on all of the federated clouds.  The StratusLab
+``Infrastructure as a Service'' cloud distribution provides the
+necessary tools to achieve this.  At the center of this ecosystem is
+the StratusLab Marketplace, an open registry of available appliances.
+This paper describes in detail the Marketplace design goals,
+implementation, and security concerns.  It also covers the planned
+improvements based on our experience of running this service in
+production for more than two years.
 \end{abstract}

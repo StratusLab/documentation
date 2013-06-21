@@ -1,8 +1,28 @@
 \section{Existing Image Management Techniques}
 \label{sec:other-approaches}
 
-{\em Describe how other IaaS cloud implementations deal with image
-  management.  Systems to consider are OpenNebula, Eucalyptus,
-  OpenStack, Amazon Web Services, Cloud Sigma, OVF, etc.  Descriptions
-  should use the concerns of the various actors to evaluate these
-  implementations.}
+{\em Provide in each case at least one example of how other cloud
+  distributions implement the given feature.}
+
+\subsection{Image Repositories (storage)}
+
+OpenStack: Glance.
+
+StratusLab: standard web server.
+
+\subsection{Image Factories (generation)}
+
+Bitnami, Puppet, etc.
+
+StratusLab: stratus-create-image and base images
+
+\subsection{Image Transport}
+
+EGI: vm-caster/catcher
+
+StratusLab: HTTP(S) from webserver or from storage
+
+\subsection{Image Registry}
+
+StratusLab: Marketplace and policy enforcement.
+
