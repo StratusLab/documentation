@@ -16,3 +16,15 @@ Points for improvement:
 \item Need to have fixed URL for latest in a series of images.
 \item Allow 'prettier' descriptions of the images in the Marketplace.
 \end{itemize}
+
+Currently the Marketplace is a single point of failure in the StratusLab infrastructure. This is 
+a critical issue that is to be addressed in upcoming releases. A replication scheme will be 
+implemented to allow multiple Marketplace instances to be run, each maintaining its own local
+copy of the global metadata database. As all the information required to rebuild the metadata index
+stored in Sesame is the set of raw metadata files, it is only these that need be replicated. A potential solution 
+to provide this replication is to use a git repository as the core `database' for the metadata entries.  
+For a public Marketplace, the repository could be hosted on GitHub~\cite{github} with each replicated server 
+pulling/pushing from that repository. This only requires that a Marketplace database be updated periodically 
+from a local clone of the global repository.  For a private Marketplace, the git repository can exist on the local disk.
+An alternative solution is to use a distributed database, such as CouchBase~\cite{couchbase}, to maintain the
+  global database. Updates of replica instances would be handled periodically in much the same way as with Git.
