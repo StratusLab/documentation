@@ -36,7 +36,7 @@ backgroundcolor=\color{lightlightgray}, % Choose background color
 frame=none,                             % A frame around the code
 tabsize=2,                              % Default tab size
 captionpos=b,                           % Caption-position = bottom
-breaklines=true,                        % Automatic line breaking?
+breaklines=false,                        % Automatic line breaking?
 breakatwhitespace=false,                % Automatic breaks only at whitespace?
 showspaces=false,                       % Dont make spaces visible
 showtabs=false,                         % Dont make tabls visible

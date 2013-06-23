@@ -29,7 +29,7 @@ A quick overview of the procedure is:
    default [KVM][linux-kvm] is used for the hypervisor on the Node(s).
 5. Validate the installation by starting a virtual machine.
 
-FIXME: \[Minimal StratusLab Cloud\]\[install-diagram\]
+![Minimal StratusLab Cloud](images/install-diagram.png)
 
 ## Prerequisites
 
@@ -100,12 +100,13 @@ can use other names, but then change the commands below as necessary.
 
 ### Package Repositories
 
-The StratusLab installation takes packages from three yum
+The StratusLab installation takes packages from four yum
 repositories:
 
 1. The standard CentOS repository,
-2. The [EPEL 6][epel] repository, and 
-3. The [StratusLab repository][stratuslab-yum].
+2. The [EPEL 6][epel] repository,
+3. The [StratusLab repository][stratuslab-yum], and
+4. The [IGTF Root Certificates][igtf-certs].
 
 The configuration for the CentOS repository is done when the system is
 installed.  The others require additional configuration.
@@ -152,8 +153,8 @@ command:
 
 Set the hostname if it is not correct. 
 
-Throughout this tutorial we use the variables $FRONTEND_HOST
-($FRONTEND_IP) and $NODE_HOST ($NODE_IP) for the Front End and Node
+Throughout this tutorial we use the variables \$FRONTEND_HOST
+(\$FRONTEND_IP) and \$NODE_HOST (\$NODE_IP) for the Front End and Node
 hostnames (IP addresses), respectively.  Change these to the proper
 names for your physical machines when running the commands.
 
@@ -581,3 +582,5 @@ feedback on the same list.
 [support]: mailto:support@stratuslab.eu
 [sl-client-install]: http://stratuslab.eu/try/2012/01/10/try-user-cli-installation.html
 [sl-docs]: http://stratuslab.eu/documentation/
+[igtf-certs]: http://repository.egi.eu/sw/production/cas/1/current/
+
