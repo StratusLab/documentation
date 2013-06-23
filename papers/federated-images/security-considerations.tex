@@ -29,8 +29,8 @@ The implementation makes this difficult to do by:
 \begin{itemize}
 \item Requiring that all metadata entries explicitly include the
   endorsement timestamp as part of the signed content.
-\item Only allowing uploaded entries that have a timestamp close to
-  the current time.
+\item Only allowing uploaded entries that have a timestamp that is 
+  more recent than the current entry for the image.
 \item Confirming all changes via the email address in the metadata
   entry.
 \end{itemize}
@@ -67,7 +67,7 @@ altered images must not correspond to the unaltered image's metadata
 or to another valid image's metadata.
 
 The image identifier is based on the SHA-1 hash of the image.
-Although difficult to modify an image while maintaining the SHA-1 hash
+Although modifying an image while maintaining the SHA-1 hash
 is difficult, it is possible.  Hence an altered image could masquerade
 as a valid image if only the SHA-1 hash information were used to
 validate a downloaded image file.

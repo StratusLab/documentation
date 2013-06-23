@@ -12,10 +12,14 @@
 \subsection{Technology Choices}
 
 To ensure that the service can be used easily with all programming
-languages, the Marketplace will expose a RESTful~\cite{rest} interface
-over standard HTTP(S).  The implementation will use
-RESTlet~\cite{restlet}, a Java framework for implementing RESTful
+languages, the Marketplace exposes a RESTful~\cite{rest} interface
+over standard HTTP(S).  This interface is implemented using
+RESTlet~\cite{restlet}, a Java framework for RESTful
 services.
+
+The user interface to the Marketplace, accessed through a Browser, is implemented
+using a combination of FreeMarker~\cite{freemarker}, a Java Template Engine Library, 
+JQuery~\cite{jquery}, custom HTML and JavaScript.
 
 Semantic web technologies were designed to manage metadata about
 (third-party) resources identified with a URI.  Consequently, they are
@@ -23,14 +27,14 @@ ideally suited to this situation in which the Marketplace must manage
 metadata about machine and disk images.  These technologies already
 provide standard formats for the metadata (RDF/XML~\cite{rdfxml,
   rdfprimer, rdfschema}) and query languages (SeRQL~\cite{serql},
-SPARQL~\cite{sparql}).  The Marketplace implementation will use the
-Jena~\cite{jena} or Sesame~\cite{sesame} frameworks to provide search
+SPARQL~\cite{sparql}).  The Marketplace implementation makes use of the
+Sesame~\cite{sesame} framework to provide search
 capabilities over the metadata database.
 
 To validate the metadata associated with a particular image, it is
 necessary to cryptographically sign individual entries.  As the raw
 format used for the metadata entries will be XML, the XML
-Signature~\cite{xmlsig} specification can be reused.  This is
+Signature~\cite{xmlsig} specification is reused.  This is
 conveniently a standard part of modern Java runtime environments.
 
 Working with RDF also requires an agreed vocabulary to ensure a common
@@ -69,23 +73,20 @@ description should also be verified.
 \subsection{Verification of Uploaded Metadata}
 
 When new metadata entries are uploaded to the Marketplace, the service
-must validate the entry before accepting it.  This involves three
+validates the entry before accepting it.  This involves three
 separate steps:
 \begin{enumerate}
 \item The metadata must be a valid RDF/XML file, following the defined
   schemas and conventions.
 \item To avoid having old metadata entries being reposted (for example
-  to make a deprecated image appear to be valid), the server must
-  ensure that entries have a timestamp within a narrow window (e.g. 10
-  minutes) around the current time.
+  to make a deprecated image appear to be valid), the server
+  ensures that only entries endorsed after the current entry for a particular
+  image are accepted.
 \item To ensure that the included email address is valid, all
   additions to the Marketplace must be confirmed by email.
 \end{enumerate}
-Only validated metadata entries should be visible from the standard
-Marketplace interface.  The service should provide immediate feedback
-for entries which are not timely or do not conform to standard
-conventions.  Unconfirmed additions should be dropped after an
-appropriate delay (e.g. 48 hours).
+Only validated metadata entries are visible from the standard
+Marketplace interface. 
 
 \subsection{REST Resource URLs}
 
@@ -97,10 +98,9 @@ Marketplace.  (The `delete' and `put' methods are not supported by any
 URLs.)  Within the table ``identifier'' refers to the 27 character
 image identifier, ``email'' refers to the endorser's email address,
 and ``date'' refers to endorsement date written in the format {\tt
-  yyyy-MM-ddThh:mm:ssZ}.  All of the URLs can have a query string
-attached to refine the search criteria.  All of the URLs support an
-XML and HTML formats.  They may additionally also provide JSON or
-other representations.
+  yyyy-MM-ddThh:mm:ssZ}.  All of the URLs support an
+XML and HTML formats.  In addition single metadata entries also 
+provide a JSON representation.
 
 \begin{table*}
 \caption{REST URL Mapping for the Marketplace}
@@ -160,7 +160,7 @@ number, last update time \tnl
 \hline
 
 /metadata/?\replaceable{query} & 
-list of image identifiers and selected fields (query terms of id, email, and date are supported to refine list)  & 
+list of image identifiers and selected fields (query terms of identifier, email, and created are supported to refine list)  & 
 add another metadata entry  & 
 number, last update time  \tnl 
 \hline
@@ -190,19 +190,13 @@ X  \tnl
 
 \subsection{Storage and Query of Metadata}
 
-The metadata entries will be stored using the Jena~\cite{jena}
-interfaces (using behind the scenes a relational database).  This
-allows simple queries and queries with SPARQL~\cite{sparql} (or other
-query languages supported by Jena) to be easily supported.  Unsigned
-representations (e.g. HTML) will be generated via Jena.
+The metadata entries are stored using the Sesame~\cite{jena}
+interfaces.  This allows simple queries and queries with SPARQL~\cite{sparql}
+ to be easily supported.
 
-Unfortunately, Jena appears unable to accept the signed metadata.
-Consequently, the raw, signed metadata files will have to be saved on
-a file system as well.  These will be returned directly when XML is
-requested.  On disk the files should be stored with a filename like
-\replaceable{identifier}-\replaceable{date}-\replaceable{email},
-guaranteeing a unique filename.  These may be divided into
-subdirectories based on the identifier to avoid having too many
-entries in a single subdirectory.
+Unfortunately, Sesame is unable to accept the signed metadata.
+Consequently, the raw, signed metadata files are saved on
+a file system as well.  These are returned directly when XML is
+requested.
 
 
