@@ -6,7 +6,7 @@
   <artifactId>contributors-guide</artifactId>
   <packaging>pom</packaging>
   <name>Contributors Guide</name>
-  <description>StratusLab Contributors's Guide</description>
+  <description>StratusLab Contributor's Guide</description>
 
   <parent>
     <groupId>eu.stratuslab.documentation</groupId>
