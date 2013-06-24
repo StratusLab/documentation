@@ -24,14 +24,14 @@ JQuery~\cite{jquery}, custom HTML and JavaScript.
 Semantic web technologies were designed to manage metadata about
 (third-party) resources identified with a URI.  Consequently, they are
 ideally suited to this situation in which the Marketplace must manage
-metadata about machine and disk images.  These technologies already
+metadata about machine and disk appliances.  These technologies already
 provide standard formats for the metadata (RDF/XML~\cite{rdfxml,
   rdfprimer, rdfschema}) and query languages (SeRQL~\cite{serql},
 SPARQL~\cite{sparql}).  The Marketplace implementation makes use of the
 Sesame~\cite{sesame} framework to provide search
 capabilities over the metadata database.
 
-To validate the metadata associated with a particular image, it is
+To validate the metadata associated with a particular appliance, it is
 necessary to cryptographically sign individual entries.  As the raw
 format used for the metadata entries will be XML, the XML
 Signature~\cite{xmlsig} specification is reused.  This is
@@ -40,29 +40,29 @@ conveniently a standard part of modern Java runtime environments.
 Working with RDF also requires an agreed vocabulary to ensure a common
 semantic meaning of the metadata tags.  The Dublin Core Metadata
 Initiative has published a vocabulary~\cite{dcterms} that can be used
-for much of the image metadata descriptions.  This is complemented by
+for much of the appliance metadata descriptions.  This is complemented by
 a vocabulary specific to StratusLab.  Using RDF also allows additional
 metadata fields to be specified (in separate namespaces) to complement
 the standard fields described in this document.
 
-\subsection{Image Identifiers}
+\subsection{Identifiers}
 
 To ensure an unambiguous connection between the metadata entries
 contained in the Marketplace and the described machine and disk
-images, a unique image identifier must be used that depends solely on
-the image's contents.
+appliances, a unique identifier must be used that depends solely on
+the appliance's contents.
 
-For the purposes of the Marketplace and caching of images, an
-identifier derived from the SHA-1 hash of the image file is used.  The
-identifier is the 160-bit SHA-1 hash of the image file (treating the
+For the purposes of the Marketplace and caching of appliances, an
+identifier derived from the SHA-1 hash of the appliance file is used.  The
+identifier is the 160-bit SHA-1 hash of the file (treating the
 file as a binary file), extended with two zero bits to the left to
 form a 162-bit value.  This 162-bit value is then encoded using the
-base64url encoding to produce a 27 character image identifier.  For
+base64url encoding to produce a 27 character identifier.  For
 example, the SHA-1 hash (written in hex):
 \begin{verbatim}
 c319bbd5afc0a22ba3eaed0507c39383ec28eeff
 \end{verbatim}
-becomes the image identifier:
+becomes the identifier:
 \begin{verbatim}
 MMZu9WvwKIro-rtBQfDk4PsKO7_
 \end{verbatim}
@@ -79,9 +79,9 @@ separate steps:
 \item The metadata must be a valid RDF/XML file, following the defined
   schemas and conventions.
 \item To avoid having old metadata entries being reposted (for example
-  to make a deprecated image appear to be valid), the server
+  to make a deprecated entry appear to be valid), the server
   ensures that only entries endorsed after the current entry for a particular
-  image are accepted.
+  appliance are accepted.
 \item To ensure that the included email address is valid, all
   additions to the Marketplace must be confirmed by email.
 \end{enumerate}
@@ -160,7 +160,7 @@ number, last update time \tnl
 \hline
 
 /metadata/?\replaceable{query} & 
-list of image identifiers and selected fields (query terms of identifier, email, and created are supported to refine list)  & 
+list of identifiers and selected fields (query terms of identifier, email, and created are supported to refine list)  & 
 add another metadata entry  & 
 number, last update time  \tnl 
 \hline
@@ -198,5 +198,3 @@ Unfortunately, Sesame is unable to accept the signed metadata.
 Consequently, the raw, signed metadata files are saved on
 a file system as well.  These are returned directly when XML is
 requested.
-
-

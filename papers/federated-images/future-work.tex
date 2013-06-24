@@ -26,14 +26,14 @@ to provide this replication is to use a git repository as the core `database' fo
 For a public Marketplace, the repository could be hosted on GitHub~\cite{github} with each replicated server 
 pulling/pushing from that repository. This only requires that a Marketplace database be updated periodically 
 from a local clone of the global repository.  For a private Marketplace, the git repository can exist on the local disk.
-An alternative solution is to use a distributed database, such as CouchBase~\cite{couchbase}, to maintain the
-  global database. Updates of replica instances would be handled periodically in much the same way as with Git.
+An alternative solution is to use a distributed database, such as CouchBase~\cite{couchbase}, to maintain the 
+global database. Updates of replica instances would be handled periodically in much the same way as with Git.
 
-An important ability is to trace the evolution of an image through its metadata. Currently modifying an image 
-results in a new image identifier being created, which will then be used in the updated metadata. This 
+An important ability is to trace the evolution of an image through its metadata. Currently modifying an appliance
+results in a new identifier being created, which will then be used in the updated metadata. This 
 breaks the link with the previous version. The recently added `tag' functionality goes someway to solving this.  
-The metadata entries for a particular image can be found be retrieving all entries containing a particular tag. 
+The metadata entries for a particular appliance can be found by retrieving all entries containing a particular tag. 
 This element is optional, however, and may not be added to all entries. A more rigourous solution would be 
 to make use of the Dublin Core terms `replaces' and `isReplacedBy'. This would provide a link in each metadata 
-entry to the previous and next entries in the lifetime of an image. Using these terms could add a significant 
+entry to the previous and next entries in the lifetime of an appliance. Using these terms could add a significant 
 burden to the user creating a metadata entry, so this would have to be automated as much as possible.
