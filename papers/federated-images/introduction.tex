@@ -1,47 +1,74 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-{\em Describe the activities for the federation of cloud
-  infrastructures.  Remark that most of this effort has concentrated
-  on having a common cloud management API/interface.  The other
-  aspects, especially shared, portable appliances have been
-  neglected.}
+Cloud technologies are revolutionizing the way in which centralized
+computing infrastructures are exposed to and used by scientists and
+engineers.  These technologies enable rapid provisioning, dynamic
+scaling, and environment customization that was impossible to achieve
+previously. 
 
-{\em General introduction to image management in cloud environments.
-  Point out the main features needed for image management and use:
-  storage, transport, generation, and trust.  This last point is
-  the crucial piece in a federated environment and what the StratusLab
-  Marketplace provides.}
+In particular, the ability to customize fully the execution
+environment has drastically increased the utility of shared computing
+infrastructures.  Users can create ``appliances'' that have their
+desired operating system and required applications pre-installed
+and pre-configured for their needs, independently of the needs of the
+other users.
 
-{\em Sharing of images requires portable images.  Being able to share
-  images reduces the hurdle for using cloud infrastructures for new
-  users.}
+Being able to create, use, and reuse such appliances eliminates:
+\begin{itemize}
+\item The need for multiple installations of applications,
+\item The costs associated with porting and re-validation of
+  applications in varying envionments, and
+\item Errors associated with running in different environments,
+\end{itemize}
+all together allowing users to concentrate on their calculations
+rather than the software.  However, some of these reductions in effort
+are offset by the need to manage the appliances themselves.  Tools for
+this appliance management vary greatly between cloud distributions and
+few are intended to be used in federated cloud environments.
 
 \subsection{StratusLab}
 
-{\em Publicity for what StratusLab provides.  Statement that we've run
-  a federated cloud infrastructure for more than two years.
-  Concentrate on the Marketplace as an appliance registry.}
+The StratusLab collaboration provides a complete, open-source solution
+for deploying public or private ``Infrastructure as a Service'' (IaaS)
+cloud infrastructures and is designed to be both simple to install and
+simple to use.~\cite{slbook} It provides the compute, storage, and
+networking services expected in IaaS clouds.
 
-StratusLab provides a complete, open-source solution for deploying an
-``Infrastructure as a Service'' cloud infrastructure.  Use of the
-cloud requires the use of prepared machine and disk images.  Although
-StratusLab provides tools to simplify the creation of these images,
-the procedure for doing so remains a significant hurdle for use of a
-cloud.  Consequently, StratusLab encourages the sharing and reuse of
-existing images to reduce this barrier.
+The collaboration also operates a federated cloud infrastructure with
+two sites--one in Orsay, France and the other in Athens, Greece\@.
+These sites share a common user authentication framework and appliance
+registry (the ``Marketplace'') allowing users to easily allocate
+resources on either site.  This production cloud allows the StratusLab
+collaboration to validate its software in real world conditions.
 
-\subsection{Goal}
+\subsection{Marketplace}
 
-{\em Promote ecosystem of trusted applicances/images allowing users to
-  more effectively and efficiently exploit IaaS cloud
-  infrastructures.}
+StratusLab provides a complete set of tools for managing appliances.
+These tools cover:
+\begin{itemize}
+\item Creation of appliances in a secure and reproducible fashion,
+\item Storage of appliances in an accessible location,
+\item Efficient transport of appliances from the storage to the cloud,
+  and
+\item Metadata for the appliances so that their contents are
+  understood. 
+\end{itemize}
+Although all cloud distributions provide tools to use appliances, few
+provide all of the tools necessary to share appliances, especially in
+federated cloud environments.  The key point in federated cloud
+environments is the last one: one must have an open registry
+that maintains appliance metadata.  This is the StratusLab
+Marketplace\@. 
 
-\subsection{Actors}
+\subsection{Organization}
 
-{\em Describe the actors involved in the ecosystem and their trust
-  concerns.  The actors are: creators, endorsers (possibly separate
-  from creators), users, administrators, and the Marketplace (as
-  broker).  This should provide a framework in which to evaluate
-  approaches in other cloud implementations and motivate the
-  Marketplace requirements that appear later.}
+This paper first discusses (in sections II and III) the requirements
+for sharing appliances between users and between cloud
+infrastructures: appliance portability and tools for appliance
+management.  It then describes the use cases, design, requirements,
+implementation, and security considerations of the StratusLab
+Marketplace (in sections IV--VII).  It then motivates future
+improvements by discussing our experience running the Marketplace in
+production for more than two years.
+
