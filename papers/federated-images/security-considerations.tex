@@ -1,24 +1,29 @@
 \section{Security Considerations}
 \label{sec:security}
 
-\subsection{Security Policies}
+The Marketplace and the information contained within the Marketplace
+play a key role in maintaining the security of the cloud
+infrastructures.  However the security policies both for the users and
+for the cloud administrators can vary widely.  {\em Consequently, the
+  Marketplace itself does not define or enforce any security policy.}
+It instead securely provides the appliance metadata allowing both
+users and cloud administrators to make informed decisions about the
+appliances.
 
-{\em Various scenarios that have been identified and how the system
-  works to prevent security incidents.}
+The StratusLab distribution provides a python-based module that allows
+administrators to configure and to enforce several common policies,
+such an image or endorser white- and blacklists.  This module is
+easily extensible to allow more complicated policies where, for
+example, the certificates associated with the cryptographic signatures
+of endorsements are validated.  This module could easily be used
+within other cloud distributions.
 
-{\em Describe efforts to work towards general policies in the EGI
-  community concerning the handling and trust of virtual machine
-  images.  Also efforts towards wider standardization, if
-  appropriate.}
+To maintain confidence in the information provided by the Marketplace,
+it must securely provide complete, accurate information about the
+appliances.  We have identified a number of attack scenarios and
+describe how the Marketplace has been designed to avoid them. 
 
-\subsection{Policy Implementation}
-
-{\em Describe the policy management tools and how they support
-  flexible but rigorous site policies.}
-
-\subsection{Specific Attacks}
-
-\subsubsection{Replay of Signed Metadata}
+\subsection{Replay of Signed Metadata}
 
 As all of the signed metadata data entries are publicly available,
 there is a risk that an older entry would be ``replayed'' to replace a
@@ -38,55 +43,62 @@ To successfully replay a previous entry would require that the
 endorser's private key be compromised (to update timestamp) as well as
 his email account.
 
-\subsubsection{Confidentiality of Data}
-
-{\em Expand to copyright and IPR.  Safe haven provisions in not
-  directly hosting images.}
+\subsection{Confidentiality of Data}
 
 As all of the metadata descriptions on the servers are considered
-public, there are no concerns about confidentiality.  Thus the
-Marketplace implementation does not need to do anything special.
+public.  Consequently, there are no concerns about confidentiality of
+the metadata and the Marketplace implementation does not need to do
+anything special.
+
+However, the images themselves contain software and data that are
+subject to copyright and possibly licensing restrictions.  The
+StratusLab design, where the storage of an appliance is separate from
+its metadata, avoids having to deal with intellectual property rights
+violations.
 
 \subsubsection{Validity and Completeness of Data}
 
-{\em Probably split this into two sections.  Need to introduce the
-  idea of a ``timeline'' of endorsements for an image.}
+The Marketplace must ensure that all of the data concerning an
+appliance is available.  By design, the Marketplace never removes
+metadata entries--the entire appliance timeline is always available.
+By default however, only the current endorsements are provided as
+these are the entries needed to make decisions about the validity of
+an image.  
 
-If there were an open communication channel between the Marketplace
-and the user, then responses from the server could be altered in
-transit.  To prevent this, the server must be deployed with a valid
-certificate and communications must take place over a connection using
-TLS\@.
+The Marketplace must ensure that the data transmitted to users is not
+altered, for example by a third-party removing deprecation notices
+from the returned information.  To prevent this, the Marketplace only
+transmits information over a communication channel secured via TLS\@. 
 
-\subsubsection{Altered Images}
+\subsubsection{Altered Appliances}
 
-As the images will be downloaded from other sites, there is a danger
+As the appliances will be downloaded from other sites, there is a danger
 that they will be altered (either intentionally or maliciously).  As
-images are selected and evaluated based on the associated metadata,
-altered images must not correspond to the unaltered image's metadata
-or to another valid image's metadata.
+appliances are selected and evaluated based on the associated
+metadata, the association between the metadata and the image must be
+absolute. 
 
-The image identifier is based on the SHA-1 hash of the image.
-Although modifying an image while maintaining the SHA-1 hash
-is difficult, it is possible.  Hence an altered image could masquerade
-as a valid image if only the SHA-1 hash information were used to
-validate a downloaded image file.
+The appliance identifier is based on the SHA-1 hash of the image.
+Although modifying an image while maintaining the SHA-1 hash is
+difficult, it is a remote possibility.  Hence an altered appliance
+could masquerade as a valid appliance if only the SHA-1 hash
+information were used to validate a downloaded image file.
 
-To ensure that altered images are detected in the validation
-additional information is provided in the metadata descriptions:
-\begin{itemize}
-\item Length of the file in bytes.
-\item MD5, SHA-1, SHA-256, and SHA-512 hash values.
-\end{itemize}
-All of these should be verified with a newly downloaded image.  The
-likelihood that someone can create an altered image with exactly the
-same length and multiple checksums is miniscule.
+To minimize the possibility that an altered appliance appears to be
+valid, additional information is provided in the metadata
+descriptions: the size of the file in bytes and the MD5, SHA-1,
+SHA-256, and SHA-512 hash values.  All of these can and should be
+verified with a newly downloaded image.  The likelihood that someone
+can create an altered appliance with exactly the same length and
+multiple checksums is miniscule.
 
 \subsubsection{Compromised Marketplace Server}
 
 If someone were to take control of the Marketplace server, he could
 not alter individual metadata entries as those are signed by the
-endorser's whose keys are not available on the server.  However, he
+endorsers' private keys are not stored on the server.  However, he
 could delete entries making, for instance, deprecated images appear
 valid.  This is a significant risk and the server should be operated
-according to modern best practices.
+according to modern best practices to avoid this.
+
+

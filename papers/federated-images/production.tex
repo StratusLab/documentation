@@ -1,11 +1,36 @@
 \section{Production Experiences}
 \label{sec:production}
 
-{\em Identify the good points in the system.  Also use this to
-  identify problems used to motivate the next Marketplace
-  implementation.}
+The StratusLab collaboration had operated a federated cloud
+infrastructure with two sites for more than two years.  A shared
+Marketplace allows users of this federated cloud to use the same
+appliances on both sites.  This experience has allowed us to validate
+the StratusLab appliance handling workflows and the Marketplace itself
+in real world conditions.
 
-{\em This section should describe the experiences (good and bad) of
-  running a Marketplace in production.  This should include the
-  StratusLab experience, the EGI experience, and IBM/CiaB experience
-  (if possible).}
+The Marketplace has been improved over time based on feedback from
+users.  However, there are some outstanding points that need to be
+addressed in the future.
+
+Having a central Marketplace instance allows users to easily find all
+of the appliances from a single location.  Similarly, it allows image
+creators to upload the metadata just once.  However, the Marketplace
+is consulted everytime a new machine instance is launched to check if
+an appliance has been deprecated.  Consequently if the Marketplace is
+not available, new images cannot be started on any cloud relying on
+the Marketplace\@.  Future iterations of the Marketplace must provide
+redundancy and high-availability of the Marketplace service. 
+
+By design the appliance metadata is considered public.  In reality,
+however, there are both users and administrators that would like to
+restrict the visibility of the appliance metadata.  Many cloud
+administrators would like to run a ``private'' Marketplace to limit
+the visibility of certain appliances while still taking advantage of
+the central, public Marketplace instance.  There must be a mechanism
+for federating Marketplace instances in the future. 
+
+Although the metadata contains a significant amount of information
+about an appliance, it does not contain information about how well the
+appliance functions for users.  A common request has been to add
+``social'' features to the Marketplace to allow users of an appliance
+to leave comments and to signal problems with the appliance itself.
