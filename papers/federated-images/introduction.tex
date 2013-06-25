@@ -14,61 +14,60 @@ desired operating system and required applications pre-installed
 and pre-configured for their needs, independently of the needs of the
 other users.
 
-Being able to create, use, and reuse such appliances eliminates:
-\begin{itemize}
-\item The need for multiple installations of applications,
-\item The costs associated with porting and re-validation of
-  applications in varying envionments, and
-\item Errors associated with running in different environments,
-\end{itemize}
-all together allowing users to concentrate on their calculations
-rather than the software.  However, some of these reductions in effort
-are offset by the need to manage the appliances themselves.  Tools for
-this appliance management vary greatly between cloud distributions and
-few are intended to be used in federated cloud environments.
+Being able to create, use, and reuse such appliances eliminates the
+need for multiple installations of applications, the costs associated
+with porting and re-validation of applications in varying envionments,
+and errors associated with running in different environments, together
+allowing users to concentrate on their calculations rather than the
+software.
+
+Some of these reductions in effort, however, are offset by the need to
+manage the appliances themselves.  Tools for this appliance management
+vary greatly between cloud distributions and few are intended to be
+used in federated cloud environments.
 
 \subsection{StratusLab}
 
 The StratusLab collaboration provides a complete, open-source solution
 for deploying public or private ``Infrastructure as a Service'' (IaaS)
 cloud infrastructures and is designed to be both simple to install and
-simple to use.~\cite{slbook} It provides the compute, storage, and
-networking services expected in IaaS clouds.
+simple to use.~\cite{slbook}
 
-The collaboration also operates a federated cloud infrastructure with
-two sites--one in Orsay, France and the other in Athens, Greece\@.
-These sites share a common user authentication framework and appliance
-registry (the ``Marketplace'') allowing users to easily allocate
-resources on either site.  This production cloud allows the StratusLab
-collaboration to validate its software in real world conditions.
+In parallel, the collaboration operates a federated cloud
+infrastructure with two sites located in Orsay, France and Athens,
+Greece\@.  These sites share a common user authentication framework
+and appliance registry (the ``Marketplace'') allowing users to
+allocate resources and to use appliances on either site.  The
+StratusLab collaboration uses this production cloud to validate its
+software in real world conditions.
 
 \subsection{Marketplace}
 
-StratusLab provides a complete set of tools for managing appliances.
-These tools cover:
+In addition to the usual compute, storage, and networking services of
+a IaaS cloud, StratusLab includes a complete set of tools for managing
+appliances.  These tools cover:
 \begin{itemize}
 \item Creation of appliances in a secure and reproducible fashion,
 \item Storage of appliances in an accessible location,
-\item Efficient transport of appliances from the storage to the cloud,
+\item Efficient transport of appliances to the cloud,
   and
-\item Metadata for the appliances so that their contents are
-  understood. 
+\item Metadata management for the appliances so that their contents
+  are understood.
 \end{itemize}
-Although all cloud distributions provide tools to use appliances, few
-provide all of the tools necessary to share appliances, especially in
-federated cloud environments.  The key point in federated cloud
-environments is the last one: one must have an open registry
-that maintains appliance metadata.  This is the StratusLab
-Marketplace\@. 
+All cloud distributions provide tools to use appliances, but few
+provide all of the tools necessary to share appliances between users
+and between clouds.  The key feature for enabling appliance management
+in federated cloud environments is the last one: one must have an open
+registry that maintains appliance metadata.  The StratusLab
+Marketplace fills this role.
 
 \subsection{Organization}
 
-This paper first discusses (in sections II and III) the requirements
-for sharing appliances between users and between cloud
+This paper first discusses (in sections II and III) the features
+necessary for sharing appliances between users and between cloud
 infrastructures: appliance portability and tools for appliance
 management.  It then describes the use cases, design, requirements,
 implementation, and security considerations of the StratusLab
-Marketplace (in sections IV--VII).  It then motivates future
-improvements by discussing our experience running the Marketplace in
-production for more than two years.
-
+Marketplace (in sections IV--VII).  It then justifies the planned
+improvements to the Marketplace through our experience in running it
+in production for more than two years.
