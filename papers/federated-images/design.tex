@@ -1,8 +1,5 @@
 \section{Design and Requirements}
 
-{\em Dive into more detail about the design and various requirements
-  for the system.}
-
 The primary requirement of the Marketplace is that it permits all
 users to search the range of available images for ones which satisfy
 their requirements--avoiding the effort to create a customized image.
@@ -10,11 +7,12 @@ Equally important, the Marketplace provides a repository of image
 metadata that can be used by cloud administrators to decide if a
 particular image is trusted and can be run on their cloud.
 
-Although the StratusLab cloud distribution must provide a mechanism
-for storing and retrieving the image file themselves, a conscious
-decision was made to separate the storage and transport of image file
-from the Marketplace implementation.  Storing the image files outside
-of the Marketplace:
+As described above, the StratusLab cloud distribution provides
+mechanisms for storage and retrieving the appliance files themselves.
+A conscious design decision was made to separate the storage and
+transport of appliance file from the Marketplace implementation.  (A
+feature not shared by all cloud distributions.)  Storing the image
+files outside of the Marketplace:
 \begin{itemize}
 \item Makes it easier to scale the Marketplace implementation and to
   create mirrors of it.
@@ -29,29 +27,38 @@ of the Marketplace:
 Related tools for downloading referenced images and validation of
 those images must complement the Marketplace service.
 
+\subsection{Requirements}
+
+Table~\ref{tab:requirements} contains a detailed list of requirements
+for the Marketplace, as an appliance registry, and for the appliance
+metadata.  The core requirements have been derived from the primary
+use cases described above, taking into account the need to create a
+functional service.  
+
+\subsection{Timeline}
+
+A core concept within the Marketplace is the appliance timeline.  The
+Marketplace maintains a complete history of all endorsements related
+to an image.  Users of the Marketplace can retrieve the full history,
+for example to conduct an audit on why a particular image was
+authorized.  Normally however, the Marketplace users only want to see
+the current endorsements for an appliance, that is the list of the
+latest, non-expired endorsements from all of the endorsers of an
+image.  This allows users and administrators alike to decide if an
+image is currently valid.  
+
 \begin{table}
 \caption{Requirements}
 \label{tab:requirements}
-\begin{tabular}{p{0.4\textwidth}}
+\begin{tabular}{p{0.95\columnwidth}}
 \hline\hline
-Allow anyone to upload valid metadata descriptions to the site.
+
+\\ Allow anyone to upload valid metadata descriptions to the site.
 
 \\ Valid descriptions must be signed by a grid certificate.  The
   endorser information must match the information in the certificate
   itself.  It may also be desirable to allow signatures with a PGP key
   or SSH key.
-
-\\ Valid descriptions must contain a valid email address.  The
-  service must confirm the email address for every upload of metadata.
-
-\\ All valid descriptions must contain a creation date for the
-  endorsement.  The server must only accept descriptions with a
-  creation date more recent that the current latest.
-
-\\ There may be several sets of metadata associated with a
-  particular machine or disk image. This allows third parties to
-  endorse images created by someone else. (E.g. VO endorses an image
-  created by StratusLab.)
 
 \\ Users can ``replace'' existing metadata descriptions by
   uploading a new signed description.  Nonetheless, all validated
@@ -69,19 +76,32 @@ Allow anyone to upload valid metadata descriptions to the site.
 \\ The registry should allow the metadata to be downloaded in
   alternate formats, notably JSON and HTML.
 
-\\ Descriptions of available images should contain at least one
+\\ The service must be easy to use from all programming languages
+  (including scripting languages) and usable from a web browser.
+
+\\ \hline 
+\\
+  Descriptions of available images should contain at least one
   location from which the image can be obtained.  Descriptions without
   a location are appropriate only if the image becomes unavailable.
 
-\\ The service must be easy to use from all programming languages
-  (including scripting languages) and usable from a web browser.
+\\ Valid descriptions must contain a valid email address.  The
+  service must confirm the email address for every upload of metadata.
+
+\\ All valid descriptions must contain a creation date for the
+  endorsement.  The server must only accept descriptions with a
+  creation date more recent that the current latest.
+
+\\ There may be several sets of metadata associated with a
+  particular machine or disk image. This allows third parties to
+  endorse images created by someone else. (E.g. VO endorses an image
+  created by StratusLab.)
 
 \\ The underlying schema for the metadata descriptions must be
   flexible and extensible.  The accounts for differing needs of users
   and eventual evolution of those needs.
 
 \\
-
 \hline\hline
 \end{tabular}
 \end{table}
