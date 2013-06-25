@@ -1,120 +1,74 @@
-\section{Use Cases}
+\section{Actors and Use Cases}
 \label{sec:usecases}
 
-{\em Highlight the major requirements of the system, perhaps
-  concentrating on the primary Marketplace workflows.}
+Appliance management, being a core feature of IaaS clouds, affects
+nearly everyone within the IaaS cloud environment.  For the purpose of
+discussing the motivating use cases of the Marketplace, we identify
+the following actors:
+\begin{description}
+\item[Creator] Makes a new appliance and desires to publish the image
+  for her own or someone else's use.
+\item[Endorser] Validates an appliance against certain criteria and
+  issues an endorsement to this effect.
+\item[User] A scientist or engineer who wants to find and to use
+  existing appliances.
+\item[Admin.] The cloud administrator responsible for
+  maintaining the cloud services and the security of the platform.
+\end{description}
+These actors play key roles in the three identified use cases for the
+Marketplace: publishing an appliance, using an appliance, and
+authorizing an appliance. 
 
-{\em Start with what is different about the Marketplace: emphasis on
-  sharing of images (especially in federated environments), adaptable
-  to different domains (i.e. flexible metadata can be specialized,
-  trust mechanisms are open to actors), and being neutral with respect
-  to cloud implementations.  Describe very high level design of system
-  and interactions with the actors and cloud services.  The technical
-  note was organized around specific workflows; this may be good to
-  keep for the paper.  The section should explicitly mention that
-  ``third-party'' endorsers could be supported in this system.}
+\subsection{Publishing an Appliance}
 
-The Marketplace it at the center of the image handling mechanisms in
-the StratusLab cloud distribution.  It contains metadata about images
-and serves as a registry for shared images.  There are two primary use
-cases for images in the cloud: 1) creating new images and making them
-available and 2) instantiating a referenced image.
+Typically, creating a new appliance with the proper contextualization
+and that is secure is tedious.  The process involves a large number of
+steps and mistakes often require restarting the lengthy process.
+Automation helps but image creation remains a time consuming process.
 
-\subsection{Use Cases}
+Creators with the expertise to create new appliances often want to
+share their appliances with a larger community, in effect publishing
+their appliance for use by others.  To publish the appliance, the
+creators must put the appliance itself in an accessible location and
+must provide metadata about it.  The metadata is uploaded to a central
+registry to allow users to discover appliances. 
 
-{\em Describe the principal use cases and high-level goals.}
+In addition to the metadata supplied by the image creator, users will
+want to verify the origin of that metadata and that the image hasn't
+been tampered with.  An endorsement of the image is critical for
+establishing trust in the image itself.  Often the creator is also an
+endorser of an image, but images can and often are endorsed by
+multiple people.  This allows, for instance, third party certification
+of appliances.
 
-\subsubsection{Workflows}
+\subsection{Using an Appliance}
 
-{\em Describe briefly the main workflows: registering a new image,
-  using a registered image, and authorizing an image.}
+Users want to search the full list of available appliances to find one
+that suits their needs.  This requires a central location (or possibly
+several locations) where a comprehensive list of appliances is
+available.  Once users find a suitable appliance, they want to run an
+instance of that appliance on a cloud infrastructure, ideally by only
+using the appliance's identifier.
 
-\paragraph{Registering a New Image}
+To determine if an appliance is suitable, users will want to know what
+operating system is used in the image, what services are enabled, how
+to access the image, etc.  Appliance metadata is crucial for allowing
+users to find appropriate appliances. 
 
-New machine or disk images can either be created from scratch
-following the StratusLab guidelines or be modified versions of
-existing images.  The workflow for creating an image and making it
-available for other involves the following steps:
+\subsection{Authorizing an Appliance}
 
-\begin{itemize}
+Most users of IaaS cloud infrastructures have little or no experience
+with system management.  This means that they are unfamilar with best
+practices and techniques for securing machines, for example limiting
+SSH access and configuration of firewalls.  Because of this, cloud
+administrators have a strong interest in ensuring that users run
+appliances that have been built with these best practices in mind.
 
-\item{Image Creation} A new machine or disk image is created from
-  scratch or from an existing image.  The \cmd{stratus-create-image}
-  command can facilitate this process.
-
-\item{Transfer to Storage} The new image is transferred to network
-  accessible storage.  This may be storage provided by a StratusLab
-  cloud or storage provided by the user or users' institute.  The
-  physical image must be available via one or more URLs\@.
-
-\item{Create Metadata} The metadata entry for the image must be
-  created.  This is an XML file containing information about the image
-  itself including the location URLs for the physical image.  The
-  \cmd{stratus-build-manifest} command may be helpful here.
-
-\item{Sign Metadata} All of the metadata entries must be signed with a
-  valid grid certificate.  The \cmd{stratus-sign-metadata} will sign
-  the metadata file with a given certificate, inserting the
-  certificate information automatically into the metadata file.
-
-\item{Upload Metadata} The signed metadata entry can then be uploaded
-  to the StratusLab Marketplace\@.  This is done via an HTTP POST to a
-  the Marketplace's \url{http://mp.example.org/metadata/} URL\@.
-
-\end{itemize}
-
-The Marketplace will then validate the entry and verify the email
-address given in the image metadata.  Once all of the checks have been
-done, the metadata will be visible in the Marketplace and other users
-can search for the entry.
-
-\paragraph{Using a Registered Image}
-
-Referencing an existing image and instantiating it involves the
-following steps:
-
-\begin{itemize}
-
-\item{Request New Instance} StratusLab users will create new machine
-  instances through the \cmd{stratus-run-instance} command.  Disk
-  images can be used in the machine description to attach existing,
-  public disks to a new instance.  In both cases, the user can supply
-  an image identifier (e.g. ``MMZu9WvwKIro-rtBQfDk4PsKO7\_''), a
-  Marketplace URL
-  (e.g. \url{http://mp.example.org/metadata/?id=MMZu9WvwKIro-rtBQfDk4PsKO7\_},
-  any URL that provides (directly or indirectly) a valid metadata
-  entry (e.g. \url{http://tinyurl.com/my-favorite-image}), or the
-  physical location of the image
-  (e.g. \url{http://example.org/myimage}).
-
-\item{Resolve Entry} The URL given by the user must be resolved into
-  one or more metadata entries associated with the image.  For any of
-  the URLs that provide the metadata entry (or entries) directly, this
-  is a simple HTTP GET on the URL\@.  For location based URLs, this
-  will involve a search in the Marketplace either on the location URL
-  or on a checksum calculated on the fly.
-
-\item{Apply Site Policy} The command \cmd{stratus-policy-image} will
-  apply a configurable site policy to the image metadata.  If none of
-  the metadata entries for a particular image pass the site policy,
-  then the image will not be instantiated.
-
-\item{Download} Assuming that the image passed the site policy, then
-  the \cmd{stratus-download-image} can be used to download a copy of
-  the image based on the location URLs in the metadata entry.
-
-\end{itemize}
-
-Once the image is available, it will be instantiated and run.  All of
-the work on the cloud side, it expected to happen in the clone hook of
-OpenNebula\@.
-
-\paragraph{Authorizing an Image}
-
-{\em Create text for this workflow.}
-
-\subsubsection{Actors}
-
-{\em Describe in detail: creators, endorsers, users, and
-  administrators.}
-
+Before allowing a user to start an appliance, cloud administrators
+will want to authorize that particular appliance.  Again, the
+appliance metadata is crucial.  Based on this metadata,
+administrator's can define a policy that suits their needs.  On one
+side they can create very restrictive policies like only allowing
+appliances endorsed by a particular person to be run.  On the other
+they can define an open policy that only forbids appliances with known
+security problems.
