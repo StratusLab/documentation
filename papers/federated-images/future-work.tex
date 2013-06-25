@@ -17,17 +17,20 @@ Points for improvement:
 \item Allow 'prettier' descriptions of the images in the Marketplace.
 \end{itemize}
 
-Currently the Marketplace is a single point of failure in the StratusLab infrastructure. This is 
-a critical issue that is to be addressed in upcoming releases. A replication scheme will be 
+As described above the Marketplace currently represents a single point of failure in the 
+StratusLab infrastructure. This is a critical issue that is to be addressed in upcoming releases. A replication scheme will be 
 implemented to allow multiple Marketplace instances to be run, each maintaining its own local
-copy of the global metadata database. As all the information required to rebuild the metadata index
+copy of the global metadata database. As all the information required to rebuild the metadata database 
 stored in Sesame is the set of raw metadata files, it is only these that need be replicated. A potential solution 
-to provide this replication is to use a git repository as the core `database' for the metadata entries.  
-For a public Marketplace, the repository could be hosted on GitHub~\cite{github} with each replicated server 
-pulling/pushing from that repository. This only requires that a Marketplace database be updated periodically 
-from a local clone of the global repository.  For a private Marketplace, the git repository can exist on the local disk.
-An alternative solution is to use a distributed database, such as CouchBase~\cite{couchbase}, to maintain the 
-global database. Updates of replica instances would be handled periodically in much the same way as with Git.
+to provide this replication is to use a Git repository as the core `database' for the metadata entries.
+This only requires that a Marketplace database be updated periodically from a local clone of the global repository. 
+
+An added benefit of this approach is that it would allow for the public/private Marketplace requirment described in 
+Section~\ref{sec:production}. For a public Marketplace, the repository could be hosted on a public service, such as GitHub~\cite{github} 
+with each replicated server pulling/pushing from that repository.  For a private Marketplace, the repository can exist only on the local disk.
+
+An alternative solution could be to use a distributed database, such as CouchBase~\cite{couchbase}, 
+to maintain the global database. Updates of replica instances would be handled periodically in much the same way as with Git.
 
 An important ability is to trace the evolution of an image through its metadata. Currently modifying an appliance
 results in a new identifier being created, which will then be used in the updated metadata. This 
