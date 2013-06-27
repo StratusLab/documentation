@@ -19,7 +19,7 @@ services.
 
 The user interface to the Marketplace, accessed through a Browser, is implemented
 using a combination of FreeMarker~\cite{freemarker}, a Java Template Engine Library, 
-JQuery~\cite{jquery}, custom HTML, CSS and JavaScript.
+JQuery~\cite{jquery}, custom HTML, CSS and JavaScript. 
 
 Semantic web technologies were designed to manage metadata about
 (third-party) resources identified with a URI.  Consequently, they are
@@ -28,7 +28,7 @@ metadata about machine and disk appliances.  These technologies already
 provide standard formats for the metadata (RDF/XML~\cite{rdfxml,
   rdfprimer, rdfschema}) and query languages (SeRQL~\cite{serql},
 SPARQL~\cite{sparql}).  The Marketplace implementation makes use of the
-Sesame~\cite{sesame} framework to provide search
+OpenRdf Sesame~\cite{sesame} framework to provide search
 capabilities over the metadata database.
 
 To validate the metadata associated with a particular appliance, it is
@@ -43,7 +43,7 @@ Initiative has published a vocabulary~\cite{dcterms} that can be used
 for much of the appliance metadata descriptions.  This is complemented by
 a vocabulary specific to StratusLab.  Using RDF also allows additional
 metadata fields to be specified (in separate namespaces) to complement
-the standard fields described in this document.
+the standard fields.
 
 \subsection{Identifiers}
 
@@ -190,11 +190,12 @@ X  \tnl
 
 \subsection{Storage and Query of Metadata}
 
-The metadata entries are stored using the Sesame~\cite{jena}
-interfaces.  This allows simple queries and queries with SPARQL~\cite{sparql}
- to be easily supported.
-
-Unfortunately, Sesame is unable to accept the signed metadata.
-Consequently, the raw, signed metadata files are saved on
-a file system as well.  These are returned directly when XML is
-requested.
+Metadata uploaded to the Marketplace is first validated as described above. Once accepted, the 
+entry is written to the filesystem in a temporary location as an XML file. A confirmation  
+is then sent to the email address contained in the endorsement field of the metadata. Assuming 
+the endorser completes the upload by visiting the confirmation URL contained in the email, the 
+metadata entry is moved to the permanent data directory. A copy of the metadata, stripped of the 
+XML signature is then added to the Sesame repository. Stripping of the signature is necessary as 
+Sesame is unable to accept the signed metadata. Storing the metadata to the repository allows 
+simple queries and queries with SPARQL~\cite{sparql} to be easily supported. A request for a specific 
+metadata entry in XML format results in the original signed file stored on the filesystem  being returned.
