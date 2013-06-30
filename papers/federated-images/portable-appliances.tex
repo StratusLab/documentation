@@ -3,9 +3,10 @@
 
 Before one can talk about sharing appliances, the appliances
 themselves must be portable--generic enough to appeal to different
-users and technically capable of running on different cloud
-platforms.  The technical issues relate to the contextualization and
-format of images. 
+users and technically capable of running on different cloud platforms.
+This has been identified as an important challenge in federated
+clouds.~\cite{Petcu} Technically it involves the contextualization and
+format of images.
 
 \paragraph*{Appliance Format}
 Nearly every hypervisor uses a different appliance format, but
@@ -21,10 +22,11 @@ discover its ``context'' and to automatically configure services to
 work properly on a given infrastructure.  Common mechanisms provide a
 disk or web server with context information to virtual machine
 instances.  With additional work, portable appliances can be created
-that detect and use multiple contextualization mechanisms.
-Fortunately, CloudInit~\cite{cloudinit} is becoming a {\em de facto}
-standard and will simplify both appliance creation and
-contextualization support by cloud distributions.
+that detect and use multiple contextualization mechanisms; StratusLab
+supports CloudInit~\cite{cloudinit}, HEPiX~\cite{hepixbookcontext},
+and OpenNebula\@ contextualization.  Fortunately, CloudInit is
+becoming a {\em de facto} standard and will simplify both appliance
+creation and contextualization support by cloud distributions.
 
 Although standard appliance contextualization and formats would easy
 the creation of portable appliances, it is already possible to do so.
