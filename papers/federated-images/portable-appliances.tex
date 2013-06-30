@@ -1,17 +1,32 @@
 \section{Portable Appliances}
+\label{sec:portable-appliances}
 
-This section describes how StratusLab create portable appliances that can be deployed on different cloud infrastructure. This include 
-\begin{itemize}
-\item Contextualization or how the appliance learn about it's cloud environment and how to configure itself to run correctly there, and 
-\item  The format of the appliance that should meet one of the formats required by the cloud infrastructure.
-\end{itemize}
-\subsection{Appliance Contextualization}
-StratusLab provides appliances configured with multiple contextualization mechanisms. For the moment, StratusLab support CloudInit, HEPiX and OpenNebula contextualization.
-For HEPiX and OpenNebula contextualization, an ISO CDROM is attached to the VM that supports the file layout for both systems.
-CloudInit contextualization handles web-server and disk based contextualization. StratusLab supports the second one. CloudInit only supports disks formatted as VFAT file systems at the moment.
+Before one can talk about sharing appliances, the appliances
+themselves must be portable--generic enough to appeal to different
+users and technically capable of running on different cloud
+platforms.  The technical issues relate to the contextualization and
+format of images. 
 
-Supporting multiple contextualization mechanisms, make StratusLab appliances portable, and can be deployed on several cloud environment, like OpenStack based cloud, OpenNebula based cloud, CERNVM cloud, etc.
+\paragraph*{Appliance Format}
+Nearly every hypervisor uses a different appliance format, but
+fortunately tools exist to easily convert appliances between the
+common formats.  However to reduce the burden on users, cloud
+infrastructures should accept all formats and make the necessary
+conversions automatically.  This allows users to manage one appliance
+rather than one per format.  StratusLab, for example, automatically
+converts images to the ``raw'' format it uses internally. 
 
-\subsection{Appliance Format}
-StratusLab appliances have the format raw or qcow. In the StratusLab cloud infrastructure, only appliances in raw format can be deployed, if it's an appliance in a qcow format, it's automatically converted into raw format before being cached in the persistent storage service. Virtual Box and VMWare appliances could be easily converted to raw format, and thus could be deployed in the StratusLab cloud.
+\paragraph*{Appliance Contextualization} This allows an appliance to
+discover its ``context'' and to automatically configure services to
+work properly on a given infrastructure.  Common mechanisms provide a
+disk or web server with context information to virtual machine
+instances.  With additional work, portable appliances can be created
+that detect and use multiple contextualization mechanisms.
+Fortunately, CloudInit~\cite{cloudinit} is becoming a {\em de facto}
+standard and will simplify both appliance creation and
+contextualization support by cloud distributions.
 
+Although standard appliance contextualization and formats would easy
+the creation of portable appliances, it is already possible to do so.
+In fact, StratusLab provides portable, minimal appliances for most
+popular Linux distributions.

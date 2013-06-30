@@ -1,10 +1,10 @@
 \section{Actors and Use Cases}
-\label{sec:usecases}
+\label{sec:use-cases}
 
-Appliance management, being a core feature of IaaS clouds, affects
-nearly everyone within the IaaS cloud environment.  For the purpose of
-discussing the motivating use cases of the Marketplace, we identify
-the following actors:
+Three core use cases--publishing an appliance, using an appliance, and
+authorizing an appliance--expose the required features and the actors
+for appliance management in both federated and non-federated
+environments.  The primary actors and their roles are:
 \begin{description}
 \item[Creator] Makes a new appliance and desires to publish the image
   for her own or someone else's use.
@@ -15,60 +15,54 @@ the following actors:
 \item[Admin.] The cloud administrator responsible for
   maintaining the cloud services and the security of the platform.
 \end{description}
-These actors play key roles in the three identified use cases for the
-Marketplace: publishing an appliance, using an appliance, and
-authorizing an appliance. 
 
 \subsection{Publishing an Appliance}
 
-Typically, creating a new appliance with the proper contextualization
-and that is secure is tedious.  The process involves a large number of
-steps and mistakes often require restarting the lengthy process.
-Automation helps but image creation remains a time consuming process.
+Despite automation, appliance creation is a tedious, error-prone, and
+lengthly process.  Creators with the expertise to create new
+appliances often want to share their appliances with a larger
+community for wider use and better testing.  Doing so requires
+publishing the appliance.
 
-Creators with the expertise to create new appliances often want to
-share their appliances with a larger community, in effect publishing
-their appliance for use by others.  To publish the appliance, the
-creators must put the appliance itself in an accessible location and
-must provide metadata about it.  The metadata is uploaded to a central
-registry to allow users to discover appliances. 
+To publish the appliance, the creators must put the appliance itself
+in an accessible location and upload metadata about the appliance to a
+central registry.  At a minimum, the metadata needs to include
+information about the appliance contents, service configuration, and
+access parameters.
 
-In addition to the metadata supplied by the image creator, users will
-want to verify the origin of that metadata and that the image hasn't
-been tampered with.  An endorsement of the image is critical for
+\subsection{Using an Appliance}
+
+If possible, users want to avoid the effort require to create an
+appliance by reusing an existing instance.  A central registry allows
+users to discover appropriate appliances based, for example, on the
+operating system used, what services are enabled, etc.  Appliance
+metadata is crucial for finding appropriate appliances.
+
+Users also want to verify the origin of the metadata and the integrity
+of the appliance's image.  An endorsement of the image is critical for
 establishing trust in the image itself.  Often the creator is also an
 endorser of an image, but images can and often are endorsed by
 multiple people.  This allows, for instance, third party certification
 of appliances.
 
-\subsection{Using an Appliance}
-
-Users want to search the full list of available appliances to find one
-that suits their needs.  This requires a central location (or possibly
-several locations) where a comprehensive list of appliances is
-available.  Once users find a suitable appliance, they want to run an
-instance of that appliance on a cloud infrastructure, ideally by only
-using the appliance's identifier.
-
-To determine if an appliance is suitable, users will want to know what
-operating system is used in the image, what services are enabled, how
-to access the image, etc.  Appliance metadata is crucial for allowing
-users to find appropriate appliances. 
+Once users find a suitable appliance, they want to run an instance of
+that appliance on a cloud infrastructure.  This requires trasport of
+the appliance's image to the cloud infrastructure.  Although users
+could do this manually, ideally the cloud infrastructure will handle
+the transport transparently once given the appliance identifier.
 
 \subsection{Authorizing an Appliance}
 
-Most users of IaaS cloud infrastructures have little or no experience
-with system management.  This means that they are unfamilar with best
-practices and techniques for securing machines, for example limiting
-SSH access and configuration of firewalls.  Because of this, cloud
-administrators have a strong interest in ensuring that users run
-appliances that have been built with these best practices in mind.
+Most users of cloud infrastructures have little or no experience with
+system management.  They are unfamilar with best practices and
+techniques for securing machines, for example limiting SSH access and
+configuration of firewalls.  Consequently, cloud administrators have a
+strong interest in ensuring that users run appliances that have been
+built with these best practices in mind.
 
 Before allowing a user to start an appliance, cloud administrators
-will want to authorize that particular appliance.  Again, the
-appliance metadata is crucial.  Based on this metadata,
-administrator's can define a policy that suits their needs.  On one
-side they can create very restrictive policies like only allowing
-appliances endorsed by a particular person to be run.  On the other
-they can define an open policy that only forbids appliances with known
-security problems.
+will want to authorize that particular appliance.  Based on appliance
+metadata, administrators can define a policy that suits their needs,
+ranging from very restrictive policies allowing appliances endorsed by
+a particular person to be run to open policies that forbid only
+appliances with known security problems.

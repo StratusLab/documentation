@@ -1,23 +1,16 @@
 \section{Existing Image Management Techniques}
 \label{sec:other-approaches}
 
-In addition to the usual compute, storage, and networking services of
-a IaaS cloud, StratusLab includes a complete set of tools for managing
-appliances.  These tools cover:
+To manage appliances, cloud distributions must provide tools or
+mechanisms for the:
 \begin{itemize}
-\item Creation of appliances in a secure and reproducible fashion,
-\item Storage of appliances in an accessible location,
-\item Efficient transport of appliances to the cloud,
-  and
-\item Metadata management for the appliances so that their contents
-  are understood.
+\item Creation of appliances,
+\item Storage of appliances,
+\item Efficient appliance transport, and
+\item Management of appliance metadata.
 \end{itemize}
-All cloud distributions provide tools to use appliances, but few
-provide all of the tools necessary to share appliances between users
-and between clouds.  The key feature for enabling appliance management
-in federated cloud environments is the last one: one must have an open
-registry that maintains appliance metadata.  The StratusLab
-Marketplace fills this role.
+This section describes the approaches used to implement these features
+in StratusLab and other cloud distributions.
 
 \subsection{Appliance Repositories (storage)}
 
