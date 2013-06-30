@@ -1,4 +1,4 @@
-\section{Production Experiences}
+\section{Production Experience \& Planned Improvements}
 \label{sec:production}
 
 The StratusLab collaboration had operated a federated cloud
@@ -8,9 +8,26 @@ appliances on both sites.  This experience has allowed us to validate
 the StratusLab appliance handling workflows and the Marketplace itself
 in real world conditions.
 
+\begin{table}
+\caption{}
+\label{tab:statistics}
+\begin{center}
+\begin{tabular}{ll}
+\hline
+number of endorsers & 1000 \\
+number of appliances & 1000 \\
+number of current appliances & 1000 \\
+etc. & infinity \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
 The Marketplace has been improved over time based on feedback from
 users.  However, there are some outstanding points that need to be
 addressed in the future.
+
+\subsection{Availability}
 
 Having a central Marketplace instance allows users to easily find all
 of the appliances from a single location.  Similarly, it allows image
@@ -21,6 +38,33 @@ not available, new images cannot be started on any cloud relying on
 the Marketplace\@.  Future iterations of the Marketplace must provide
 redundancy and high-availability of the Marketplace service. 
 
+As described above the Marketplace currently represents a single point
+of failure in the StratusLab infrastructure. This is a critical issue
+that is to be addressed in upcoming releases. A replication scheme
+will be implemented to allow multiple Marketplace instances to be run,
+each maintaining its own local copy of the global metadata
+database. As all the information required to rebuild the metadata
+database stored in Sesame is the set of raw metadata files, it is only
+these that need be replicated. A potential solution to provide this
+replication is to use a Git repository as the core `database' for the
+metadata entries. This only requires that a Marketplace database be
+updated periodically from a local clone of the global repository.
+
+\subsection{Private Marketplaces}
+
+An added benefit of this approach is that it would allow for the
+public/private Marketplace requirment described in
+Section~\ref{sec:production}. For a public Marketplace, the repository
+could be hosted on a public service, such as GitHub~\cite{github} with
+each replicated server pulling/pushing from that repository.  For a
+private Marketplace, the repository can exist only on the local
+disk. An alternative solution could be to use a distributed database,
+such as CouchBase~\cite{couchbase}, to maintain the global
+database. Updates of replica instances would be handled periodically
+in much the same way as with Git.
+
+\subsection{Data Protection}
+
 By design the appliance metadata is considered public.  In reality,
 however, there are both users and administrators that would like to
 restrict the visibility of the appliance metadata.  Many cloud
@@ -29,8 +73,35 @@ the visibility of certain appliances while still taking advantage of
 the central, public Marketplace instance.  There must be a mechanism
 for federating Marketplace instances in the future. 
 
+\subsection{Appliance Quality}
+
 Although the metadata contains a significant amount of information
 about an appliance, it does not contain information about how well the
 appliance functions for users.  A common request has been to add
 ``social'' features to the Marketplace to allow users of an appliance
 to leave comments and to signal problems with the appliance itself.
+
+Improvements to the interface will include the ``social-features''
+mentioned above, along with re-designing the various displays, such as
+the appliance list and the metadata detailed view. As stated the
+purpose of the social features would be to allow users to determine
+the quality of an appliance referred to by a metadata entry. This
+could be done with a comment, or rating, system. A simple way to add
+this would be to make use of an external service such as
+Disqus~\cite{disqus}.
+
+\subsection{Stable URLs}
+
+An important ability is to trace the evolution of an image through its
+metadata. Currently modifying an appliance results in a new identifier
+being created, which will then be used in the updated metadata. This
+breaks the link with the previous version. The recently added `tag'
+functionality goes someway to solving this.  The metadata entries for
+a particular appliance can be found by retrieving all entries
+containing a particular tag. This element is optional, however, and
+may not be added to all entries. A more rigourous solution would be to
+make use of the Dublin Core terms `replaces' and `isReplacedBy'. This
+would provide a link in each metadata entry to the previous and next
+entries in the lifetime of an appliance. Using these terms could add a
+significant burden to the user creating a metadata entry, so this
+would have to be automated as much as possible.

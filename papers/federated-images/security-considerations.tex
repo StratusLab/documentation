@@ -23,6 +23,24 @@ it must securely provide complete, accurate information about the
 appliances.  We have identified a number of attack scenarios and
 describe how the Marketplace has been designed to avoid them. 
 
+\subsection{Verification of Uploaded Metadata}
+
+When new metadata entries are uploaded to the Marketplace, the service
+validates the entry before accepting it.  This involves three
+separate steps:
+\begin{enumerate}
+\item The metadata must be a valid RDF/XML file, following the defined
+  schemas and conventions.
+\item To avoid having old metadata entries being reposted (for example
+  to make a deprecated entry appear to be valid), the server
+  ensures that only entries endorsed after the current entry for a particular
+  appliance are accepted.
+\item To ensure that the included email address is valid, all
+  additions to the Marketplace must be confirmed by email.
+\end{enumerate}
+Only validated metadata entries are visible from the standard
+Marketplace interface. 
+
 \subsection{Replay of Signed Metadata}
 
 As all of the signed metadata data entries are publicly available,
@@ -56,7 +74,7 @@ StratusLab design, where the storage of an appliance is separate from
 its metadata, avoids having to deal with intellectual property rights
 violations.
 
-\subsubsection{Validity and Completeness of Data}
+\subsection{Validity and Completeness of Data}
 
 The Marketplace must ensure that all of the data concerning an
 appliance is available.  By design, the Marketplace never removes
@@ -70,7 +88,7 @@ altered, for example by a third-party removing deprecation notices
 from the returned information.  To prevent this, the Marketplace only
 transmits information over a communication channel secured via TLS\@. 
 
-\subsubsection{Altered Appliances}
+\subsection{Altered Appliances}
 
 As the appliances will be downloaded from other sites, there is a danger
 that they will be altered (either intentionally or maliciously).  As
@@ -92,7 +110,7 @@ verified with a newly downloaded image.  The likelihood that someone
 can create an altered appliance with exactly the same length and
 multiple checksums is miniscule.
 
-\subsubsection{Compromised Marketplace Server}
+\subsection{Compromised Marketplace Server}
 
 If someone were to take control of the Marketplace server, he could
 not alter individual metadata entries as those are signed by the
@@ -100,5 +118,3 @@ endorsers' private keys are not stored on the server.  However, he
 could delete entries making, for instance, deprecated images appear
 valid.  This is a significant risk and the server should be operated
 according to modern best practices to avoid this.
-
-

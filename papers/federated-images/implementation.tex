@@ -1,49 +1,15 @@
 \section{Implementation}
 \label{sec:implementation}
 
-{\em Describe the implementation chosen and the technology choices.}
-
-{\em Description of the technology choices made, especially those that
-  affect the outward functionality of the system.}
-
-{\em The metadata schema should be covered along with an explaination
-  of why something like OVF was not used.}
-
-\subsection{Technology Choices}
-
 To ensure that the service can be used easily with all programming
 languages, the Marketplace exposes a RESTful~\cite{rest} interface
 over standard HTTP(S).  This interface is implemented using
-RESTlet~\cite{restlet}, a Java framework for RESTful
-services.
+RESTlet~\cite{restlet}, a Java framework for RESTful services.
 
-The user interface to the Marketplace, accessed through a Browser, is implemented
-using a combination of FreeMarker~\cite{freemarker}, a Java Template Engine Library, 
-JQuery~\cite{jquery}, custom HTML, CSS and JavaScript. 
-
-Semantic web technologies were designed to manage metadata about
-(third-party) resources identified with a URI.  Consequently, they are
-ideally suited to this situation in which the Marketplace must manage
-metadata about machine and disk appliances.  These technologies already
-provide standard formats for the metadata (RDF/XML~\cite{rdfxml,
-  rdfprimer, rdfschema}) and query languages (SeRQL~\cite{serql},
-SPARQL~\cite{sparql}).  The Marketplace implementation makes use of the
-OpenRdf Sesame~\cite{sesame} framework to provide search
-capabilities over the metadata database.
-
-To validate the metadata associated with a particular appliance, it is
-necessary to cryptographically sign individual entries.  As the raw
-format used for the metadata entries will be XML, the XML
-Signature~\cite{xmlsig} specification is reused.  This is
-conveniently a standard part of modern Java runtime environments.
-
-Working with RDF also requires an agreed vocabulary to ensure a common
-semantic meaning of the metadata tags.  The Dublin Core Metadata
-Initiative has published a vocabulary~\cite{dcterms} that can be used
-for much of the appliance metadata descriptions.  This is complemented by
-a vocabulary specific to StratusLab.  Using RDF also allows additional
-metadata fields to be specified (in separate namespaces) to complement
-the standard fields.
+The user interface to the Marketplace, accessed through a Browser, is
+implemented using a combination of FreeMarker~\cite{freemarker}, a
+Java Template Engine Library, JQuery~\cite{jquery}, custom HTML, CSS
+and JavaScript.
 
 \subsection{Identifiers}
 
@@ -70,23 +36,31 @@ using this algorithm.  Note that to avoid inadvertent or malicious
 collisions of the SHA-1 additional checksum within the metadata
 description should also be verified.
 
-\subsection{Verification of Uploaded Metadata}
+\subsection{Metadata}
 
-When new metadata entries are uploaded to the Marketplace, the service
-validates the entry before accepting it.  This involves three
-separate steps:
-\begin{enumerate}
-\item The metadata must be a valid RDF/XML file, following the defined
-  schemas and conventions.
-\item To avoid having old metadata entries being reposted (for example
-  to make a deprecated entry appear to be valid), the server
-  ensures that only entries endorsed after the current entry for a particular
-  appliance are accepted.
-\item To ensure that the included email address is valid, all
-  additions to the Marketplace must be confirmed by email.
-\end{enumerate}
-Only validated metadata entries are visible from the standard
-Marketplace interface. 
+Semantic web technologies were designed to manage metadata about
+(third-party) resources identified with a URI.  Consequently, they are
+ideally suited to this situation in which the Marketplace must manage
+metadata about machine and disk appliances.  These technologies already
+provide standard formats for the metadata (RDF/XML~\cite{rdfxml,
+  rdfprimer, rdfschema}) and query languages (SeRQL~\cite{serql},
+SPARQL~\cite{sparql}).  The Marketplace implementation makes use of the
+OpenRdf Sesame~\cite{sesame} framework to provide search
+capabilities over the metadata database.
+
+To validate the metadata associated with a particular appliance, it is
+necessary to cryptographically sign individual entries.  As the raw
+format used for the metadata entries will be XML, the XML
+Signature~\cite{xmlsig} specification is reused.  This is
+conveniently a standard part of modern Java runtime environments.
+
+Working with RDF also requires an agreed vocabulary to ensure a common
+semantic meaning of the metadata tags.  The Dublin Core Metadata
+Initiative has published a vocabulary~\cite{dcterms} that can be used
+for much of the appliance metadata descriptions.  This is complemented by
+a vocabulary specific to StratusLab.  Using RDF also allows additional
+metadata fields to be specified (in separate namespaces) to complement
+the standard fields.
 
 \subsection{REST Resource URLs}
 
@@ -102,100 +76,67 @@ and ``date'' refers to endorsement date written in the format {\tt
 XML and HTML formats.  In addition single metadata entries also 
 provide a JSON representation.
 
-\begin{table*}
-\caption{REST URL Mapping for the Marketplace}
+\begin{table}
+\caption{Core REST Resources}
 \label{table:restmap}
+\begin{center}
+\begin{tabular}{ll}
 
-\begin{tabular}{l*4{p{5cm}}}
-
-\hline
-URL & get & post & options \tnl
 \hline
 \hline
 
-/ & 
-landing page with information about service and internal links  & 
-X  & 
-last update time  \tnl 
-\hline
+\multicolumn{2}{l}{{\tt /}} \tnl
+GET & redirects to /metadata resource \tnl
 \hline
 
-/slreq &
-list of metadata terms in slreq namespace &
-X &
-X \tnl
+\multicolumn{2}{l}{{\tt /endorsers}} \tnl
+GET & list of endorsers in database \tnl
+OPTIONS & number of endorsers; last update time \tnl
 \hline
 
-/slreq/\replaceable{name} &
-description of particular term in slreq namespace &
-X &
-X \tnl
-\hline
+\multicolumn{2}{l}{{\tt /endorsers/\replaceable{email}}} \tnl
+GET & statistics about particular endorser \tnl
+OPTIONS & number of entries; last update time \tnl
 \hline
 
-/slterms &
-list of metadata terms in slterms namespace &
-X &
-X \tnl
+\multicolumn{2}{l}{{\tt /metadata/?\replaceable{query}}} \tnl
+GET & list of identifiers and selected fields (query terms of \tnl
+    & (identifer, email, and created can be used to refine list) \tnl
+POST & create new metadata entry \tnl
+OPTIONS & number of entries; last update time \tnl
 \hline
 
-/slterms/\replaceable{name} &
-description of particular term in slterms namespace &
-X &
-X \tnl
-\hline
+\multicolumn{2}{l}{{\tt /metadata/\replaceable{identifier}/\replaceable{email}/\replaceable{date}}} \tnl
+GET & unique metadata entry \tnl
+
+\multicolumn{2}{l}{\tt /metadata/query} \tnl
+GET & form for simple query of service \tnl
+POST & submit query \tnl
 \hline
 
-/endorsers &
-list of endorsers in database &
-X &
-number, last update time \tnl
-\hline
+\multicolumn{2}{l}{\tt /upload} \tnl
+GET & form for browser upload of metadata entry \tnl
+POST & create new entry via post to /metadata \tnl
 
-/endorsers/\replaceable{email} &
-statistics about particular endorser &
-X &
-number, last update time \tnl
-\hline
-\hline
-
-/metadata/?\replaceable{query} & 
-list of identifiers and selected fields (query terms of identifier, email, and created are supported to refine list)  & 
-add another metadata entry  & 
-number, last update time  \tnl 
-\hline
-
-/metadata/\replaceable{identifier}/\replaceable{email}/\replaceable{date}  & 
-unique metadata entry  & 
-X  & 
-X  \tnl 
-\hline
-
-/metadata/query  & 
-form for simple query of service  & 
-submission of complete query document  & 
-X  \tnl 
-\hline
-\hline
-
-/confirmations/\replaceable{UUID}?action=\replaceable{action} & 
-confirmation of upload  (action can be 'CONFIRM', 'ABORT', or 'ABUSE') & 
-X  & 
-X  \tnl 
 \hline
 \hline
 
 \end{tabular}
-\end{table*}
+\end{center}
+\end{table}
 
 \subsection{Storage and Query of Metadata}
 
-Metadata uploaded to the Marketplace is first validated as described above. Once accepted, the 
-entry is written to the filesystem in a temporary location as an XML file. A confirmation  
-is then sent to the email address contained in the endorsement field of the metadata. Assuming 
-the endorser completes the upload by visiting the confirmation URL contained in the email, the 
-metadata entry is moved to the permanent data directory. A copy of the metadata, stripped of the 
-XML signature is then added to the Sesame repository. Stripping of the signature is necessary as 
-Sesame is unable to accept the signed metadata. Storing the metadata to the repository allows 
-simple queries and queries with SPARQL~\cite{sparql} to be easily supported. A request for a specific 
-metadata entry in XML format results in the original signed file stored on the filesystem  being returned.
+Metadata uploaded to the Marketplace is first validated as described
+above. Once accepted, the entry is written to the filesystem in a
+temporary location as an XML file. A confirmation is then sent to the
+email address contained in the endorsement field of the
+metadata. Assuming the endorser completes the upload by visiting the
+confirmation URL contained in the email, the metadata entry is moved
+to the permanent data directory. A copy of the metadata, stripped of
+the XML signature is then added to the Sesame repository. Stripping of
+the signature is necessary as Sesame is unable to accept the signed
+metadata. Storing the metadata to the repository allows simple queries
+and queries with SPARQL~\cite{sparql} to be easily supported. A
+request for a specific metadata entry in XML format results in the
+original signed file stored on the filesystem being returned.
