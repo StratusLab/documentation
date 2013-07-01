@@ -1,39 +1,14 @@
 \section{Design and Requirements}
 \label{sec:design}
 
-The primary requirement of the Marketplace is that it permits all
-users to search the range of available images for ones which satisfy
-their requirements--avoiding the effort to create a customized image.
-Equally important, the Marketplace provides a repository of image
-metadata that can be used by cloud administrators to decide if a
-particular image is trusted and can be run on their cloud.
-
-As described above, the StratusLab cloud distribution provides
-mechanisms for storage and retrieving the appliance files themselves.
-A conscious design decision was made to separate the storage and
-transport of appliance file from the Marketplace implementation.  (A
-feature not shared by all cloud distributions.)  Storing the image
-files outside of the Marketplace:
-\begin{itemize}
-\item Makes it easier to scale the Marketplace implementation and to
-  create mirrors of it.
-\item Allows owners of the image to control access to the image
-  itself.
-\item Makes the Marketplace implementation independent of the
-  transport protocol, allowing many different protocols to be
-  supported.
-\item Relieves the operator of the Marketplace from concerns related
-  to image copyrights.
-\end{itemize}
-Related tools for downloading referenced images and validation of
-those images must complement the Marketplace service.
-
-\subsection{Requirements}
-
-Table~\ref{tab:requirements} contains a detailed list of requirements
-for the Marketplace, as an appliance registry, and for the appliance
-metadata.  The core requirements have been derived from the primary
-use cases and feedback from the StratusLab users and administrators.
+The primary requirement of the Marketplace is that it provides a
+database of available appliances, allowing users to find appliances of
+interest and administrators to validate those appliances.  To make the
+database easily accessible is implemented as a web service permitting
+both programmatic and browser-based access.  The design and
+implementation should be agnostic with respect to the cloud
+distribution, allowing any distribution to interface to the
+Marketplace\@.
 
 \subsection{Timeline}
 
@@ -41,11 +16,31 @@ A core concept within the Marketplace is the appliance timeline.  The
 Marketplace maintains a complete history of all endorsements related
 to an image.  Users of the Marketplace can retrieve the full history,
 for example to conduct an audit on why a particular image was
-authorized.  Normally however, the Marketplace users only want to see
-the current endorsements for an appliance, that is the list of the
-latest, non-expired endorsements from all of the endorsers of an
-image.  This allows users and administrators alike to decide if an
-image is currently valid.  
+authorized.
+
+Normally however, the Marketplace users only want to see the current
+endorsements for an appliance, that is the list of the latest,
+non-expired endorsements from all of the endorsers of an image.  This
+allows users and administrators alike to decide if an image is
+currently valid.
+
+\subsection{Separation of Metadata and Appliance Contents}
+
+A conscious design decision was made to separate the storage and
+transport of appliance contents from the Marketplace implementation.
+Storing the appliance contents files outside of the Marketplace: makes
+it easier to scale the Marketplace implementation and to create
+mirrors of it, makes the Marketplace implementation independent of the
+transport protocol, allows owners of the image to control access to
+the appliance contents, and relieves the operator of the Marketplace
+from copyright and licensing constraints.
+
+\subsection{Requirements}
+
+Table~\ref{tab:requirements} contains a detailed list of requirements
+for the Marketplace, as an appliance registry, and for the appliance
+metadata.  The core requirements have been derived from the primary
+use cases and feedback from the StratusLab users and administrators.
 
 \begin{table}
 \caption{Requirements}
@@ -56,23 +51,20 @@ image is currently valid.
 
 \\ Allow anyone to upload valid metadata descriptions to the site.
 
-\\ Valid descriptions must be signed by a grid certificate.  The
-  endorser information must match the information in the certificate
-  itself.  It may also be desirable to allow signatures with a PGP key
-  or SSH key.
+\\ Valid descriptions must be cryptographically signed.  The endorser
+information must match the information in the certificate itself.
 
 \\ Users can ``replace'' existing metadata descriptions by
   uploading a new signed description.  Nonetheless, all validated
   descriptions uploaded to the site must always be available to
-  provide a history of the metadata evolution.
+  provide a timeline of the metadata evolution.
 
 \\ Users must be able to search the metadata database on a
   reasonable subset of the possible keys.  Two required keys are the
   image identifier and the endorser's email address.
 
 \\ Users must be able to download the original signed metadata in
-  the RDF/XML format from the registry.  This is the only format that
-  allows the metadata to be cryptographically verified.
+  the RDF/XML format from the registry for verification.
 
 \\ The registry should allow the metadata to be downloaded in
   alternate formats, notably JSON and HTML.
@@ -95,12 +87,11 @@ image is currently valid.
 
 \\ There may be several sets of metadata associated with a
   particular machine or disk image. This allows third parties to
-  endorse images created by someone else. (E.g. VO endorses an image
-  created by StratusLab.)
+  endorse images.
 
 \\ The underlying schema for the metadata descriptions must be
-  flexible and extensible.  The accounts for differing needs of users
-  and eventual evolution of those needs.
+  flexible and extensible, to account for different and evolving
+  needs.
 
 \\
 \hline\hline
