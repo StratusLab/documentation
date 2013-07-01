@@ -43,7 +43,14 @@ Initiative has published a vocabulary~\cite{dcterms} that can be used
 for much of the appliance metadata descriptions.  This is complemented by
 a vocabulary specific to StratusLab.  Using RDF also allows additional
 metadata fields to be specified (in separate namespaces) to complement
-the standard fields.
+the standard fields. RDF with Dublin Core maintains a good balance between machine 
+and human readability. As the overall aim is to provide a high-level description 
+of an appliance these metadata standards are more suited than something more heavy-weight, 
+such as the Open Virtualization Format (OVF)~\cite{ovf}. OVF describes 
+the packaging and distribution of a full virtual machine rather than just an appliance, 
+and so would contain a large volume of additional information that would 
+not be utilised in the StratusLab system. It should be noted however, that 
+the use of OVF to package the appliance itself is not precluded by this approach. 
 
 \subsection{REST Resource URLs}
 
@@ -91,8 +98,9 @@ OPTIONS & number of entries; last update time \tnl
 
 \multicolumn{2}{l}{{\tt /metadata/\replaceable{identifier}/\replaceable{email}/\replaceable{date}}} \tnl
 GET & unique metadata entry \tnl
+\hline
 
-\multicolumn{2}{l}{\tt /metadata/query} \tnl
+\multicolumn{2}{l}{\tt /query} \tnl
 GET & form for simple query of service \tnl
 POST & submit query \tnl
 \hline
@@ -110,16 +118,10 @@ POST & create new entry via post to /metadata \tnl
 
 \subsection{Storage and Query of Metadata}
 
-Metadata uploaded to the Marketplace is first validated as described
-above. Once accepted, the entry is written to the filesystem in a
-temporary location as an XML file. A confirmation is then sent to the
-email address contained in the endorsement field of the
-metadata. Assuming the endorser completes the upload by visiting the
-confirmation URL contained in the email, the metadata entry is moved
-to the permanent data directory. A copy of the metadata, stripped of
-the XML signature is then added to the Sesame repository. Stripping of
-the signature is necessary as Sesame is unable to accept the signed
-metadata. Storing the metadata to the repository allows simple queries
-and queries with SPARQL~\cite{sparql} to be easily supported. A
-request for a specific metadata entry in XML format results in the
-original signed file stored on the filesystem being returned.
+Two copies of successfully validated and confirmed metadata 
+are stored on the filesystem. The original uploaded file 
+is saved unmodified, while a second copy stripped of the XML 
+signature is added to the Sesame RDF repository. Storing the metadata to 
+the repository allows simple queries and queries with SPARQL~\cite{sparql} 
+to be easily supported. Requests for a specific metadata entry in 
+XML format returns the original signed file.
