@@ -3,78 +3,51 @@
 
 The Marketplace and the information contained within the Marketplace
 play a key role in maintaining the security of the cloud
-infrastructures.  However the security policies both for the users and
-for the cloud administrators can vary widely.  {\em Consequently, the
-  Marketplace itself does not define or enforce any security policy.}
-It instead securely provides the appliance metadata allowing both
-users and cloud administrators to make informed decisions about the
-appliances.
-
-%The StratusLab distribution provides a python-based module that allows
-%administrators to configure and to enforce several common policies,
-%such an image or endorser white- and blacklists.  This module is
-%easily extensible to allow more complicated policies where, for
-%example, the certificates associated with the cryptographic signatures
-%of endorsements are validated.  This module could easily be used
-%within other cloud distributions.
+infrastructures.  However, the security policies both for the users
+and for the cloud administrators can vary widely and {\em
+  Consequently, the Marketplace itself does not define or enforce any
+  security policy.}  It instead provides the appliance metadata
+allowing both users and cloud administrators to make informed
+decisions about the appliances.
 
 To maintain confidence in the information provided by the Marketplace,
 it must securely provide complete, accurate information about the
-appliances.  We have identified a number of attack scenarios and
-describe how the Marketplace has been designed to avoid them. 
+appliances.  We have identified a number of security concerns and
+describe how the Marketplace solves them. 
+
+\subsection{Altered Appliances}
+
+Because the appliance metadata is separated from the appliance
+contents, there is a danger that the appliance contents could be
+altered, either maliciously or unintentionally.  As described above,
+the appliance identifier is based on the SHA-1 hash of the image
+ensuring a very reliable connection between the metadata and the
+appliance contents.
+
+Although modifying an image while maintaining the SHA-1 hash is
+difficult, it is a remote possibility, allowing the altered appliance
+to masquerade as the original.  To minimize this possibility,
+additional information is provided in the metadata descriptions: the
+size of the file in bytes and the MD5, SHA-1, SHA-256, and SHA-512
+hash values.  The likelihood that someone can create an altered
+appliance with exactly the same length and multiple checksums is
+miniscule.
 
 \subsection{Verification of Uploaded Metadata}
 
 When new metadata entries are uploaded to the Marketplace, the service
-validates the entry before accepting it.  This involves three
-separate steps:
-\begin{enumerate}
-\item The metadata must be a valid RDF/XML file, following the defined
-  schemas and conventions.
-\item To avoid having old metadata entries being reposted (for example
-  to make a deprecated entry appear to be valid), the server
-  ensures that only entries endorsed after the current entry for a particular
-  appliance are accepted.
-\item To ensure that the included email address is valid, all
-  additions to the Marketplace must be confirmed by email.
-\end{enumerate}
-Only validated metadata entries are visible from the standard
-Marketplace interface. 
-
-\subsection{Replay of Signed Metadata}
-
-As all of the signed metadata data entries are publicly available,
-there is a risk that an older entry would be ``replayed'' to replace a
-newer entry.  This would be done, for instance, to make an image that
-has been deprecated to appear to still be valid.
-
-The implementation makes this difficult to do by:
+validates the entry before accepting it.  To validate the entries, the server:
 \begin{itemize}
-\item Requiring that all metadata entries explicitly include the
-  endorsement timestamp as part of the signed content.
-\item Only allowing uploaded entries that have a timestamp that is 
-  more recent than the current entry for the image.
-\item Confirming all changes via the email address in the metadata
-  entry.
+\item Verifies that the metadata is a valid RDF/XML file, following
+  the defined schemas and conventions,
+\item Accepts only entries endorsed after the most recent entry for a
+  particular appliance are accepted, and 
+\item Confirms the email address of the entry.
 \end{itemize}
-To successfully replay a previous entry would require that the
-endorser's private key be compromised (to update timestamp) as well as
-his email account.
+Only validated metadata entries are visible from the standard
+Marketplace interface.
 
-\subsection{Confidentiality of Data}
-
-As all of the metadata descriptions on the servers are considered
-public.  Consequently, there are no concerns about confidentiality of
-the metadata and the Marketplace implementation does not need to do
-anything special.
-
-However, the images themselves contain software and data that are
-subject to copyright and possibly licensing restrictions.  The
-StratusLab design, where the storage of an appliance is separate from
-its metadata, avoids having to deal with intellectual property rights
-violations.
-
-\subsection{Validity and Completeness of Data}
+\subsection{Altered Appliance Timeline}
 
 The Marketplace must ensure that all of the data concerning an
 appliance is available.  By design, the Marketplace never removes
@@ -86,29 +59,13 @@ an image.
 The Marketplace must ensure that the data transmitted to users is not
 altered, for example by a third-party removing deprecation notices
 from the returned information.  To prevent this, the Marketplace only
-transmits information over a communication channel secured via TLS\@. 
+transmits information over a communication channel secured via TLS\@.
 
-\subsection{Altered Appliances}
-
-As the appliances will be downloaded from other sites, there is a danger
-that they will be altered (either intentionally or maliciously).  As
-appliances are selected and evaluated based on the associated
-metadata, the association between the metadata and the image must be
-absolute. 
-
-The appliance identifier is based on the SHA-1 hash of the image.
-Although modifying an image while maintaining the SHA-1 hash is
-difficult, it is a remote possibility.  Hence an altered appliance
-could masquerade as a valid appliance if only the SHA-1 hash
-information were used to validate a downloaded image file.
-
-To minimize the possibility that an altered appliance appears to be
-valid, additional information is provided in the metadata
-descriptions: the size of the file in bytes and the MD5, SHA-1,
-SHA-256, and SHA-512 hash values.  All of these can and should be
-verified with a newly downloaded image.  The likelihood that someone
-can create an altered appliance with exactly the same length and
-multiple checksums is miniscule.
+In addition, it does not allow the history of an appliance to be
+altered.  As described above, the Marketplace does not accept entries
+with a timestamp earlier than the latest entry in the timeline.  It
+also validates the endorser to avoid one endorser from impersonating
+another.
 
 \subsection{Compromised Marketplace Server}
 
@@ -116,5 +73,9 @@ If someone were to take control of the Marketplace server, he could
 not alter individual metadata entries as those are signed by the
 endorsers' private keys are not stored on the server.  However, he
 could delete entries making, for instance, deprecated images appear
-valid.  This is a significant risk and the server should be operated
-according to modern best practices to avoid this.
+valid.
+
+This is a significant risk and the server must be operated according
+to modern best practices to avoid this.  In addition, backups of the
+information should be kept and periodically compared to the current
+information to detect any such attack.
