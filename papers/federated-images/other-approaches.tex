@@ -14,129 +14,71 @@ in StratusLab and other cloud distributions.
 
 \subsection{Appliance Repositories (storage)}
 
-In OpenStack project ~\cite{openstack}, VM appliances can be stored in a variety of
-backends from simple filesystems to object-storage systems like the
-Swift project. The appliances are made available through a service
-called Glance.
+Cloud distributions store VM appliances in a variety of backends, 
+depending on how those are being used. For example, OpenStack project ~\cite{openstack} 
+via its appliance service "Glance", provides discovery, registration and delivery for 
+virtual machines appliances. The appliances are stored from simple filesystems to 
+object-storage systems like "Swift", and both metadata about registered appliances 
+and the appliances itself are exposed via the Glance API.
 
-Glance, the OpenStack Appliance service, provides discovery,
-registration and delivery for virtual machines appliances. It has a
-RESTful API that allows querying of VM appliance metadata as well as
-retrieval of the appliance itself.  Glance RESTful API exposes both
-metadata about registered virtual machine appliances and the appliance
-data itself.
-
-In StratusLab, VM appliances can be stored in an appliance repository,
-or in the storage service. Appliances stored in the appliance
-repository are publics, and appliances stored in the persistent disk
-storage are private.  An appliance repository is essentially a web
-server that provides access to the contents of virtual machine
-appliances. StratusLab does not provide a public appliance repository,
-so currently custom appliances need to be uploaded somewhere where are
-accessible by http. However, StratusLab provides standard base
-appliances and partners appliances via a private repository appliance,
-via which appliances can be shared. The appliances are available via
-the http protocol, and are organizes by types and operating systems.
-Current types are: grid for specialized grid appliances; base, for
-standard OS appliances; bio for bioinformatics appliances; cernvm for
-CERNVM appliances.
+In StratusLab, appliances are stored in a web server where are accessible by http, and
+metadata about those appliances are published in the Marketplace. This concept make possible 
+the sharing of the appliances between StratusLab users, and also between users of different cloud 
+infrastructure, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
 
 \subsection{Appliance Factories (generation)}
-
-Generation of virtual machine appliances, could be done via different
-cloud tools, like Bitnami ~\cite{bitnami}, puppet ~\cite{puppet}, StratusLab create appliance tools,
+In general, appliances could be created from scratch, or be modified versions of existing appliances.
+Generation of appliances, could be done via different
+cloud tools, like Bitnami ~\cite{bitnami}, puppet ~\cite{puppet}, StratusLab create-image tool,
 etc.
 
-Bitnami provides Virtual machines appliances that can be deployed with
-several components installed by default in these appliances (called
-Bitnami Stacks), and other applications to Amazon EC2. The deployment
-is done via the Bitnami Cloud Hosting interface. Bitnami offers
-Virtual appliances as VMware machines. In order to run them, a cloud
-infrastructure based on VMware ESX, vCenter and/or VMware Server
-hypervisors is needed. These appliances can be downloaded and
-customized, they can serve as base appliances for creating new
-appliances with new software installed and new configuration. They can
-also be converted to other format supported by other clouds.
+Bitnami doesn't provide tools for creating appliances from scratch,
+instead it provides appliances with components installed by default, ready to deploy.
+These appliances can be downloaded and customized, they can serve as 
+base appliances for creating new appliances with users required software 
+and configuration. 
 
-Machine or disk appliances can either be created from scratch
-following the StratusLab guidlines or be modified versions of existing
-appliances.  StratusLab provides base minimal appliances for different
-Linux distributions. These appliances could be used directly or
-customized to create personalized machines.  The StratusLab
-stratulab-create-appliance command tool permits to automate the
-creation of a new appliance based on an existing one.
- 
-This tool takes three inputs:
-\begin{itemize}
-\item Marketplace identifier of the starting appliance,
-\item A list of additional packages to install, and
-\item A script to configuring the appliance.
-\end{itemize}
-stratus-create-appliance tool will install the package in the starting
-appliance, execute the script user, and finally create the new
-customized appliance with a new identifier.  The new generated
-appliance will be stored in the storage service.
+StratusLab provides "image recipes" for creating, in automatic way, appliances from scratch. 
+It also provides create-image tool for creating appliances from existing one's.
+
+StratusLab "image recipes" serves to create base minimal appliances for different
+Linux distributions. Those recipes are used automatically by StratusLab to create 
+and update base minimal appliances. In the other hand, StratusLab create-image tool 
+permits to automate the creation of a new appliance based on an existing one.
+It install in the new generated appliances users required packages and run users 
+scripts configuration.
+The new generated appliance are stored in the storage service.
 
 \subsection{Appliance Transport}
 
-Appliances could be transferred to the cloud in differents way and
-using different tools.
+Appliances could be in the cloud or outside the cloud. In the latter case, 
+appliances are transported to the cloud in differents way and using different tools.
 
-vmcaster/vmcatcher is a tool developed by HEPIX Virtualisation Working
-Group ~\cite{hepixbooktransfer}. It has the property to download and transfer appliance from an
-appliance list like do a Linux package manager, but rather for
-appliances, authenticated by x509 signatures
+vmcaster/vmcatcher developed by HEPIX Virtualisation Working
+Group ~\cite{hepixbooktransfer}, has a concept of subscriptions to an 
+appliance list. It makes the  download and transport of an appliance 
+from the appliance list like do a Linux package manager, but rather for
+appliances, authenticated by x509 signatures. The downloaded appliance are
+verified and cached.
 
-vmcaster/vmcatcher has a concept based on the concept of VM appliance
-list.  vmcatcher software makes use of database (essentially sqlite)
-to store subscriptions to virtual machine appliances lists and permits
-to download and transfer selected appliances from the list. The
-downloaded appliances can be verified and cached.  The vmcaster tool
-make appliance and appliance list update in simple way. It manage and
-update published virtual machines appliance lists, store the old
-appliance list, update an appliance and upload the signed appliance.
-
-In StratusLab, appliances are downloaded and transferred from web
-server or from storage. For an appliance to work, the location in the
-appliance metadata must either be a reference to a persistent disk in
-the storage service (for a private appliance) or an http(s) URL (for a
-public appliance). Based on this information transfer of the appliance
-is done in the cloud.  Download of the appliance is the only once. The
-downloaded appliances are cached in the persistent disk storage.
+In StratusLab, appliances are transported from web
+server or from storage. Based on the appliance identifier from the Marketplace,
+the transport of the appliance is done transparently by the cloud infrastructure.
+Then the downloaded appliances are verified and cached in the persistent disk storage,
+making the transport of an appliance an operation done only once.
 
 \subsection{Appliance Registry}
+The StratusLab Marketplace is at the center of the appliance handling
+mechanisms in the StratusLab cloud distribution. It contains metadata 
+about appliances and serves as a registry for shared appliances. 
+In order to use and/or share an appliance, its metadata must be registred 
+in the Marketplace. 
 
-The StratusLab Marketplace provides a registry for available, virtual
-machine appliances. These are created by the people within the
-community as well as by StratusLab partners to help people get started
-using the cloud quickly.
-
-Use of the cloud requires the use of prepared machine and disk
-appliances. Although StratusLab provides tools to simplify the
-creation of these appliances, the procedure for doing so remains a
-significant hurdle for use of a cloud. Consequently, StratusLab
-encourages the sharing and reuse of existing appliances to reduce this
-barrier.  The Marketplace is at the center of the appliance handling
-mechanisms in the StratusLab cloud distribution. It's a registry for
-available, virtual machine appliances. These are created by the people
-within the community as well as by StratusLab partners to help people
-get started using the cloud quickly.  The Marketplace contains
-metadata about appliances and serves as a registry for shared
-appliances.
-
-The metadata entry for an appliance is an XML file containing
-information about the appliance itself including the location URLs for
-the physical appliance. StratusLab provides simple tools to create
-appliance metadata, singning and uploading it in the marketplace.  The
-metadata is created using the StratusLab stratuslab-build-manifest
-tool for building appliance metadata.  Signing Metadata means All of
-the metadata entries must be signed with a valid p12 or grid
-certificate. The stratus-sign-metadata tool will sign the metadata
-file with a given certificate, inserting the certificate information
-automatically into the metadata file.  The signed metadata entry can
-then be uploaded to the StratusLab Marketplace. This is done via an
-HTTP POST to the Marketplace.  The Marketplace will then validate the
-entry and verify the email address given in the appliance
-metadata. Once all of the checks have been done, the metadata will be
-visible in the Marketplace and other users can search for the entry.
+Once an appliance is created, StratusLab provides simple tools for 
+building its metatada, signing it with a valid p12 or grid
+certificate, and uploading it to the Marketplace.  Then the Marketplace
+apply the policy of validating the metadata entry and verify the 
+email address given in the appliance metadata, and if all the checks pass, 
+the metadata will be visible in the Marketplace and other users 
+can search for the entry.
 
