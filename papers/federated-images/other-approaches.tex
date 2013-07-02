@@ -14,34 +14,34 @@ in StratusLab and other cloud distributions.
 
 \subsection{Appliance Repositories (storage)}
 
-Cloud distributions store VM appliances in a variety of backends, 
-depending on how those are being used. For example, OpenStack project ~\cite{openstack} 
-via its appliance service "Glance", provides discovery, registration and delivery for 
-virtual machines appliances. The appliances are stored from simple filesystems to 
-object-storage systems like "Swift", and both metadata about registered appliances 
-and the appliances itself are exposed via the Glance API.
+Cloud distributions store VM appliances in a variety of ways. 
+For example, the OpenStack project~\cite{openstack} 
+via its ``Glance'' service, provides appliance discovery, registration and delivery.
+The appliances can be stored in simple filesystems or 
+object-storage systems like ``Swift''\@. Both metadata about registered appliances 
+and the appliances itself are exposed via the Glance API\@.
 
-In StratusLab, appliances are stored in a web server where are accessible by http, and
-metadata about those appliances are published in the Marketplace. This concept make possible 
-the sharing of the appliances between StratusLab users, and also between users of different cloud 
+In StratusLab, appliances are stored in a web server making them accessible via HTTP;
+metadata about those appliances are published in the Marketplace\@. This concept makes it possible 
+to share appliances between StratusLab users, and also between users of different cloud 
 infrastructure, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
 
 \subsection{Appliance Factories (generation)}
-In general, appliances could be created from scratch, or be modified versions of existing appliances.
+New appliances can be created from scratch or by modifying existing appliances.
 Generation of appliances, could be done via different
-cloud tools, like Bitnami ~\cite{bitnami}, puppet ~\cite{puppet}, StratusLab create-image tool,
+cloud tools, like Bitnami~\cite{bitnami}, puppet~\cite{puppet}, StratusLab create-image tool,
 etc.
 
-Bitnami doesn't provide tools for creating appliances from scratch,
+Bitnami does not provide tools for creating appliances from scratch,
 instead it provides appliances with components installed by default, ready to deploy.
 These appliances can be downloaded and customized, they can serve as 
 base appliances for creating new appliances with users required software 
 and configuration. 
 
-StratusLab provides "image recipes" for creating, in automatic way, appliances from scratch. 
+StratusLab provides ``image recipes'' for creating, in automatic way, appliances from scratch. 
 It also provides create-image tool for creating appliances from existing one's.
 
-StratusLab "image recipes" serves to create base minimal appliances for different
+StratusLab ``image recipes'' serve to create base minimal appliances for different
 Linux distributions. Those recipes are used automatically by StratusLab to create 
 and update base minimal appliances. In the other hand, StratusLab create-image tool 
 permits to automate the creation of a new appliance based on an existing one.
