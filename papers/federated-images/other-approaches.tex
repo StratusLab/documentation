@@ -19,12 +19,12 @@ For example, the OpenStack project~\cite{openstack}
 via its ``Glance'' service, provides appliance discovery, registration and delivery.
 The appliances can be stored in simple filesystems or 
 object-storage systems like ``Swift''\@. Both metadata about registered appliances 
-and the appliances itself are exposed via the Glance API\@.
+and the appliances themselves are exposed via the Glance API\@.
 
 In StratusLab, appliances are stored in a web server making them accessible via HTTP;
 metadata about those appliances are published in the Marketplace\@. This concept makes it possible 
 to share appliances between StratusLab users, and also between users of different cloud 
-infrastructure, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
+infrastructures, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
 
 \subsection{Appliance Factories (generation)}
 
@@ -42,11 +42,11 @@ and configuration.
 StratusLab provides ``image recipes'' for creating, in an automatic way, appliances from scratch. 
 These recipes serve as the basis of minimal appliances for different
 Linux distributions. They are used by StratusLab to update automatically
-the base appliances. In the other hand, StratusLab also provides a tool as part of its client that 
+the base appliances. StratusLab also provides a tool as part of its client that 
 automates the creation of a new appliance based on an existing one.
-It installs in the new generated appliance the required packages specified by the user and runs a user-defined  
-script to configure the appliance.
-The new appliance is stored in the storage service.
+The tool installs the required packages specified by the user and runs a user-defined  
+script to configure the newly generated appliance.
+The new appliance is stored in the StratusLab storage service.
 
 \subsection{Appliance Transport}
 
@@ -75,8 +75,8 @@ In order to use and/or share an appliance, its metadata must be registered
 in the Marketplace\@. 
 
 Once an appliance is created, StratusLab provides simple tools for 
-building its metatdata, crptographically signing it with a valid
-certificate, and uploading it to the Marketplace\@.  The Marketplace
+building, cryptographically signing with a valid
+certificate, and uploading the metadata to the Marketplace\@.  The Marketplace
 validates the metadata entry and verifies the 
 email address of the endorser.  If all the checks pass, 
 the metadata will then be visible in the Marketplace and other users 
