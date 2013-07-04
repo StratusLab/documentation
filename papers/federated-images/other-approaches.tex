@@ -23,10 +23,10 @@ and the appliances themselves are exposed via the Glance API\@.
 Eucalyptus~\cite{eucalyptus}, an open-source IaaS cloud distribution, provides an Amazon S3 interface to its 
 ``Walrus'' storage service. Virtual machine images are stored/retrieved using HTTP put/get.
 
-OpenNebula~\cite{opennebula}, another IaaS distribution, uses the concept of a Datastore for storing appliances. 
+OpenNebula~\cite{opennebula}, another IaaS distribution, uses the concept of a ``Datastore'' for storing appliances. 
 Multiple datastores can be created backed by one of a selection of supported filesystem types. 
 The method used to store and retrieve appliances depends on the type of datastore used (e.g. filesystem, 
-iSCSI, Ceph). A set of ``transfer manager'' scripts that handle this interaction are provided for 
+iSCSI, Ceph). A set of ``transfer manager'' scripts that handle the interaction with the storage backend are provided for 
 each of the types.
 
 In StratusLab appliances can be stored in any web accessible (via HTTP(S)) location. The location of the appliance 
@@ -36,19 +36,19 @@ infrastructures, because of the open accessibility and portability of StratusLab
 
 \subsection{Appliance Factories (generation)}
 
-New appliances can be created from scratch or by modifying existing appliances.
-A number of different tools, like Bitnami~\cite{bitnami}, Puppet~\cite{puppet}, and the StratusLab client,
-can be used for this.
+Several command line tools exist that automate the process of creating an appliance. In general these follow 
+a similar pattern of installing a specified base operating system on a newly created disk image. The method used to 
+customize the created appliance varies, and can be pre-defined or user generated templates, or through command line options. 
+Examples of these types of tools include vmbuilder~\cite{vmbuilder}, VeeWee~\cite{veewee}, and BoxGrinder~\cite{boxgrinder}.
 
-Bitnami provides pre-built, ready to deploy appliances with components installed by default.
-These can be used as a base appliance that a user can download and customize with their 
+Bitnami is a service that provides pre-built, ready to deploy appliances.
+These could be used as is, or treated as base appliances that a user can customize with their 
 required software and configuration.
 
-StratusLab provides ``image recipes'' for the automated creation of appliances. 
-These recipes can be used to create minimal appliances for several
-Linux distributions. StratusLab use the recipies to automatically update 
-the set of base appliances provided. The StratusLab client also includes a tool that  
-automates the creation of a new appliance from an existing base appliance.
+StratusLab provides ``image recipies'' for the automated creation of appliances. 
+These recipies create minimal appliances for several Linux distributions. StratusLab uses 
+the recipies to automatically update the standard base appliances provided. The StratusLab 
+client also includes a tool that automates the creation of a new appliance from an existing base appliance.
 The tool installs packages specified by the user and executes a user-defined  
 script to configure the newly generated appliance. The new appliance is made available 
 in the StratusLab storage service.
@@ -72,6 +72,16 @@ The downloaded appliances are then verified and cached in the persistent disk st
 ensuring that the transport of an appliance is done only once.
 
 \subsection{Appliance Registry}
+
+Examples of available appliance registeries include the Eucalyptus Image Store, the OpenNebula 
+AppMarket and the StratusLab Marketplace.
+
+The Eucalyptus Image Store provides a set of base appliances that can be downloaded and 
+imported into a local Eucalyptus cloud using a command-line client.
+
+The OpenNebula AppMarket allows registered appliance developers to upload appliances that 
+users can then download to use in their local cloud. This is done using the OpenNebula command-line 
+client, or through the ``Sunstone'' GUI.
 
 The StratusLab Marketplace is at the center of the appliance handling
 mechanisms in the StratusLab cloud distribution. It contains metadata 
