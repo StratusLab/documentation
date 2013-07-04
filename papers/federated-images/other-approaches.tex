@@ -29,24 +29,21 @@ infrastructures, because of the open accessibility and portability of StratusLab
 \subsection{Appliance Factories (generation)}
 
 New appliances can be created from scratch or by modifying existing appliances.
-A number of different
-tools, like Bitnami~\cite{bitnami}, Puppet~\cite{puppet}, and the StratusLab client,
+A number of different tools, like Bitnami~\cite{bitnami}, Puppet~\cite{puppet}, and the StratusLab client,
 can be used for this.
 
-Bitnami does not provide tools for creating appliances from scratch,
-instead it provides appliances with components installed by default, ready to deploy.
-These appliances can be downloaded and customized, they can serve as 
-base appliances for creating new appliances with the users' required software 
-and configuration. 
+Bitnami provides pre-built, ready to deploy appliances with components installed by default.
+These can be used to form a base appliance that a user can download and customize with their 
+required software and configuration.
 
-StratusLab provides ``image recipes'' for creating, in an automatic way, appliances from scratch. 
-These recipes serve as the basis of minimal appliances for different
-Linux distributions. They are used by StratusLab to update automatically
-the base appliances. StratusLab also provides a tool as part of its client that 
-automates the creation of a new appliance based on an existing one.
-The tool installs the required packages specified by the user and runs a user-defined  
-script to configure the newly generated appliance.
-The new appliance is stored in the StratusLab storage service.
+StratusLab provides ``image recipes'' for the automated creation of appliances. 
+These recipes can be used to create minimal appliances for several
+Linux distributions. StratusLab use the recipies to automatically update 
+the set of base appliances provided. The StratusLab client also includes a tool that  
+automates the creation of a new appliance from an existing base appliance.
+The tool installs packages specified by the user and executes a user-defined  
+script to configure the newly generated appliance. The new appliance is made available 
+in the StratusLab storage service.
 
 \subsection{Appliance Transport}
 

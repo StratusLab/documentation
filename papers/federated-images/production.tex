@@ -41,14 +41,14 @@ not available, new images cannot be started on any cloud relying on
 the Marketplace\@.  Future iterations of the Marketplace must provide
 redundancy and high-availability of the Marketplace service. 
 
-To provide for this a replication scheme will be implemented that will 
-allow multiple Marketplace instances to be run, each maintaining its own 
-local copy of the global metadata database. As all the information required 
-to rebuild the metadata database stored in Sesame is the set of raw metadata 
-files, it is only these that need be replicated.  A potential solution to provide this
-replication is to use a Git repository as the core `database' for the
-metadata entries. This only requires that a Marketplace database be
-updated periodically from a local clone of the global repository.
+To provide for this a replication scheme will be implemented that  
+allows for multiple Marketplace instances to be deployed, each maintaining a 
+local copy of the metadata entries. As all the information required 
+to rebuild the metadata index stored in Sesame is the set of raw metadata 
+files, it is only these that need be replicated.  A potential solution would 
+be to use a Git repository as the core `database' for the
+metadata entries, with each Marketplace updating its index 
+periodically from a local clone of the global repository.
 
 \subsection{Data Protection}
 
@@ -59,12 +59,6 @@ administrators would like to run a ``private'' Marketplace to limit
 the visibility of certain appliances while still taking advantage of
 the central, public Marketplace instance.  There must be a mechanism
 for federating Marketplace instances in the future. 
-
-This requirement could be integrated with the replication mechanism described above.  
-For a public Marketplace, the repository could be hosted on a public service, 
-such as GitHub~\cite{github} with each replicated server pulling/pushing 
-from that repository.  For a private Marketplace, the repository can exist 
-only on the local disk.
 
 \subsection{Appliance Quality}
 
@@ -77,18 +71,16 @@ A possible approach to add these features without overly complicating
 the Marketplace implementation would be to make use of an external service 
 such as Disqus~\cite{disqus}.
 
-\subsection{Stable URLs}
+\subsection{Appliance Timelines}
 
-An important ability is to trace the evolution of an image through its
-metadata. Currently modifying an appliance results in a new identifier
-being created, which will then be used in the updated metadata. This
-breaks the link with the previous version. The recently added `tag'
-functionality goes someway to solving this.  The metadata entries for
-a particular appliance can be found by retrieving all entries
+An important ability is to trace the evolution of an appliance through its
+metadata. Currently modifying an appliance results in a new identifier 
+being generated. This breaks the link with the previous version. The recently added 
+`tag' functionality goes someway to solving this.  The metadata entries for 
+an appliance can be found by retrieving all entries
 containing a particular tag. This element is optional, however, and
 may not be added to all entries. A more rigourous solution would be to
 make use of the Dublin Core terms `replaces' and `isReplacedBy'. This
 would provide a link in each metadata entry to the previous and next
-entries in the lifetime of an appliance. Using these terms could add make it 
-more difficult for a user to create a metadata entry, and so should be 
-automated as much as possible.
+entries in the timeline of an appliance. Use of these terms should be 
+automated as much as possible to encourage their inclusion in appliance metadata.
