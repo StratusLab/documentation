@@ -15,14 +15,22 @@ in StratusLab and other cloud distributions.
 \subsection{Appliance Repositories (storage)}
 
 Cloud distributions store VM appliances in a variety of ways. 
-For example, the OpenStack project~\cite{openstack} 
-via its ``Glance'' service, provides appliance discovery, registration and delivery.
-The appliances can be stored in simple filesystems or 
+The OpenStack project~\cite{openstack} provides appliance discovery, registration and delivery, 
+via its ``Glance'' service. The appliances can be stored in simple filesystems or 
 object-storage systems like ``Swift''\@. Both metadata about registered appliances 
 and the appliances themselves are exposed via the Glance API\@.
 
-In StratusLab, appliances are stored in a web server making them accessible via HTTP;
-metadata about those appliances are published in the Marketplace\@. This concept makes it possible 
+Eucalyptus~\cite{eucalyptus}, an open-source IaaS cloud distribution, provides an Amazon S3 interface to its 
+``Walrus'' storage service. Virtual machine images are stored/retrieved using HTTP put/get.
+
+OpenNebula~\cite{opennebula}, another IaaS distribution, uses the concept of a Datastore for storing appliances. 
+Multiple datastores can be created backed by one of a selection of supported filesystem types. 
+The method used to store and retrieve appliances depends on the type of datastore used (e.g. filesystem, 
+iSCSI, Ceph). A set of ``transfer manager'' scripts that handle this interaction are provided for 
+each of the types.
+
+In StratusLab appliances can be stored in any web accessible (via HTTP(S)) location. The location of the appliance 
+is contained in the metadata published in the Marketplace\@. This concept makes it possible 
 to share appliances between StratusLab users, and also between users of different cloud 
 infrastructures, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
 
@@ -33,7 +41,7 @@ A number of different tools, like Bitnami~\cite{bitnami}, Puppet~\cite{puppet}, 
 can be used for this.
 
 Bitnami provides pre-built, ready to deploy appliances with components installed by default.
-These can be used to form a base appliance that a user can download and customize with their 
+These can be used as a base appliance that a user can download and customize with their 
 required software and configuration.
 
 StratusLab provides ``image recipes'' for the automated creation of appliances. 
