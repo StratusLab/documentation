@@ -41,7 +41,7 @@ validates the entry before accepting it.  To validate the entries, the server:
 \item Verifies that the metadata is a valid RDF/XML file, following
   the defined schemas and conventions,
 \item Accepts only entries endorsed after the most recent entry for a
-  particular appliance are accepted, and 
+  particular appliance, and 
 \item Confirms the email address of the entry.
 \end{itemize}
 Only validated metadata entries are visible from the standard
@@ -71,7 +71,7 @@ another.
 
 If someone were to take control of the Marketplace server, he could
 not alter individual metadata entries as those are signed by the
-endorsers' private keys are not stored on the server.  However, he
+endorsers' private keys which are not stored on the server.  However, he
 could delete entries making, for instance, deprecated images appear
 valid.
 
