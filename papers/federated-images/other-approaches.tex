@@ -1,10 +1,10 @@
 \section{Existing Appliance Management Techniques}
 \label{sec:other-approaches}
 
-To manage appliances, cloud distributions must provide tools or
-mechanisms for the:
+Based on the previous generic use cases, it is clear that all cloud
+distributions must provide tools or mechanisms for the:
 \begin{itemize}
-\item Creation of appliances,
+\item Generation of appliances,
 \item Storage of appliances,
 \item Efficient appliance transport, and
 \item Management of appliance metadata.
@@ -12,86 +12,119 @@ mechanisms for the:
 This section describes the approaches used to implement these features
 in StratusLab and other cloud distributions.
 
-\subsection{Appliance Repositories (storage)}
+\subsection{Appliance Factories (Generation)}
 
-Cloud distributions store VM appliances in a variety of ways. 
-The OpenStack project provides appliance discovery, registration and delivery, 
-via its ``Glance'' service. The appliances can be stored in simple filesystems or 
-object-storage systems like ``Swift''\@. Both metadata about registered appliances 
-and the appliances themselves are exposed via the Glance API\@.
+As discussed earlier, the manual creation of portable appliances
+remains an error-prone, time-consuming process.  In response to this,
+it is not surprising that tools and services have appeared to simplify
+this task.
 
-Eucalyptus~\cite{eucalyptus}, an open-source IaaS cloud distribution, provides an Amazon S3 interface to its 
-``Walrus'' storage service. Virtual machine images are stored/retrieved using HTTP put/get.
+Several command line tools exist that automate the process of creating
+an appliance. In general these follow a common pattern of installing a
+specified base operating system on a newly created disk image. The
+method used to customize the created appliance varies, and can be
+pre-defined with user generated templates or through command line
+options.  Examples of these tools include VMBuilder~\cite{vmbuilder},
+VeeWee~\cite{veewee}, and BoxGrinder~\cite{boxgrinder}.
 
-OpenNebula uses the concept of a ``Datastore'' for storing appliances. 
-Multiple datastores can be created backed by one of a selection of supported filesystem types. 
-The method used to store and retrieve appliances depends on the type of datastore used (e.g. filesystem, 
-iSCSI, Ceph). Sets of ``transfer manager'' scripts that handle the interaction with the storage backend are provided for 
-each of the types.
+Bitnami~\cite{bitnami} is a service that provides pre-built, ready to
+deploy appliances.  These can be used as is, or treated as base
+appliances that a user can customize with their own software and
+services.
 
-In StratusLab appliances can be stored in any web accessible location. The location of the appliance 
-is contained in the metadata published in the Marketplace\@. This concept makes it possible 
-to share appliances between StratusLab users, and also between users of different cloud 
-infrastructures, because of the open accessibility and portability of StratusLab appliances (Sec.~\ref{sec:portable-appliances}). 
+StratusLab provides ``image recipes'' for the automated creation of
+appliances.  These recipes create minimal appliances most common Linux
+distributions, using the distribution's standard configuration
+mechanism (e.g. Kickstart for CentOS).  StratusLab uses the recipes to
+update automatically the standard base appliances it provides.
 
-\subsection{Appliance Factories (generation)}
+The StratusLab client also includes a tool that automates the creation
+of a new appliance from an existing base appliance.  The tool installs
+packages specified by the user and executes a user-defined script to
+configure the newly generated appliance. The new appliance is made
+available in the StratusLab storage service.
 
-Several command line tools exist that automate the process of creating an appliance. In general these follow 
-a common pattern of installing a specified base operating system on a newly created disk image. The method used to 
-customize the created appliance varies, and can be pre-defined or user generated templates, or through command line options. 
-Examples of these types of tools include VMBuilder~\cite{vmbuilder}, VeeWee~\cite{veewee}, and BoxGrinder~\cite{boxgrinder}.
+\subsection{Appliance Repositories (Storage)}
 
-Bitnami is a service that provides pre-built, ready to deploy appliances.
-These could be used as is, or treated as base appliances that a user can customize with their 
-required software and configuration.
+No matter what cloud is used, a copy of the appliance contents must
+exist on the cloud before virtual machine instances of that appliance
+can be started.  Cloud distributions store appliances in a variety of
+ways.
 
-StratusLab provides ``image recipes'' for the automated creation of appliances. 
-These recipes create minimal appliances for several Linux distributions. StratusLab uses 
-the recipes to automatically update the standard base appliances provided. The StratusLab 
-client also includes a tool that automates the creation of a new appliance from an existing base appliance.
-The tool installs packages specified by the user and executes a user-defined  
-script to configure the newly generated appliance. The new appliance is made available 
-in the StratusLab storage service.
+The OpenStack project provides appliance discovery, registration and
+delivery via its ``Glance'' service. The appliances can be stored in a
+simple filesystems or object-storage systems like ``Swift''\@. Both
+metadata about registered appliances and the appliances themselves are
+exposed via the Glance API\@.
+
+Eucalyptus~\cite{eucalyptus}, an open-source IaaS cloud distribution,
+provides an Amazon S3 interface to its ``Walrus'' storage
+service. Virtual machine images are stored/retrieved using HTTP
+put/get.
+
+OpenNebula uses the concept of a ``Datastore'' for storing appliances.
+Multiple datastores can be created backed by one of a selection of
+supported filesystem types.  The method used to store and retrieve
+appliances depends on the type of datastore used (e.g. filesystem,
+iSCSI, Ceph). Sets of ``transfer manager'' scripts that handle the
+interaction with the storage backend are provided for each of the
+types.
+
+For StratusLab, appliances can be stored in any web accessible
+location. The location of the appliance is contained in the metadata
+published in the Marketplace\@. This concept makes it possible to
+share appliances between StratusLab users, and also between users of
+different cloud infrastructures, because of the open accessibility and
+portability of StratusLab appliances
+(Sec.~\ref{sec:portable-appliances}).
 
 \subsection{Appliance Transport}
 
-Appliances could be stored inside or outside of the cloud. In the latter case, 
-appliances must be transported to the cloud for use.
+In a federated cloud environment, the appliances usually are made
+available outside of a particular cloud infrastructure and must be
+transported to the cloud before use.  Many cloud distributions require
+the user to do this manually; others transport the appliance
+automatically for the user.
 
-The vmcaster/vmcatcher tools developed within the HEPIX Virtualisation Working
-Group ~\cite{hepixbooktransfer}, use the concept of subscriptions to an 
-appliance list. It makes the download and transport of an appliance 
-from the appliance list similar to using a system package manager.
-The downloaded appliances are verified against their X509 signatures and cached.
+The vmcaster/vmcatcher tools developed within the HEPiX Virtualization
+Working Group ~\cite{hepixbooktransfer}, use the concept of
+subscriptions to an appliance list. It makes the download and
+transport of an appliance from the appliance list similar to using a
+system package manager.  The downloaded appliances are verified
+against their X509 signatures and cached.
 
-In StratusLab, appliances are transported from a web
-server or from cloud storage. Based on the appliance identifier in the Marketplace,
-the transport of the appliance is done transparently by the cloud infrastructure.
-The downloaded appliances are then verified and cached in the persistent disk storage,
-ensuring that the transport of an appliance is done only once.
+In StratusLab, appliances are transported from a web server or from
+cloud storage. Based on the appliance identifier in the Marketplace,
+the transport of the appliance is done transparently by the cloud
+infrastructure.  The downloaded appliances are then verified and
+cached in the persistent disk storage, ensuring that the transport of
+a given appliance is done only once.
 
 \subsection{Appliance Registry}
 
-Examples of available appliance registeries include the Eucalyptus Image Store, the OpenNebula 
-AppMarket and the StratusLab Marketplace.
+An appliance registry allows users to search for existing appliances
+based on certain criteria.  Any cloud distribution that allows users
+to share appliances must have a registry of some sort; most do provide
+such a service.  
 
-The Eucalyptus Image Store provides a set of base appliances that can be downloaded and 
-imported into a local Eucalyptus cloud using a command-line client.
+The Eucalyptus Image Store provides a set of base appliances that can
+be downloaded and imported into a local Eucalyptus cloud using a
+command-line client.
 
-The OpenNebula AppMarket allows registered appliance developers to upload appliances that 
-users can then download to use in their local cloud. This is done using the OpenNebula command-line 
-client, or through the ``Sunstone'' GUI.
+The OpenNebula AppMarket allows registered appliance developers to
+upload appliances that users can then download to use in their local
+cloud. This is done using the OpenNebula command-line client, or
+through the ``Sunstone'' GUI.
 
 The StratusLab Marketplace is at the center of the appliance handling
-mechanisms in the StratusLab cloud distribution. It contains metadata 
-about appliances and serves as a registry for shared appliances. 
-In order to use and/or share an appliance, its metadata must be registered 
-in the Marketplace\@. 
+mechanisms in the StratusLab cloud distribution. It contains metadata
+about appliances and serves as a registry for shared appliances.  In
+order to use and/or share an appliance, its metadata must be
+registered in the Marketplace\@.
 
-Once an appliance is created, StratusLab provides simple tools for 
-building, cryptographically signing with a valid
-certificate, and uploading the metadata to the Marketplace\@.  The Marketplace
-validates the metadata entry and verifies the 
-email address of the endorser.  If all the checks pass, 
-the metadata will then be visible in the Marketplace and other users 
-can search for the entry.
+Once an appliance is created, StratusLab provides simple tools for
+building, cryptographically signing with a valid certificate, and
+uploading the metadata to the Marketplace\@.  The Marketplace
+validates the metadata entry and verifies the email address of the
+endorser.  If all the checks pass, the metadata will then be visible
+in the Marketplace and other users can search for the entry.
