@@ -2,7 +2,7 @@
 \label{sec:security}
 
 The Marketplace and the information contained within the Marketplace
-play a key role in maintaining the security of the cloud
+play key roles in maintaining the security of the cloud
 infrastructures.  However, the security policies both for the users
 and for the cloud administrators can vary widely and {\em
   consequently, the Marketplace itself does not define or enforce any
@@ -19,27 +19,28 @@ describe how the Marketplace solves them.
 
 Because the appliance metadata is separated from the appliance
 contents, there is a danger that the appliance contents could be
-altered, either accidently or maliciously.  As described above,
-the appliance identifier is based on the SHA-1 hash of the image
-ensuring a very reliable link between the metadata and the
+altered, either accidently or maliciously.  As described above, the
+appliance identifier is based on the SHA-1 hash of the appliance
+contents ensuring a very reliable link between the metadata and the
 appliance contents.
 
-Although modifying an image while maintaining the SHA-1 hash is
-difficult, it is a remote possibility, allowing the altered appliance
+Although modifying an appliance while maintaining the SHA-1 hash is
+difficult, it is a remote possibility, allowing an altered appliance
 to masquerade as the original.  To minimize this possibility,
 additional information is provided in the metadata descriptions: the
 size of the file in bytes and the MD5, SHA-1, SHA-256, and SHA-512
 hash values.  The likelihood that someone can create an altered
 appliance with exactly the same length and multiple checksums is
-miniscule.
+negligible.
 
 \subsection{Verification of Uploaded Metadata}
 
 When new metadata entries are uploaded to the Marketplace, the service
-validates the entry before accepting it.  To validate the entries, the server:
+validates the entry before accepting it.  To validate an entry, the
+server:
 \begin{itemize}
-\item Verifies that the metadata is a valid RDF/XML file, following
-  the defined schemas and conventions,
+\item Verifies that the metadata is a valid, signed RDF/XML file,
+  following the defined schemas and conventions,
 \item Accepts only entries endorsed after the most recent entry for a
   particular appliance, and 
 \item Confirms the email address of the entry.
@@ -51,21 +52,22 @@ Marketplace interface.
 
 The Marketplace must ensure that all of the data concerning an
 appliance is available.  By design, the Marketplace never removes
-metadata entries--the entire appliance timeline is always available.
+metadata entries---the entire appliance timeline is always available.
 By default however, only the current endorsements are provided as
 these are the entries needed to make decisions about the validity of
-an image.  
+an appliance.
 
-The Marketplace must ensure that the data transmitted to users is not
-altered, for example by a third-party removing deprecation notices
-from the returned information.  To prevent this, the Marketplace only
-transmits information over a communication channel secured via TLS\@.
-
-In addition, it does not allow the history of an appliance to be
+The Marketplace does not allow the history of an appliance to be
 altered.  As described above, the Marketplace does not accept entries
 with a timestamp earlier than the latest entry in the timeline.  It
 also validates the endorser to avoid one endorser from impersonating
 another.
+
+The Marketplace must ensure that the data transmitted to users is not
+altered, for example by a third-party removing deprecation notices
+from the returned information.  To ensure the integrity of the
+returned information, the Marketplace only transmits information over
+a communication channel secured via TLS\@.
 
 \subsection{Compromised Marketplace Server}
 
