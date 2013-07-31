@@ -1,0 +1,83 @@
+\begin{figure}
+\begin{center}
+\tiny
+\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rdf:RDF
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:slreq="http://mp.stratuslab.eu/slreq#"
+  xmlns:slterms="http://mp.stratuslab.eu/slterms#"
+  xml:base="http://mp.stratuslab.eu/">
+  
+  <rdf:Description rdf:about="#G2yRqidaqqJ0mUB6UKR-26eeiJA">
+
+    <dcterms:identifier>G2yRqidaqqJ0mUB6UKR-26eeiJA</dcterms:identifier>
+
+    <slreq:bytes>5368709120</slreq:bytes>
+
+    <slreq:checksum rdf:parseType="Resource">
+      <slreq:algorithm>MD5</slreq:algorithm>
+      <slreq:value>9eb3...</slreq:value>
+    </slreq:checksum>
+    <slreq:checksum rdf:parseType="Resource">
+      <slreq:algorithm>SHA-1</slreq:algorithm>
+      <slreq:value>6db2...</slreq:value>
+    </slreq:checksum>
+    <slreq:checksum rdf:parseType="Resource">
+      <slreq:algorithm>SHA-256</slreq:algorithm>
+      <slreq:value>d3d3...</slreq:value>
+    </slreq:checksum>
+    <slreq:checksum rdf:parseType="Resource">
+      <slreq:algorithm>SHA-512</slreq:algorithm>
+      <slreq:value>b122...</slreq:value>
+    </slreq:checksum>
+    
+    <slreq:endorsement rdf:parseType="Resource">
+      <dcterms:created>2013-05-17T10:12:22Z</dcterms:created>
+      <slreq:endorser rdf:parseType="Resource">
+        <email>images@stratuslab.eu</email>
+        <subject>CN=StratusLab,OU=Create Images,O=StratusLab Project,C=EU</subject>
+        <issuer>CN=StratusLab,OU=Create Images,O=StratusLab Project,C=EU</issuer>
+      </slreq:endorser>
+    </slreq:endorsement>
+
+    <dcterms:type>base</dcterms:type>
+    <slterms:kind>machine</slterms:kind>
+    
+    <slterms:os>CentOS</slterms:os>
+    <slterms:os-version>6.4</slterms:os-version>
+    <slterms:os-arch>x86_64</slterms:os-arch>
+    <slterms:version>1.0</slterms:version>
+    <dcterms:compression>gz</dcterms:compression>
+    <slterms:location>http://appliances.stratuslab.eu/...</slterms:location>
+    
+    <dcterms:format>raw</dcterms:format>
+    
+    <dcterms:creator>StratusLab</dcterms:creator>
+    
+    <dcterms:created>2013-05-12T20:54:55Z</dcterms:created>
+    <dcterms:valid>2013-11-06T20:54:55Z</dcterms:valid>
+    
+    <dcterms:title/>
+    <dcterms:description>CentOS 6.4 base image...</dcterms:description>
+    
+    <slterms:hypervisor>kvm</slterms:hypervisor>
+    <slterms:disks-bus>virtio</slterms:disks-bus>
+    
+    <dcterms:publisher>StratusLab</dcterms:publisher>
+
+    <!--
+      Users may add additional, namespaced metadata here. 
+    -->    
+    
+  </rdf:Description>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+  ...
+  </Signature>
+</rdf:RDF>
+\end{verbatim}
+\end{center}
+\caption{Abbreviated CentOS Appliance Metadata Description}
+\label{fig:metadata-example}
+\end{figure}
