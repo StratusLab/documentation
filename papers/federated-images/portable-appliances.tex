@@ -2,33 +2,40 @@
 \label{sec:portable-appliances}
 
 Before one can talk about sharing appliances, the appliances
-themselves must be portable--generic enough to appeal to different
-users and technically capable of running on different cloud platforms.
-This has been identified as an important challenge in federated
-clouds~\cite{Petcu}. Technically it involves the contextualization and
-format of images.
+themselves must be portable~\cite{Petcu}---technically capable of
+running on different cloud platforms and generic enough to appeal to a
+number of users.  The technical issues relate to the appliance format
+and contextualization.
 
 \paragraph*{Appliance Format}
-Nearly every hypervisor uses a different appliance format, but
-fortunately tools exist to easily convert appliances between the
-common formats.  However to reduce the burden on users, cloud
-infrastructures should accept all formats and make the necessary
-conversions automatically.  This allows users to manage one appliance
-rather than one per format.  StratusLab, for example, automatically
-converts images to the ``raw'' format it uses internally. 
+Nearly every hypervisor uses a different, native appliance format, but
+tools exist to easily convert appliances between the common formats.
+Users can take advantage of these tools to generate alternate formats
+of their appliances.  However to reduce the maintenance burden for
+users, cloud infrastructures (and/or hypervisors) ideally would accept
+all formats and make the necessary conversions automatically.
+StratusLab, for example, automatically converts appliances to the
+``raw'' format it uses internally.
 
-\paragraph*{Appliance Contextualization} This allows an appliance to
-discover its ``context'' and to automatically configure services to
-work properly on a given infrastructure.  Common mechanisms provide a
-disk or web server with context information to virtual machine
-instances.  With additional work, portable appliances can be created
-that detect and use multiple contextualization mechanisms; StratusLab
-supports CloudInit~\cite{cloudinit}, HEPiX~\cite{hepixbookcontext},
-and OpenNebula~\cite{opennebula}\@ contextualization.  Fortunately, CloudInit is
-becoming a {\em de facto} standard and will simplify both appliance
-creation and contextualization support by cloud distributions.
+\paragraph*{Appliance Contextualization}
+This allows an appliance to discover its ``context'' and to
+automatically configure services to work properly on a given
+infrastructure.  Common mechanisms provide contextualization
+information via a disk (CDROM or floppy) attached to a virtual machine
+instance or via web server at a predefined, local address.  Image
+creators can make portable appliances that detect and use multiple
+contextualization mechanisms, although this requires more work.  Cloud
+distributions can minimize the additional work by supporting multiple
+contextualization mechanisms.  StratusLab supports
+CloudInit~\cite{cloudinit}, HEPiX~\cite{hepixbookcontext}, and
+OpenNebula~\cite{opennebula}\@ contextualization.  Fortunately,
+CloudInit is becoming a {\em de facto} standard and will simplify both
+appliance creation and contextualization support by cloud
+distributions.
 
-Although standardized appliance contextualization and formats would ease
-the creation of portable appliances, it is already possible to do so.
-StratusLab, in fact, provides portable, minimal appliances for most
-popular Linux distributions.
+Creating portable appliances would be simpler if there were one
+standard format and one contextualization mechanism.  Nonetheless
+portable appliances can already be created by detecting and using
+multiple contextualization mechanisms and by automated conversion of
+appliances between common formats.  StratusLab, in fact, provides
+portable, minimal appliances for most popular Linux distributions.
