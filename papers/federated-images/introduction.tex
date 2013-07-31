@@ -4,30 +4,35 @@
 Rapid resource provisioning, dynamic scaling, and customized computing
 environments make cloud infrastructures a compelling choice for a wide
 range of scientific and engineering applications.  Federated cloud
-infrastructures potentially offer further advantages such as access to
-a larger number of resources and geographic redundancy for critical
-applications.
+infrastructures potentially offer further advantages such improved
+scaling via access to a larger pool of resources and improved service
+availability through geographically distributed redundant servers.
 
 Users, however, will only use federated cloud infrastructures if the
-advantages outweigh the additional overheads.  To minimize these
-overheads, much work has been done on standardizing the cloud
-management interfaces (e.g. CIMI~\cite{cimi} and OCCI~\cite{occi}).
-Unfortunately, the more important areas of appliance portability and
-management that are required for a consistent computing environment
-across cloud infrastructures have received much less attention.
+advantages outweigh the additional overheads.  Existing and well
+tested techniques for federated identity management, used in cluster,
+grid, and commercial services, can provide unified access to the
+federated clouds.  Specifically for clouds, much work has been done on
+standardizing the cloud management interfaces (e.g. CIMI~\cite{cimi}
+and OCCI~\cite{occi}).  Unfortunately, the critical areas of appliance
+portability and management, required for consistent computing
+environments across cloud infrastructures, have received much less
+attention.
+
+A distinguishing feature of the StratusLab~\cite{slbook} cloud
+distribution is its Marketplace, a platform-agnostic appliance
+registry that facilitates sharing of appliances and their use on
+multiple cloud infrastructures.  This service and the associated
+appliance management techniques lower barriers for users in both
+federated and non-federated cloud environments.
 
 StratusLab provides a complete, open-source solution for deploying
 public or private ``Infrastructure as a Service'' (IaaS) cloud
 infrastructures and is designed to be both simple to install and
-simple to use~\cite{slbook}. It provides services similar to those in
-the more widely known distributions like OpenStack~\cite{openstack}
-and CloudStack~\cite{cloudstack}.
-
-A distinguishing feature of StratusLab is its Marketplace, a
-platform-agnostic appliance registry that facilitates sharing of
-appliances and their use on multiple cloud infrastructures.  This
-lowers barriers for potential cloud users in both federated and
-non-federated cloud environments.
+simple to use~\cite{slbook}.  In addition to the Marketplace, it
+provides services similar to those in the more widely known
+distributions like OpenStack~\cite{openstack} and
+CloudStack~\cite{cloudstack}.
 
 This paper first discusses (Sec.~\ref{sec:portable-appliances}) what
 is required for creating portable appliances. It then highlights the
@@ -39,6 +44,6 @@ paper (Sec.~\ref{sec:design}--\ref{sec:security}) describes the
 Marketplace: its design, implementation, and associated security
 concerns.  A discussion of our experience in running this service and
 planned improvements based on that experience is then given
-(Sec.~\ref{sec:production}). A description of a Marketplace 
-deployed to support a particular user community (i.e., bioinformatics)
- concludes the paper (Sec.~\ref{sec:bioinfo}).
+(Sec.~\ref{sec:production}). A description of a Marketplace deployed
+to support a particular user community (i.e., bioinformatics)
+concludes the paper (Sec.~\ref{sec:bioinfo}).
