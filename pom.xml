@@ -17,6 +17,7 @@
 
   <modules>
     <module>users-guide</module>
+    <module>users-tutorial</module>
     <module>admins-guide</module>
     <module>contribs-guide</module>
     <module>pkg</module>

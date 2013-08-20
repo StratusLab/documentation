@@ -23,6 +23,12 @@
     </dependency>
     <dependency>
       <groupId>eu.stratuslab.documentation</groupId>
+      <artifactId>users-tutorial</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>eu.stratuslab.documentation</groupId>
       <artifactId>administrators-guide</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
