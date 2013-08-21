@@ -16,7 +16,7 @@ obtain an account.
 
 To register on the StratusLab Reference infrastructure please go to
 the [registration page][registration].  Click on the "register" link
-and you should see a page like the following:
+and you should see a page like the one in the screenshot.
 
 ![Marketplace Screenshot](images/registration-screenshot.png)
 
