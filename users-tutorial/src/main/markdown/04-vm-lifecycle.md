@@ -58,6 +58,7 @@ State of a single machine:
 ## Connect
 
 VM states change as the cloud intializes the virtual machines.
+
 In StratusLab VM common machine states are:
     
     Prolog: cloud initialization of an image (e.g. copy and cache image)
