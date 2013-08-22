@@ -1,10 +1,6 @@
 
 # Storage
 
-Persistent Disk Storage is the StratusLab service that physically stores
-machine and disk images as volumes on the cloud site. It facilitates quick
-startup of VMs and hot-plugging of disk volumes as block devices to the VMs.
-
 In StratusLab 3 storages type can be identified:
 
    * Volatile (Read-Write) Disks
@@ -40,7 +36,7 @@ required size of the disk.
 
 Within the VM, raw disk can be found using the command fdisk -l
 
-### Use of Disk 
+### Use of volatile disk 
 
 These volatile disks are raw devices, so the user is
 responsible for partitioning and/or formatting the volumes before
@@ -53,7 +49,7 @@ Connect to your VM. Format, mount, and use your disk:
    * Mount disk:  mount /dev/xxx /mnt/volatile
    * Use normally:  touch /mnt/volatile/mydata
 
-### Data stored on a disk
+### Data on a volatile disk
  
 Volatile disks  are appropriate **only for temporary data
 storage**.  The data on these volumes will be destroyed when the
@@ -100,11 +96,11 @@ subsequent snapshotting for individual machine instances completely
 transparent to the user.
 
 
-In this tutorial we will be using "Flora and Fauna" read-only disk
-from the Marketplace, identifier: GPAUQFkojP5dMQJNdJ4qD_62mCo.
+**In this tutorial we will be using "Flora and Fauna" read-only disk
+from the Marketplace, identifier: GPAUQFkojP5dMQJNdJ4qD_62mCo**
 
 In case you want to create read-only disks, below general information
-pn how this could be done.
+on how this could be done.
 
 ### Create a Disk Image
  
@@ -215,7 +211,7 @@ If you create your disk with a label, then the device can be mounted
 without having to know the actual device ID.  This makes it easier for
 automated scripts to mount the disk.
 
-### Data on your Static disk
+### Data on a static disk
 
 On Static disks, data is fixed! Disk and data cannot be modified.
 Finally to be used, static disks must be registered in the Maretplace.
@@ -233,6 +229,11 @@ completely transparent to the user.
 
 ## Persistent disk
 
+### Introduction
+
+Persistent Disk Storage is the StratusLab service that physically stores
+machine and disk images as volumes on the cloud site. It facilitates quick
+startup of VMs and hot-plugging of disk volumes as block devices to the VMs.
    
 ### Create persistent disk
 
@@ -301,7 +302,7 @@ other users.
 The above command lists 'testor1' public and private persistent disks, and also
 'testor2' public ones.
 
-### Using Persistent Disks
+### Use of a Persistent Disks
 
 Workflow:
 

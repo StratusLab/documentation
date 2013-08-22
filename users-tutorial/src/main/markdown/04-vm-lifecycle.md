@@ -1,16 +1,8 @@
 
 # Virtual Machine Lifecycle
 
-How to launch, connect to and terminate a Virtual Machine on
+This chapter descibes how to launch, describe status, connect to and terminate a Virtual Machine on
 StratusLab Cloud.
-
-Prerequisites
--------------
-
-* StratusLab cloud credentials (e.g. on [StratusLab Reference
-  infrastructure][ref-infra])
-* StratusLab [user client installed and
-  configured][user-client-install]
 
 Virtual Machine Lifecycle consists of the following commands:
 
@@ -167,7 +159,9 @@ Note that the maximum values are determined by the largest physical
 machine in the cloud infrastructure.  The cloud administrator of your
 infrastructure can provide these limits.
 
-## Deploy a VM of type "m1.xlarge"
+## Deploy VM with a predefined resource type 
+
+Deploy a VM of type "m1.xlarge"
 
     $ stratus-run-instance --quiet --type=m1.xlarge BtSKdXa2SvHlSVTvgFgivIYDq--
     5509, 134.158.75.203
@@ -181,7 +175,7 @@ The swap space can be seen from within the machine.
 Note: ttylinux doesn't use swap space!
 
 
-## Deploy a VM with allocated resources
+## Deploy a VM with a customized allocated resources
 
     $ stratus-run-instance --quiet --cpu=3 --ram=6000 --swap=2000 BtSKdXa2SvHlSVTvgFgivIYDq--
     5510, 134.158.75.204
