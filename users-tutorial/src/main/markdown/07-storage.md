@@ -4,7 +4,7 @@
 In StratusLab 3 storages type can be identified:
 
    * Volatile (Read-Write) Disks
-      * Useful for temporary (!) data storage
+      * Useful for _temporary_ data storage
       * Data will disappear when VM instance is destroyed
    * Static (Read-Only) Disks
       * Useful for distribution of quasi-static databases
@@ -15,22 +15,20 @@ In StratusLab 3 storages type can be identified:
       * Disks are persistent and have a lifecycle independent of a single VM
       * Can be mounted by single VM at any time
       * Only available within a single cloud instance
- 
 
 ## Volatile Storage
 
 ### Introduction
 
-Volatile storage are disks 
-allocated when a virtual machine starts and are destroyed
-automatically when the VM terminates.  Because of the volatile nature
-of these disks, they are ideal for temporary storage.
+Volatile storage are disks allocated when a virtual machine starts and
+are destroyed automatically when the VM terminates.  Because of the
+volatile nature of these disks, they are ideal for temporary storage.
 
 ### Declare Volatile Disk
 
 Users can request a volatile disk when starting a virtual machine with
 the `--volatile-disk` option to `stratus-run-instance`, giving the
-required size of the disk. 
+required size of the disk.
 
     $ stratus-run-instance --volatile-disk SIZE_GB BtSKdXa2SvHlSVTvgFgivIYDq--
 
@@ -38,32 +36,31 @@ Within the VM, raw disk can be found using the command fdisk -l
 
 ### Use of volatile disk 
 
-These volatile disks are raw devices, so the user is
-responsible for partitioning and/or formatting the volumes before
-using them.  They also must be subsequently mounted on the VM's file
-system.
+These volatile disks are raw devices, so the user is responsible for
+partitioning and/or formatting the volumes before using them.  They
+also must be subsequently mounted on the VM's file system.
 
 Connect to your VM. Format, mount, and use your disk:
 
-   * Disks are not formatted!  Use:  mkfs.ext4 /dev/xxx
-   * Mount disk:  mount /dev/xxx /mnt/volatile
-   * Use normally:  touch /mnt/volatile/mydata
+   1. Disks are not formatted!  Use: `mkfs.ext4 /dev/xxx`
+   2. Mount disk: `mount /dev/xxx /mnt/volatile`
+   3. Use normally: `touch /mnt/volatile/mydata`
 
 ### Data on a volatile disk
  
-Volatile disks  are appropriate **only for temporary data
-storage**.  The data on these volumes will be destroyed when the
-virtual machine is terminated. But in case of VM reboot, disk and data will survive.
+Volatile disks are appropriate **only for temporary data storage**.
+The data on these volumes will be destroyed when the virtual machine
+is terminated. But in case of VM reboot, disk and data will survive.
 
 Connect to your VM:
 
    * Reboot your VM, and verify that your disk still exists, also verify your data on the disk.
    * terminate your VM. This will also destroy your disk.
 
-Finally, note that this storage is allocated on the
-physical machine where the VM is running, so requesting a very large
-volatile disk may reduce the number of physical machines which can
-host the virtual machine.
+Finally, note that this storage is allocated on the physical machine
+where the VM is running, so requesting a very large volatile disk may
+reduce the number of physical machines which can host the virtual
+machine.
 
 ## Static Disk
 
@@ -95,68 +92,12 @@ machine images.  Making the initial copy of the data image and
 subsequent snapshotting for individual machine instances completely
 transparent to the user.
 
-
 **In this tutorial we will be using "Flora and Fauna" read-only disk
 from the Marketplace, identifier: GPAUQFkojP5dMQJNdJ4qD_62mCo**
 
-In case you want to create read-only disks, below general information
-on how this could be done.
+In case you want to create read-only disks, see the Users Guide.
 
-### Create a Disk Image
- 
-Disk images must contain a formatted file system that can be read by
-the chosen operating system for your machine images.  Although this
-could be any file system, for a couple of reasons the best choice is
-an ISO9660 (CDROM) image.
-
-* These images are easy to create using the `mkisofs` utility (or
-  variants) available in most operating systems.
-* It can be universally read by all operating systems.
-* It ensures that the operating system is aware that this is a
-  read-only file system.
-* Normally these volumes can be mounted and accessed by non-root
-  users.
-
-Using the `mkisofs` utility, create a disk is easy.  The procedure is
-just two steps: 1) create a directory containing all of the data for
-the disk and 2) run `mkisofs` on this directory to create the CDROM
-image.
-
-The only downside is that this requires enough disk space to hold the
-directory with the original data and also the created CDROM image.
-Using the persistent or volatile storage makes finding a big enough
-playground easy.
-
-**It is strongly recommended that you provide a label for the disk
-image.** This will allow you to mount the image in a machine instance
-without having to know the hardware device name within the machine
-instance.
-
-### Registering the Image
-
-Just like for machine images, the data images must be registered in
-the Marketplace.  You need to create an image metadata entry and then
-upload it into the Marketplace.
-
-Before anything else, you need to put the image on a webserver.  The
-URL of the image will then be used in the 'location' element of the
-metadata.
-
-Then you'll need to create the metadata itself.  This can be done with
-the `stratus-build-metadata` command in the standard way.  However,
-there are a few 'gotchas'.  The OS, OS version, and OS architecture
-must be provided; just use 'none' for these values.  You should gzip
-the image and use 'gz' for the compression.  The 'format' of the image
-should be 'raw'.  Lastly, the image should have a filename that ends
-with '.iso.gz' after the compression.
-
-If the disk has a label (it does right?!), then you should add this
-information in the metadata description element.
-
-Once you've created the metadata entry, sign it with
-`stratus-sign-metadata` and upload it into the Marketplace.
-
-### Declare Static (Read-Only) Disk
+### Run VM with Static (Read-Only) Disk
 
 Using the image itself should be straight-forward.  Use
 `stratus-run-instance` as you normally would but add the
@@ -189,8 +130,6 @@ image.  For this instance, the output looks like the following:
 In this case, the disk we're looking for is `/dev/sdc`.  The other
 CDROM image with a label '_STRATUSLAB' is the contextualization
 information.
-
-
 
 Mount disk:
 
@@ -226,25 +165,25 @@ of the extensive caching mechanisms of StratusLab, the transfer of
 such images and the creation of disks for each machine instance is
 completely transparent to the user.
 
-
 ## Persistent disk
 
 ### Introduction
 
-Persistent Disk Storage is the StratusLab service that physically stores
-machine and disk images as volumes on the cloud site. It facilitates quick
-startup of VMs and hot-plugging of disk volumes as block devices to the VMs.
+Persistent Disk Storage is the StratusLab service that physically
+stores machine and disk images as volumes on the cloud site. It
+facilitates quick startup of VMs and hot-plugging of disk volumes as
+block devices to the VMs.
    
 ### Create persistent disk
 
-Before creating persistent disks (or volumes)[^1], you should define the persistent disk
-storage endpoint by either of
+Before creating persistent disks (or volumes)[^1], you should define
+the persistent disk storage endpoint by either of
 
   * in your HOME/.stratuslab/stratuslab-user.cfg
   * set the environment variable STRATUSLAB_PDISK_ENDPOINT
   * pass it as **_-_-pdisk-endpoint** command when creating one.
 
-Lets create a persistent disk of 5GB and named "myprivate-disk"
+Let's create a persistent disk of 5GB and named "myprivate-disk"
 
     $ stratus-create-volume --size=5 --tag=myprivate-disk
     DISK 9c5a2c03-8243-4a1b-a248-0f0d22d948c2
@@ -255,8 +194,8 @@ created disk is by default
   * private - can be read, written and deleted only by their owner
   * of type **read-write data image**
 
-To create public persistent disk, pass _-_-public argument to
-stratus-create-volume
+To create public persistent disk, pass `--public` argument to
+`stratus-create-volume`
 
     $ stratus-create-volume --public --size=10 --tag=mypublic-disk
     DISK d955fda6-bf9c-4aa8-abc4-5bbcdb83021b
@@ -272,9 +211,9 @@ updated on the disk run
 
 ### List persistent disks
 
-stratus-describe-volumes allows you to query the list of all your public and
-private persistent disks, and also all the public persistent disks created by
-other users.
+`stratus-describe-volumes` allows you to query the list of all your
+public and private persistent disks, and also all the public
+persistent disks created by other users.
 
     $ stratus-describe-volumes
     :: DISK a4324f26-39e0-4965-8c8f-3287cd0936e5
@@ -335,8 +274,9 @@ disk 9c5a2c03-8243-4a1b-a248-0f0d22d948c2.
      :: Machine 1 (vm ID: 3)
             Public ip: 134.158.75.35
 
-Log into your VM using ssh, depending in the linux kernel and distribution
-version of your VM, your persistent disk will be referenced as /dev/hdc or /dev/sdc.
+Log into your VM using ssh, depending in the linux kernel and
+distribution version of your VM, your persistent disk will be
+referenced as /dev/hdc or /dev/sdc.
 
 In ttylinux, it will be /dev/hdc.
 
@@ -364,8 +304,8 @@ Your persistent disk is ready to be used by another VM.
 
 #### Launch VM with the modified persistent disk attached
 
-Instantiate new VM ttylinux with the same reference to your private persistent
-disk 9c5a2c03-8243-4a1b-a248-0f0d22d948c2.
+Instantiate new VM ttylinux with the same reference to your private
+persistent disk 9c5a2c03-8243-4a1b-a248-0f0d22d948c2.
 
     $ stratus-run-instance \
         --persistent-disk=9c5a2c03-8243-4a1b-a248-0f0d22d948c2 \
@@ -398,15 +338,16 @@ Mount your persistent disk
 
 #### Hot-plug Persistent Disks
 
-StratusLab storage also provides hot-plug feature for persistent disk. With
-stratus-attach-instance you can attach a volume to a running machine and with
-stratus-detach-instance you can release it.
+StratusLab storage also provides hot-plug feature for persistent
+disk. With stratus-attach-instance you can attach a volume to a
+running machine and with stratus-detach-instance you can release it.
 
-To use the hot-plug feature, the running instance needs to have acpiphp kernel
-module loaded. Image like ttylinux doesn't have this feature, you have to use
-base image like Ubuntu, CentOS or Fedora.
+To use the hot-plug feature, the running instance needs to have
+acpiphp kernel module loaded. Image like ttylinux doesn't have this
+feature, you have to use base image like Ubuntu, CentOS or Fedora.
 
-Before hot-plugin a disk, make sure acpiphp is loaded. In your VM execute
+Before hot-plugin a disk, make sure acpiphp is loaded. In your VM
+execute
 
     modprobe acpiphp
 
@@ -420,29 +361,30 @@ To attach two volumes to the VM ID 24 with the UUIDs
 
 Use the fdisk -l command as above to see the newly attached disks.
 
-Make sure to unmount any file systems on the device within your operating system
-before detaching the volume. Failure to unmount file systems, or otherwise
-properly release the device from use, can result in lost data and will corrupt
-the file system.
+Make sure to unmount any file systems on the device within your
+operating system before detaching the volume. Failure to unmount file
+systems, or otherwise properly release the device from use, can result
+in lost data and will corrupt the file system.
 
     umount /dev/vda
     umount /dev/vdb
 
-When you finish using your disks, you can detach them from the running VM
+When you finish using your disks, you can detach them from the running
+VM
 
     $ stratus-detach-volume -i 24 1e8e9104-681c-4269-8aae-e513c6723ac6 5822c376-9ce1-434e-95d1-cdaa240cd47c
     DETACHED 1e8e9104-681c-4269-8aae-e513c6723ac6 from VM 24 on /dev/vda
     DETACHED 5822c376-9ce1-434e-95d1-cdaa240cd47c from VM 24 on /dev/vdb
 
-On running instance detaching not hot-plugged disks or disks that were not
-or are no longer attached to the instance will result in an error
+On running instance detaching not hot-plugged disks or disks that were
+not or are no longer attached to the instance will result in an error
 
     $ stratus-detach-volume -i 41 2a17226f-b006-45d8-930e-13fbef3c6cdc
     DISK 2a17226f-b006-45d8-930e-13fbef3c6cdc: Disk have not been hot-plugged
 
-If you have attached the volume at instance start-up, it cannot be detached
-while the instance is in the 'Running' state. To detach the volume, stop the
-instance first.
+If you have attached the volume at instance start-up, it cannot be
+detached while the instance is in the 'Running' state. To detach the
+volume, stop the instance first.
 
 ### Delete Persistent Disks
 

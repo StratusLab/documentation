@@ -1,15 +1,19 @@
 
 # Virtual Machine Lifecycle
 
-This chapter descibes how to launch, describe status, connect to and terminate a Virtual Machine on
-StratusLab Cloud.
+This chapter descibes how to launch, describe status, connect to and
+terminate a Virtual Machine on StratusLab Cloud.
 
-Virtual Machine Lifecycle consists of the following commands:
+The following table summarizes the simplified Virtual Machine
+lifecycle and associated commands.
 
-    Deploy: stratus-run-instance Marketplace_ID
-    Describe: stratus-describe-instance VM_ID
-    Connect: ssh root@134.158.75.xxx  OR stratus-connect-instance VM_ID
-    Terminate: stratus-kill-instance VM_ID
+State       Command
+----------  -----------------------------------------
+Deploy      `stratus-run-instance Marketplace_ID`
+Describe    `stratus-describe-instance VM_ID`
+Connect     `ssh root@134.158.75.xxx` *OR*
+            `stratus-connect-instance VM_ID`
+Terminate   `stratus-kill-instance VM_ID`
 
 The detailed lifecycle of a machine is more complicated.  The diagram
 shows the full lifecycle and describes what is happening behind the
@@ -19,8 +23,8 @@ scenes in each of these cases.
 
 ## Deploy
 
-Make sur your Cloud endpoint and credentials are configured in the
-configuration file (default: `$HOME/.stratuslab/stratuslab-user.cfg`).
+Make sure your cloud endpoint and credentials are configured in the
+configuration file (`$HOME/.stratuslab/stratuslab-user.cfg`).
 
 Search for an image in [StratusLab Marketplace][marketplace] and copy
 the image **identifier**. Say we searched for **ttylinux** and chose
@@ -59,13 +63,16 @@ State of a single machine:
 
 VM states change as the cloud intializes the virtual machines.
 
-In StratusLab VM common machine states are:
-    
-    Prolog: cloud initialization of an image (e.g. copy and cache image)
-    Boot: starting virtual machine from image
-    Running: machine is active
-    Failed: problem with starting/running the machine
-    Unknown: machine is stopped, but still has resources allocated!
+In StratusLab, the common VM machine states described in the following
+table.
+
+State    Description
+-------- ------------------------------------------------------
+Prolog   cloud initialization of VM (e.g. copy and cache image)
+Boot     starting virtual machine from the image
+Running  machine is active, booting the operating system
+Failed   problem with starting/running the machine
+Unknown  machine is stopped, but still has resources allocated!
 
 Check the VM is running
 
