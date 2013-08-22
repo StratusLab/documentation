@@ -78,16 +78,16 @@ Ping the VM to see when it is accessible:
      $ ping vm-202.lal.stratuslab.eu
      PING vm-202.lal.stratuslab.eu (134.158.75.202): 56 data bytes
      Request timeout for icmp_seq 0
-     64 bytes from 134.158.75.201: icmp_seq=1 ttl=63 time=0.876 ms
-     64 bytes from 134.158.75.201: icmp_seq=2 ttl=63 time=0.761 ms
-     64 bytes from 134.158.75.201: icmp_seq=3 ttl=63 time=0.850 ms
+     64 bytes from 134.158.75.202: icmp_seq=1 ttl=63 time=0.876 ms
+     64 bytes from 134.158.75.202: icmp_seq=2 ttl=63 time=0.761 ms
+     64 bytes from 134.158.75.202: icmp_seq=3 ttl=63 time=0.850 ms
      ...
 
 Connect to the VM as root:
 
     $ ssh root@vm-202.lal.stratuslab.eu
     # uname -a
-    Linux ttylinux_host 2.6.38.1 #1 SMP PREEMPT Tue Apr 10 21:55:48 MST 2012 x86_64 GNU/Linux
+    Linux ttylinux_host 3.7.1 #1 SMP PREEMPT Mon May 27 13:16:10 MST 2013 x86_64 GNU/Linux
     # logout
     Connection to vm-202.lal.stratuslab.eu closed.
     $
@@ -167,6 +167,8 @@ Deploy a VM of type "m1.xlarge"
     $ stratus-run-instance --quiet --type=m1.xlarge BtSKdXa2SvHlSVTvgFgivIYDq--
     5509, 134.158.75.203
 
+Status of your VM
+
     $ stratus-describe-instance 5509
     id   state     vcpu memory    cpu% host/ip                  name
     5509 Running   2    1048576   5    vm-203.lal.stratuslab.eu one-5509
@@ -181,14 +183,13 @@ Note: ttylinux doesn't use swap space!
     $ stratus-run-instance --quiet --cpu=3 --ram=6000 --swap=2000 BtSKdXa2SvHlSVTvgFgivIYDq--
     5510, 134.158.75.204
 
+Status of your VM
+
     $ stratus-describe-instance 5510
     id   state     vcpu memory    cpu% host/ip                  name
     5510 Running   3    1572864   5    vm-204.lal.stratuslab.eu one-5510
 
 
-[ref-infra]: /try/2012/12/04/try-reference-cloud-infrastructures.html
-[user-client-install]: /try/2012/01/10/try-user-cli-installation.html
-[user-client-config]: /try/2012/01/10/try-user-cli-installation.html
 [marketplace]: https://marketplace.stratuslab.eu
 [docs]: /documentation
 [ttylinux-img]: https://marketplace.stratuslab.eu/metadata/BtSKdXa2SvHlSVTvgFgivIYDq--
