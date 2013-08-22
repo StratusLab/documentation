@@ -159,7 +159,7 @@ Note that the maximum values are determined by the largest physical
 machine in the cloud infrastructure.  The cloud administrator of your
 infrastructure can provide these limits.
 
-## Deploy VM with a predefined resource type 
+## Deploy VM with a predefined resources type 
 
 Deploy a VM of type "m1.xlarge"
 
