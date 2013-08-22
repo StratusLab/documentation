@@ -30,11 +30,9 @@ and resource providers like:
   * Better utilization of shared computing resources and
   * Possibility of federating resources with other clouds.
 
-StratusLab provides a couple mechanisms for accessing cloud resources:
-a command line interface written in portable python and web interfaces
-(for a subset of services).  Developers can also use the Libcloud API,
-the StratusLab Python API, or the service REST APIs for programmatic
-access.
+StratusLab provides several ways to access the cloud resources
+including a command line client, web browser interfaces, and various
+APIs.
 
 ## Services
 

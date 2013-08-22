@@ -21,9 +21,10 @@ and you should see a page like the one in the screenshot.
 ![Marketplace Screenshot](images/registration-screenshot.png)
 
 For user authentication, either a username/password pair or an
-[IGTF][igtf] accredited digital certificate.  For the purposes of this
-tutorial the username/password is easier.  You can ignore the optional
-X500 field needed when using a digital certificate.
+[IGTF][igtf] accredited digital certificate can be used.  For the
+purposes of this tutorial the username/password is easier.  You can
+ignore the optional X500 field needed when using a digital
+certificate.
 
 Fill in the form, agree to the terms and conditions, and then client
 the "create" button.  Although not mandatory, it is useful to provide
@@ -43,15 +44,22 @@ StratusLab command line are satisfied:
   * Java 1.6 or later is installed.
   * An SSH client is installed with an SSH key pair.
 
-More information on installing these dependencies can be found in the
-complete [Users Guide][users-guide].
+More information on checking and installing these dependencies can be
+found in the complete [Users Guide][users-guide].
 
 ## Network
 
 The network that you are using must allow you to contact the
-StratusLab services.  This requires that the following ports are open
-for outbound access:  80 (http), 443 (https), 2633 (OpenNebula), 8444
-(registration svc.), and 8445 (storage svc.).
+StratusLab services.  This requires that the ports in the following
+table are open for outbound access.
+
+Port  Service
+----- ---------------------
+  80  http (web)
+ 443  https (secure web)
+2634  OpenNebula Proxy
+8444  Registration Service
+8445  Storage Service
 
 
 [registration]: https://register.stratuslab.eu:8444
