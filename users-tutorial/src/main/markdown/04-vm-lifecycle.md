@@ -19,7 +19,7 @@ scenes in each of these cases.
 
 ## Deploy
 
-[Configure][user-client-config] Cloud endpoint and credentials in the
+Make sur your Cloud endpoint and credentials are configured in the
 configuration file (default: `$HOME/.stratuslab/stratuslab-user.cfg`).
 
 Search for an image in [StratusLab Marketplace][marketplace] and copy
@@ -184,5 +184,11 @@ Note: ttylinux doesn't use swap space!
     id   state     vcpu memory    cpu% host/ip                  name
     5510 Running   3    1572864   5    vm-204.lal.stratuslab.eu one-5510
 
+
+[ref-infra]: /try/2012/12/04/try-reference-cloud-infrastructures.html
+[user-client-install]: /try/2012/01/10/try-user-cli-installation.html
+[user-client-config]: /try/2012/01/10/try-user-cli-installation.html
+[marketplace]: https://marketplace.stratuslab.eu
+[docs]: /documentation
 [ttylinux-img]: https://marketplace.stratuslab.eu/metadata/BtSKdXa2SvHlSVTvgFgivIYDq--
 
