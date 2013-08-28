@@ -63,20 +63,19 @@ available CPUs x 100) and TMEM and AMEM (total and available RAM).
 Deploy a VM of type "m1.xlarge"
 
     $ stratus-run-instance \
-        --quiet --type=m1.xlarge \
-        BtSKdXa2SvHlSVTvgFgivIYDq--
+        --quiet --type=m1.xlarge $TTYLINUX
     5509, 134.158.75.203
 
 Looking at the status of the machine:
 
     $ stratus-describe-instance 5509
     id   state     vcpu memory    cpu% host/ip                  name
-    5509 Running   2    1048576   5    vm-203.lal.stratuslab.eu one-5509
+    5509 Running   4    8388608   5    vm-203.lal.stratuslab.eu one-5509
 
 will give you the allocated CPUs (vcpu) and memory.  The swap space
-can be seen from within the machine.  These values are taken by a
+can be seen from within the machine.  **These values are provided by a
 monitoring process on the physical machines and may take a couple of
-minutes to be updated.
+minutes to be updated.**
 
 Note that ttylinux resides entirely in memory and doesn't use swap
 space!
@@ -87,14 +86,13 @@ Try deploying a machine with customized resources.  You can use one or
 more of the options `--type`, `--cpu`, `--ram`, and `--swap`: 
 
     $ stratus-run-instance \
-        --quiet --cpu=3 --ram=6000 --swap=2000 \
-        BtSKdXa2SvHlSVTvgFgivIYDq--
+        --quiet --cpu=3 --ram=6000 --swap=2000 $TTYLINUX
     5510, 134.158.75.204
 
 Again use the status of the VM to see what resources were allocated:
 
     $ stratus-describe-instance 5510
     id   state     vcpu memory    cpu% host/ip                  name
-    5510 Running   3    1572864   5    vm-204.lal.stratuslab.eu one-5510
+    5510 Running   3    6144000   5    vm-204.lal.stratuslab.eu one-5510
 
 Note that the memory value for the status is given in KiB.

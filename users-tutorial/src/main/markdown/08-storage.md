@@ -18,8 +18,7 @@ with the `--volatile-disk` option to `stratus-run-instance`, giving
 the required size of the disk in Gigabytes.
 
     $ stratus-run-instance \
-        --volatile-disk SIZE_GB \
-        BtSKdXa2SvHlSVTvgFgivIYDq--
+        --volatile-disk SIZE_GB $TTYLINUX
 
 The created storage is a raw, unformatted volume.  To find the disk,
 you can use the command `fdisk -l`. 
@@ -89,7 +88,7 @@ image.  An example is:
 
     $ stratus-run-instance \
         --readonly-disk=GPAUQFkojP5dMQJNdJ4qD_62mCo \
-        GJ5vp8gIxhZ1w1MQF16R6MIcNoq
+        $TTYLINUX
 
 This disk image is a standard image ("Flora and Fauna") used for tests
 of the system.  It contains a hierarchy of files named after animals
@@ -122,8 +121,8 @@ Mount the disk and ensure that the filesystem is visible:
 
 You can then access the data on the disk as you normally would:
 
-    $ cat /mnt/animals/cat.txt
-    cat
+    $ cat /mnt/animals/dog.txt
+    dog
 
 A real disk would likely contain more interesting data!
 
@@ -162,16 +161,21 @@ define the `endpoint` parameter.
 
 Let's create a persistent disk of 5 GB and named "myprivate-disk".
 
-    $ stratus-create-volume \
-        --size=5 --tag=myprivate-disk
-    DISK 9c5a2c03-8243-4a1b-a248-0f0d22d948c2
+    $ stratus-create-volume --size=5 --tag=myprivate-disk
+    DISK 24f77fbd-1f26-46a5-9726-5659279843e7
 
-The command returned the UUID of the created persistent disk. Newly
-created disk is private (only accessible to the user) and of type
-"read-write data image".  You can update the properties of the disk
-via the `stratus-update-volume` command: 
+The command returned the UUID of the created persistent disk.  For
+convenience in the commands below, we'll define a variable:
 
-    stratus-update-volume --tag=my-updated-disk <UUID>
+    $ export UUID=24f77fbd-1f26-46a5-9726-5659279843e7
+
+Substitute this value where indicated below.
+
+Newly created disk is private (only accessible to the user) and of
+type "read-write data image".  You can update the properties of the
+disk via the `stratus-update-volume` command:
+
+    stratus-update-volume --tag=my-updated-disk $UUID
 
 Use the help option (`--help`) to see all of the properties that can
 be updated. 
@@ -194,7 +198,7 @@ by other users.
             owner: testor2
             size: 5
             users: 0
-    :: DISK 9c5a2c03-8243-4a1b-a248-0f0d22d948c2
+    :: DISK 24f77fbd-1f26-46a5-9726-5659279843e7
             created: 2011/07/20 16:10:37
             visibility: private
             tag: myprivate-disk
@@ -231,7 +235,7 @@ Note that the persistent disk should only be formatted the first time
 it is used.  Formatting the disk will erase any previous data!
 
 To demonstrate this workflow, we will use the same ttylinux appliance
-identifier that we used before `BtSKdXa2SvHlSVTvgFgivIYDq--`.
+identifier that we used before.
 
 #### Launch VM with a persistent disk attached
 
@@ -240,11 +244,9 @@ The `--persistent-disk=UUID` option when used with
 persistent disk(UUID) to the VM when starting the machine.
 
 Instantiate the ttylinux appliance with reference to your private
-persistent disk 9c5a2c03-8243-4a1b-a248-0f0d22d948c2.
+persistent disk.
 
-    $ stratus-run-instance \
-        --persistent-disk=9c5a2c03-8243-4a1b-a248-0f0d22d948c2 \
-        BtSKdXa2SvHlSVTvgFgivIYDq--
+    $ stratus-run-instance --persistent-disk=$UUID $TTYLINUX
 
      :::::::::::::::::::::::::
      :: Starting machine(s) ::
@@ -276,7 +278,7 @@ You should see a disk with the same size as the one you created.
 When created, the persistent volumes are unformatted.  To use it, you
 will need to format it.  Use the 'ext3' or 'ext4' formatting. 
 
-    # mkfs -t ext3 /dev/hdc
+    # mkfs.ext4 /dev/hdc
 
 You can also optionally partition the disk, which gives you the
 possiblity to provide a label for the partition. 
@@ -296,11 +298,9 @@ terminated, your persistent disk is ready to be used by another VM.
 #### Reuse the Disk
 
 Instantiate new ttylinux VM with the same reference to your private
-persistent disk 9c5a2c03-8243-4a1b-a248-0f0d22d948c2.
+persistent disk.
 
-    $ stratus-run-instance \
-        --persistent-disk=9c5a2c03-8243-4a1b-a248-0f0d22d948c2 \
-        BtSKdXa2SvHlSVTvgFgivIYDq--
+    $ stratus-run-instance --persistent-disk=$UUID $TTYLINUX
 
      :::::::::::::::::::::::::
      :: Starting machine(s) ::
@@ -354,42 +354,32 @@ Other appliances might need to have this done manually.
 To attach two volumes to the VM ID 24 with the given UUIDs, use the
 command: 
 
-    $ stratus-attach-volume -i 24 \
-        1e8e9104-681c-4269-8aae-e513c6723ac6 \
-        5822c376-9ce1-434e-95d1-cdaa240cd47c
-    ATTACHED 1e8e9104-681c-4269-8aae-e513c6723ac6 in VM 24 on /dev/vda
-    ATTACHED 5822c376-9ce1-434e-95d1-cdaa240cd47c in VM 24 on /dev/vdb
+    $ stratus-attach-volume --instance=5737 $UUID
+    ATTACHED 24f77fbd-1f26-46a5-9726-5659279843e7 in VM 5737 on /dev/vda
 
 Note that the `-i` or `--instance` option is required and specifies
 to which machine instance the disks should be attached.
 
-Use the `fdisk -l` command as above to see the newly attached disks.
-The devices listed in the command response are **best guesses**.  It
-is always best to confirm the location of the disks.
+From within the VM, use the `fdisk -l` or `blkid` command as above to
+see the newly attached disks.  The devices listed in the command
+response are **best guesses**.  It is always a good idea to confirm
+the location of the disks.
 
 Make sure to unmount any file systems on the device within your
 operating system before detaching the volume. Failure to unmount file
 systems, may corrupt the file system and lead to data loss.
 
     umount /dev/vda
-    umount /dev/vdb
 
 When you finish using your disks, you can detach them from the running
 VM:
 
-    $ stratus-detach-volume -i 24 \
-        1e8e9104-681c-4269-8aae-e513c6723ac6 \
-        5822c376-9ce1-434e-95d1-cdaa240cd47c
-    DETACHED 1e8e9104-681c-4269-8aae-e513c6723ac6 from VM 24 on /dev/vda
-    DETACHED 5822c376-9ce1-434e-95d1-cdaa240cd47c from VM 24 on /dev/vdb
+    (SL)~> stratus-detach-volume --instance=5737 $UUID
+    DETACHED 24f77fbd-1f26-46a5-9726-5659279843e7 from VM 5737 on /dev/vda
 
 Trying to detach disks that were mounted with the
 `stratus-run-instance` command or disks that are no longer attached
-will result in an error:
-
-    $ stratus-detach-volume -i 41 \
-        2a17226f-b006-45d8-930e-13fbef3c6cdc
-    DISK 2a17226f-b006-45d8-930e-13fbef3c6cdc: Disk have not been hot-plugged
+will result in an error.
 
 Disks mounted at instance start-up will only be released after the
 `stratus-kill-instance` command has been executed. 
@@ -399,10 +389,10 @@ Disks mounted at instance start-up will only be released after the
 To delete a persistent disk use the `stratus-delete-volume` command,
 note that you can delete only your disks.
 
-To delete 'myprivate-disk' with with the given UUID: 
+To delete the disk we created above:
 
-    $ stratus-delete-volume 9c5a2c03-8243-4a1b-a248-0f0d22d948c2
-    DELETED 9c5a2c03-8243-4a1b-a248-0f0d22d948c2
+    $ stratus-delete-volume $UUID
+    DELETED 24f77fbd-1f26-46a5-9726-5659279843e7
 
 Check that the disk is no longer there
 

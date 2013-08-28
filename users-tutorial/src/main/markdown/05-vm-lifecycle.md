@@ -13,7 +13,7 @@ State       Command
 ----------  -----------------------------------------
 Deploy      `stratus-run-instance Marketplace_ID`
 Describe    `stratus-describe-instance VM_ID`
-Connect     `ssh root@134.158.75.xxx` **OR**
+Connect     `ssh root@134.158.75.xxx` _or_
             `stratus-connect-instance VM_ID`
 Terminate   `stratus-kill-instance VM_ID`
 
@@ -35,12 +35,20 @@ The Marketplace identifier for the ttylinux machine is:
 You will need this when launching the ttylinux VM.  We will explain
 where this identifier comes from in the Marketplace chapter. 
 
+We will need this often in the tutorial.  To avoid typing it all of
+the time, let's set up a variable:
+
+    $ export TTYLINUX="BtSKdXa2SvHlSVTvgFgivIYDq--"
+
+Any place you see $TTYLINUX in the commands, it refers to this machine
+identifier.
+
 ## Deploy
 
 Launch an instance of the ttylinux appliance with the
 `stratus-run-instance` command:
 
-    $ stratus-run-instance BtSKdXa2SvHlSVTvgFgivIYDq--
+    $ stratus-run-instance $TTYLINUX
 
       :::::::::::::::::::::::::
       :: Starting machine(s) ::

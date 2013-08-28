@@ -7,11 +7,16 @@ the Marketplace to see if someone else has done the work for you!
 
 ## Appliance Registry
 
-The [StratusLab Marketplace](https://marketplace.stratuslab.eu/)
-provides a registry for available, public virtual machine appliances.
-These are created by the people within the community as well as by
-StratusLab developers to help people get started using the cloud
-quickly.
+The StratusLab Marketplace provides a registry for available, public
+virtual machine appliances.  These are created by the people within
+the community as well as by StratusLab developers to help people get
+started using the cloud quickly.
+
+Use a browser to view the Marketplace at:
+
+    https://marketplace.stratuslab.eu
+
+This contains all of the public images that are currently available.
 
 Each appliance entry contains the basic information along with a link
 to see more detailed information.  **The machine identifier is the
