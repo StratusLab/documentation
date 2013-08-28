@@ -22,7 +22,28 @@ Image creators can use the contextualization mechanism to create
 "parameterized" images, allowing users to pass additional information
 when starting the instance to alter the behavior of the image.  This
 could be used, for instance, to configure an application or to send
-the location of another service.  
+the location of another service.
+
+Find the contextualization information sent to the machine.  Start a
+machine (if you don't have one running already) and search
+for a disk with a label "_STRATUSLAB".
+
+    # blkid
+    /dev/hda1: UUID="7d2364af-abc2-4a55-8937-f4ebd56b29b3" TYPE="ext2"
+    /dev/hdb: UUID="b60b1e5a-8a47-411f-a29c-36920f0c476c" TYPE="swap"
+    /dev/hdd: UUID="2013-08-28-11-52-24-00" LABEL="_STRATUSLAB" TYPE="iso9660"
+    #
+
+If this disk isn't mounted, then mount it.  Look to see what files are
+on the disk:
+
+    # ls /mnt/stratuslab/
+    context.sh  epilog.sh   init.sh     prolog.sh
+
+The `context.sh` file will contain information passed to the machine,
+in particular the public ssh key of the user.  The other scripts use
+this information to configure the machine for the given cloud
+environment. 
 
 ## Create Image
 
@@ -43,6 +64,9 @@ mechanisms in the image.
 More information on all of these processes can be found in the [Users
 Guide][users-guide].
 
+For now, take a look at the options available for the command by using
+the `--help` option.
+
 ## Image Metadata
 
 After creating an image, it must be registered in the Marketplace
@@ -59,3 +83,10 @@ After the metadata is complete, you must sign it with the
 to do this, either a self-signed one or one from a provider.)  Once
 signed, it can be uploaded to the Marketplace via the browser or the
 `stratus-upload-metadata` command.
+
+You can see what this XML file looks like by downloading one from the
+Marketplace.  Choose an appliance, click on the "More..." link and
+then on the "XML" button at the bottom of the page.  The metadata
+contains the size of the appliance, a number of checksums, and other
+descriptive information.  An important element is the signature, that
+allows the validity of the information to be checked.

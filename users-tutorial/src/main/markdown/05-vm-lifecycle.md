@@ -1,8 +1,10 @@
 
 # Virtual Machine Lifecycle
 
-This chapter descibes how to launch, describe status, connect to and
-terminate a Virtual Machine on StratusLab Cloud.
+This chapter descibes how to launch, to describe, to access, and to
+terminate a Virtual Machine on a StratusLab cloud.
+
+## Lifecycle States
 
 The following table summarizes the simplified Virtual Machine
 lifecycle and associated commands.
@@ -11,7 +13,7 @@ State       Command
 ----------  -----------------------------------------
 Deploy      `stratus-run-instance Marketplace_ID`
 Describe    `stratus-describe-instance VM_ID`
-Connect     `ssh root@134.158.75.xxx` *OR*
+Connect     `ssh root@134.158.75.xxx` **OR**
             `stratus-connect-instance VM_ID`
 Terminate   `stratus-kill-instance VM_ID`
 
@@ -21,16 +23,22 @@ scenes in each of these cases.
 
 ![Virtual machine timeline and states.](images/vm-timeline.png)
 
+The rest of this chapter shows how to run a VM through these states.
+We will use a simple **ttylinux** appliance.  This is a minimal Linux
+operating system used normally for embedded systems.  It is small and
+boots quickly, making it a good choice for demonstrations like this.
+
+The Marketplace identifier for the ttylinux machine is:
+
+    BtSKdXa2SvHlSVTvgFgivIYDq--
+
+You will need this when launching the ttylinux VM.  We will explain
+where this identifier comes from in the Marketplace chapter. 
+
 ## Deploy
 
-Make sure your cloud endpoint and credentials are configured in the
-configuration file (`$HOME/.stratuslab/stratuslab-user.cfg`).
-
-Search for an image in [StratusLab Marketplace][marketplace] and copy
-the image **identifier**. Say we searched for **ttylinux** and chose
-**[BtSKdXa2SvHlSVTvgFgivIYDq--][ttylinux-img]**.
-
-Launch an instance of the image
+Launch an instance of the ttylinux appliance with the
+`stratus-run-instance` command:
 
     $ stratus-run-instance BtSKdXa2SvHlSVTvgFgivIYDq--
 
@@ -42,7 +50,10 @@ Launch an instance of the image
              Public ip: 134.158.75.75
       :: Done!
 
-Response should give the VM ID and Public IP address.
+Response should give the VM ID and Public IP address of the VM.
+
+All of the StratusLab commands support the `--help` option, which will
+give detailed information about the command and its options.
 
 ## Describe
 
@@ -57,14 +68,12 @@ State of a single machine:
 
     $ stratus-describe-instance 5508
     id   state     vcpu memory    cpu% host/ip                  name
-    5508 Prolog   1    0         0    vm-202.lal.stratuslab.eu one-5507
+    5508 Prolog    1    0         0    vm-202.lal.stratuslab.eu one-5507
 
 ## Connect
 
-VM states change as the cloud intializes the virtual machines.
-
-In StratusLab, the common VM machine states described in the following
-table.
+VM states change as the cloud intializes the virtual machines.  The
+following table describes the common states.
 
 State    Description
 -------- ------------------------------------------------------
@@ -74,7 +83,9 @@ Running  machine is active, booting the operating system
 Failed   problem with starting/running the machine
 Unknown  machine is stopped, but still has resources allocated!
 
-Check the VM is running
+Table: Common VM States
+
+Check the VM is running:
 
     $ stratus-describe-instance 5508
     id   state     vcpu memory    cpu% host/ip                 name
@@ -87,7 +98,6 @@ Ping the VM to see when it is accessible:
      Request timeout for icmp_seq 0
      64 bytes from 134.158.75.202: icmp_seq=1 ttl=63 time=0.876 ms
      64 bytes from 134.158.75.202: icmp_seq=2 ttl=63 time=0.761 ms
-     64 bytes from 134.158.75.202: icmp_seq=3 ttl=63 time=0.850 ms
      ...
 
 Connect to the VM as root:
@@ -98,6 +108,19 @@ Connect to the VM as root:
     # logout
     Connection to vm-202.lal.stratuslab.eu closed.
     $
+
+You can also use the `stratus-connect-instance` command.
+
+    $ stratus-connect-instance 5508
+    # uname -a
+    Linux ttylinux_host 3.7.1 #1 SMP PREEMPT Mon May 27 13:16:10 MST 2013 x86_64 GNU/Linux
+    # logout
+    Connection to vm-202.lal.stratuslab.eu closed.
+    $
+ 
+It just wraps the usual `ssh` command and saves you from having to
+look up the hostname.
+
 
 ## Terminate
 
@@ -110,22 +133,17 @@ machine.
     Connection to vm-202.lal.stratuslab.eu closed by remote host.
     Connection to vm-202.lal.stratuslab.eu closed.
 
-The machine will stop and the status will eventually become an
-"unknown" state.
+The machine will stop and the state will eventually become "unknown".
 
     $ stratus-describe-instance 5508
     id   state     vcpu memory    cpu% host/ip                  name
     5508 Unknown   1    131072    0    vm-202.lal.stratuslab.eu one-5508
 
-    $ stratus-kill-instance 5508
-    $
+This mechanism ensures that all services are shutdown cleanly and that
+data volumes are unmounted.
 
-This mechanism ensures that all resources (especially data volumes)
-are shut down cleanly and released.  Note that the VM resources are
-**not** released until the `stratus-kill-instance` command is run.
-
-You can also forcably stop and remove machine by just running the
-`stratus-kill-instance` command:
+You can then release the machine's resource with the
+`stratus-kill-instance` command.
 
     $ stratus-kill-instance 5508
     $
@@ -133,71 +151,12 @@ You can also forcably stop and remove machine by just running the
     id   state     vcpu memory    cpu% host/ip                  name
     5508 Done      1    131072    0    vm-202.lal.stratuslab.eu one-5508
 
-This is the essentially the equivalent of pulling the power cord out
-of a physical machine, so be careful when doing this, especially if
-persistent data volumes are attached to the virtual machine.
+Note that the VM resources are **not released** until the
+`stratus-kill-instance` command is run.  In particular, data volumes
+will remain allocated to this VM until this command is run.
 
-    $ stratus-kill-instance 5508
-
-# Virtual Machine Resources
-
-You can control the number of CPUs, amount of RAM and size of the swap
-space allocated to a virtual machine.  StratusLab provides a number of
-predefined machine cnofigurations.  You can obtain a list of these
-with the command:
-
-    $ stratus-run-instance --list-type
-      Type              CPU        RAM       SWAP
-      c1.medium       1 CPU     256 MB    1024 MB
-      c1.xlarge       4 CPU    2048 MB    2048 MB
-      m1.large        2 CPU     512 MB    1024 MB
-    * m1.small        1 CPU     128 MB    1024 MB
-      m1.xlarge       2 CPU    1024 MB    1024 MB
-      t1.micro        1 CPU     128 MB     512 MB
-
-You can select the configuration you want by using the `--type` option
-to `stratus-run-instance` and providing the name of the type.  The
-default is the type marked with an asterisk ("m1.small").
-
-You can also individually specify the CPU, RAM, and swap space with
-the `--cpu`, `--ram`, and `--swap` options.  These will override the
-corresponding in the value in the selected type.
-
-Note that the maximum values are determined by the largest physical
-machine in the cloud infrastructure.  The cloud administrator of your
-infrastructure can provide these limits.
-
-## Deploy VM with a predefined resources type 
-
-Deploy a VM of type "m1.xlarge"
-
-    $ stratus-run-instance --quiet --type=m1.xlarge BtSKdXa2SvHlSVTvgFgivIYDq--
-    5509, 134.158.75.203
-
-Status of your VM
-
-    $ stratus-describe-instance 5509
-    id   state     vcpu memory    cpu% host/ip                  name
-    5509 Running   2    1048576   5    vm-203.lal.stratuslab.eu one-5509
-
-CPUs and memory can be seen from the command line.
-The swap space can be seen from within the machine.
-Note: ttylinux doesn't use swap space!
-
-
-## Deploy a VM with a customized allocated resources
-
-    $ stratus-run-instance --quiet --cpu=3 --ram=6000 --swap=2000 BtSKdXa2SvHlSVTvgFgivIYDq--
-    5510, 134.158.75.204
-
-Status of your VM
-
-    $ stratus-describe-instance 5510
-    id   state     vcpu memory    cpu% host/ip                  name
-    5510 Running   3    1572864   5    vm-204.lal.stratuslab.eu one-5510
-
-
-[marketplace]: https://marketplace.stratuslab.eu
-[docs]: /documentation
-[ttylinux-img]: https://marketplace.stratuslab.eu/metadata/BtSKdXa2SvHlSVTvgFgivIYDq--
-
+The `stratus-kill-instance` command can also be used for a running
+machine.  In this case, it will **forcibly stop and remove the
+machine**; this can be useful if you cannot access the VM for some
+reason.  Be careful when doing this, especially if persistent data
+volumes are attached to the virtual machine.

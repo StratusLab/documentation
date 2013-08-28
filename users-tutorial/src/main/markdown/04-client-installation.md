@@ -3,9 +3,10 @@
 
 The tutorial will use both a web browser and the StratusLab command
 line client to access the cloud resources.  The following describes
-how to install and configure the command line client.  See the full
-[Users Guide][users-guide] if more details are needed or you run into
-problems.
+how to install and configure the command line client.
+
+See the full [User's Guide][users-guide] if more details are needed or
+you run into problems.
 
 ## Client Installation
 
@@ -18,7 +19,9 @@ its dependencies.
     Installing pip...............done.
 
 You may want to choose a different name or location for your virtual
-environment.  Now you will need to activate that environment.
+environment.
+
+Now you will need to activate that environment.
 
     $ source $HOME/env/SL/bin/activate 
     (SL)$ 
@@ -41,7 +44,7 @@ searching for one of the StratusLab commands:
     (SL)$ which stratus-copy-config 
     ~/env/SL/bin/stratus-copy-config
 
-All of the StratusLab commands begin with "`stratus-".  On systems
+All of the StratusLab commands begin with `stratus-`.  On systems
 that support it, you can use tab completion to see all of the
 available commands. 
 
