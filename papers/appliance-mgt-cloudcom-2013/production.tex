@@ -56,14 +56,15 @@ repository.
 \subsection{Data Protection}
 
 By design the appliance metadata is considered public.  In reality,
-however, there are both users and administrators that would like to
-restrict the visibility of the appliance metadata.  Many cloud
-administrators would like to run a ``private'' Marketplace to limit
-the visibility of certain appliances while still taking advantage of
-the central, public Marketplace instance.  There must be a mechanism
-for federating Marketplace instances in the future and the move to
-using Git for metadata file management may also facilitate the
-federation of different Marketplace instances.
+however, both users and administrators would like to restrict the
+visibility of the appliance metadata for certain appliances.  Many
+cloud administrators would like to run a ``private'' Marketplace to
+limit the visibility of certain appliances while still taking
+advantage of the central, public Marketplace instance.
+
+There must be a mechanism for federating Marketplace instances in the
+future and the move to using Git for metadata file management may also
+facilitate the federation of different Marketplace instances.
 
 \subsection{Appliance Quality}
 
@@ -80,17 +81,17 @@ service such as Disqus~\cite{disqus}.
 
 Appliances naturally evolve as operating system updates are applied
 and new services are added.  However each time an appliance is
-updated, the SHA-1 hash and the corresponding image identifier change.
-This makes it difficult for users to track the evolution of an image
-and impossible to use a stable identifier for, for example, the latest
-version of the CentOS image.
+updated, the SHA-1 hash and the corresponding appliance identifier
+change.  This makes it difficult for users to track the evolution of
+an appliance and impossible to use a stable identifier for, for
+example, the latest version of the CentOS appliance.
 
 Recently a `tag' feature has been added to the Marketplace\@.  This
-allows an endorser to provide a simple label for a series of images,
-where the tag (namespaced by the endorser's email) will always resolve
-to the latest image identifier.  By using the tag, users can always
-use the latest version of an image without having to look up manually
-the associated identifier. 
+allows an endorser to provide a simple label for a series of
+appliances, where the tag (namespaced by the endorser's email) will
+always resolve to the latest appliance identifier.  By using the tag,
+users can always use the latest version of an appliance without having
+to find the associated identifier manually.
 
 A complementary and more rigorous solution would be to make use of the
 Dublin Core terms \emph{replaces} and \emph{isReplacedBy}. This would

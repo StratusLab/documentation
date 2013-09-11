@@ -19,30 +19,32 @@ remains an error-prone, time-consuming process.  In response to this,
 it is not surprising that tools and services have appeared to simplify
 this task.
 
-Several command line tools exist that automate the process of creating
-an appliance. In general these follow a common pattern of installing a
-specified base operating system on a newly created disk image. The
-method used to customize the created appliance varies, and can be
-pre-defined with user generated templates or through command line
-options.  Examples of these tools include VMBuilder~\cite{vmbuilder},
-VeeWee~\cite{veewee}, and BoxGrinder~\cite{boxgrinder}.
+Services like Bitnami~\cite{bitnami} are appliance factories that
+provide pre-built, ready to deploy appliances.  These can be used as
+is, or treated as base appliances that a user can customize with their
+own software and services.
 
-Bitnami~\cite{bitnami} is a service that provides pre-built, ready to
-deploy appliances.  These can be used as is, or treated as base
-appliances that a user can customize with their own software and
-services.
+There are, however, a larger number of command line tools that
+automate the process of creating an appliance. In general these follow
+a common pattern of installing a specified base operating system on a
+newly created disk image, then customizing that image. The
+customization methods vary, using pre-defined, user-generated
+templates or command line options.  Examples of these tools include
+VMBuilder~\cite{vmbuilder}, VeeWee~\cite{veewee}, and
+BoxGrinder~\cite{boxgrinder}.
 
-StratusLab provides ``image recipes'' for the automated creation of
-appliances.  These recipes create minimal appliances most common Linux
+StratusLab follows this common pattern.  ``Image recipes'' automate
+the creation of minimal appliances for most common Linux
 distributions, using the distribution's standard configuration
-mechanism (e.g. Kickstart for CentOS).  StratusLab uses the recipes to
-update automatically the standard base appliances it provides.
+mechanism (e.g. Kickstart for CentOS).  These recipes are used to
+update automatically the base StratusLab appliances, which can
+subsequently be customized by users.
 
-The StratusLab client also includes a tool that automates the creation
-of a new appliance from an existing base appliance.  The tool installs
-packages specified by the user and executes a user-defined script to
-configure the newly generated appliance. The new appliance is made
-available in the StratusLab storage service.
+The StratusLab client includes a tool that automates the customization
+of the base appliances.  The tool installs packages specified by the
+user and executes a user-defined script to configure the newly
+generated appliance. The new appliance is made available in the
+StratusLab storage service.
 
 \subsection{Appliance Repositories (Storage)}
 
@@ -82,9 +84,9 @@ portability of StratusLab appliances
 
 In a federated cloud environment, the appliances usually are made
 available outside of a particular cloud infrastructure and must be
-transported to the cloud before use.  Many cloud distributions require
-the user to do this manually; others transport the appliance
-automatically for the user.
+transported to the cloud before use.  Most cloud distributions require
+the user to do this manually, but some tools exist to facilitate
+automated transfers.
 
 The vmcaster/vmcatcher tools developed within the HEPiX Virtualization
 Working Group ~\cite{hepixbooktransfer}, use the concept of
@@ -100,12 +102,16 @@ infrastructure.  The downloaded appliances are then verified and
 cached in the persistent disk storage, ensuring that the transport of
 a given appliance is done only once.
 
+Making the transfers transparent to users, requires that these tools
+be integrated with the cloud's appliance management workflows.
+
 \subsection{Appliance Registry}
 
 An appliance registry allows users to search for existing appliances
 based on certain criteria.  Any cloud distribution that allows users
-to share appliances must have a registry of some sort; most do provide
-such a service.  
+to share appliances must have a registry of some sort. Most
+distributions do provide such a service, although in many cases it is
+integrated with the appliance repository.
 
 The Eucalyptus Image Store provides a set of base appliances that can
 be downloaded and imported into a local Eucalyptus cloud using a

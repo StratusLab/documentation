@@ -29,7 +29,7 @@ manage metadata about appliances.  These technologies already provide
 standard formats for the metadata (RDF/XML~\cite{rdfxml, rdfprimer,
   rdfschema}) and query languages (SeRQL~\cite{serql},
 SPARQL~\cite{sparql}).  The Marketplace implementation makes use of
-the OpenRdf Sesame~\cite{sesame} framework to provide search
+the OpenRDF Sesame~\cite{sesame} framework to provide search
 capabilities over the metadata database.
 
 Working with RDF also requires an agreed vocabulary to ensure a common
@@ -46,7 +46,7 @@ CentOS appliance.)
 As the overall aim is to provide a high-level description of an
 appliance these metadata standards are more suited than something more
 heavy-weight, such as the Open Virtualization Format
-(OVF~\cite{ovf}). OVF describes the packaging and distribution of a
+(OVF). OVF~\cite{ovf} describes the packaging and distribution of a
 full virtual machine rather than just an appliance, and so would
 contain a large volume of additional information that is not
 particularly relevant for cloud users and administrators. It should be
@@ -69,11 +69,11 @@ specification of any RESTful service.  The resource mapping must
 provide convenient access via a browser but also facilitate automated
 interactions with tools.  Table~\ref{table:restmap} provides the URL
 mapping for the Marketplace along with the actions associated with the
-given HTTP verbs.  (The `delete' and `put' methods are not supported
-by any URLs.)  Within the table ``identifier'' refers to the 27
-character image identifier, ``email'' refers to the endorser's email
-address, and ``date'' refers to endorsement date written in the format
-{\tt yyyy-MM-ddThh:mm:ssZ}.  All of the URLs support XML and HTML
+given HTTP verbs.  (The DELETE and PUT actions are not supported by
+any URLs.)  Within the table ``identifier'' refers to the 27 character
+image identifier, ``email'' refers to the endorser's email address,
+and ``date'' refers to endorsement date written in the format {\tt
+  yyyy-MM-ddThh:mm:ssZ}.  All of the URLs support XML and HTML
 representations.  Individual metadata entries also provide a JSON
 representation.
 
