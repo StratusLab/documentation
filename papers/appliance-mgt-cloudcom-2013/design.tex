@@ -9,16 +9,23 @@ browser-based access.  The design and implementation are agnostic with
 respect to the cloud distribution, allowing any cloud distribution to
 interface to the Marketplace\@.
 
+Table~\ref{tab:requirements} contains a detailed list of requirements
+for the Marketplace as an appliance registry and for the appliance
+metadata.\footnote{References prefixed with `RU' or `RS' in the
+  following text refer to the requirements in this table.}  The core
+requirements have been derived from the primary use cases and feedback
+from the StratusLab users and administrators.
+
 \subsection{Timeline}
 
 A core concept within the Marketplace is the appliance timeline, a
-complete history of all endorsements related to a given appliance.  An
-appliance can be endorsed by more than one person to allow for third
-party validation and approval of appliances.  Moreover, a particular
-endorser may change her endorsement over time, updating the metadata
-data associated with the appliance or explicitly deprecating the
-appliance.  Endorsements are also time-limited, containing an explicit
-validity period.
+complete history of all endorsements related to a given appliance (see
+Fig.~\ref{fig:timeline}).  An appliance can be endorsed by more than
+one person to allow for third party validation and approval of
+appliances. [RU3] Moreover, a particular endorser may change her
+endorsement over time, updating the metadata data associated with the
+appliance or explicitly deprecating the appliance. [RU2] Endorsements
+are also time-limited, containing an explicit validity period.
 
 Users of the Marketplace can retrieve the full history, for example to
 conduct an audit on why a particular appliance was authorized at a
@@ -34,7 +41,7 @@ to decide if an appliance is currently valid.
 \end{center}
 \caption{Timeline for an appliance.  The dots represent the metadata
   entries created by endorsers A, B, and C\@.}
-\label{fig-timeline}
+\label{fig:timeline}
 \end{figure}
 
 \subsection{Separation of Metadata and Appliance Contents}
@@ -57,63 +64,63 @@ It also allows the StratusLab distribution to take advantage of
 standard web servers or other cloud storage services for the appliance
 contents.
 
-\subsection{Requirements}
-
-Table~\ref{tab:requirements} contains a detailed list of requirements
-for the Marketplace as an appliance registry and for the appliance
-metadata.  The core requirements have been derived from the primary
-use cases and feedback from the StratusLab users and administrators.
-
 \begin{table}
 \caption{Requirements}
 \label{tab:requirements}
 \begin{center}
-\begin{tabular}{p{0.95\columnwidth}}
+\begin{tabular}{lp{0.85\columnwidth}}
 \hline\hline
 
-\\ Allow anyone to upload valid metadata descriptions to the site.
+\\ RU1 & Anyone with a valid email address can upload metadata
+descriptions to the Marketplace\@.
 
-\\ Valid descriptions must be cryptographically signed.  The endorser
-information must match the information in the certificate itself.
+\\ RU2 & Users can ``replace'' existing metadata descriptions by
+uploading a new signed description(s).
 
-\\ Users can ``replace'' existing metadata descriptions by
-  uploading a new signed description.  Nonetheless, all validated
-  descriptions uploaded to the site must always be available to
-  provide a timeline of the metadata evolution.
+\\ RU3 & Multiple metadata entries may be associated with a particular
+appliance, allowing third parties to endorse images.
 
-\\ Users must be able to search the metadata database on a
-  reasonable subset of the possible keys.  Two required keys are the
-  image identifier and the endorser's email address.
+\\ RU4 & All validated descriptions uploaded to the site must always
+be available to provide a timeline of the metadata evolution.
 
-\\ Users must be able to download the original signed metadata in
-  the RDF/XML format from the registry for verification.
+\\ RU5 & Users must be able to search the metadata database on a
+reasonable subset of the possible keys, for example the image
+identifier and the endorser's email address.
 
-\\ The registry should allow the metadata to be downloaded in
-  alternate formats, notably JSON and HTML.
+\\ RU6 & The registry should allow the metadata to be downloaded in
+alternate formats, notably JSON and HTML.
 
-\\ The service must be easy to use from all programming languages
-  (including scripting languages) and usable from a web browser.
+\\ RU7 & The service must be easy to access from all programming
+languages (including scripting languages) and usable from a web
+browser.
 
+\\ RU8 & The underlying schema for the metadata entries must be
+flexible and extensible, to account for different and evolving needs.
+
+\\ RU9 & Entries should contain at least one location from which the
+appliance can be obtained; entries without a location are
+appropriate only for deprecated appliances.
 
 \\
-  Descriptions of available images should contain at least one
-  location from which the image can be obtained.  Descriptions without
-  a location are appropriate only if the image becomes unavailable.
 
-\\ Valid descriptions must contain a valid email address.  The
-  service must confirm the email address for every upload of metadata.
+\hline
 
-\\ All valid descriptions must contain a creation date for the
-  endorsement.  The server must only accept descriptions with a
-  creation date more recent that the current latest.
+\rule{0pt}{15pt}RS1 & Metadata entries must be cryptographically
+signed with the endorser information matching the information in the
+certificate itself.
 
-\\ There may be several sets of metadata associated with a
-  particular machine or disk image. This allows third parties to
-  endorse images.
+\\ RS2 & Metadata entries must contain a valid email address, which is
+confirmed for each entry upload.
 
-\\ The underlying schema for the metadata descriptions must be
-  flexible and extensible, to account for different and evolving
-  needs.
+\\ RS3 & Users must be able to download the original signed metadata
+in the RDF/XML format from the registry for verification.
+
+\\ RS4 & All entries must contain a creation date for the endorsement.
+The server must only accept descriptions with a creation date more
+recent that the current latest.
+
+\\ RS5 & It must be possible to unabiguously associate an entry to an
+appliance and to verify the integrity of the appliance.
 
 \\
 \hline\hline

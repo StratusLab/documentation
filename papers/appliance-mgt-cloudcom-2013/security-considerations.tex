@@ -22,7 +22,7 @@ contents, there is a danger that the appliance contents could be
 altered, either accidently or maliciously.  As described above, the
 appliance identifier is based on the SHA-1 hash of the appliance
 contents ensuring a very reliable link between the metadata and the
-appliance contents.
+appliance contents. [RS5]
 
 Although modifying an appliance while maintaining the SHA-1 hash is
 difficult, it is a remote possibility, allowing an altered appliance
@@ -31,7 +31,7 @@ additional information is provided in the metadata descriptions: the
 size of the file in bytes and the MD5, SHA-1, SHA-256, and SHA-512
 hash values.  The likelihood that someone can create an altered
 appliance with exactly the same length and multiple checksums is
-negligible.
+negligible. [RS5]
 
 \subsection{Verification of Uploaded Metadata}
 
@@ -42,8 +42,8 @@ server:
 \item Verifies that the metadata is a valid, signed RDF/XML file,
   following the defined schemas and conventions,
 \item Accepts only entries endorsed after the most recent entry for a
-  particular appliance, and 
-\item Confirms the email address of the entry.
+  particular appliance, [RS4] and 
+\item Confirms the email address of the entry. [RS2]
 \end{itemize}
 Only validated metadata entries are visible from the standard
 Marketplace interface.
@@ -52,10 +52,10 @@ Marketplace interface.
 
 The Marketplace must ensure that all of the data concerning an
 appliance is available.  By design, the Marketplace never removes
-metadata entries---the entire appliance timeline is always available.
-By default however, only the current endorsements are provided as
-these are the entries needed to make decisions about the validity of
-an appliance.
+metadata entries---the entire appliance timeline is always
+available. [RU4] By default however, only the current endorsements are
+provided as these are the entries needed to make decisions about the
+validity of an appliance.
 
 The Marketplace does not allow the history of an appliance to be
 altered.  As described above, the Marketplace does not accept entries
