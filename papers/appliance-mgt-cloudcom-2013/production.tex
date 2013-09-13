@@ -8,38 +8,32 @@ framework and Marketplace allowing users to allocate resources and to
 use appliances on either site.  The collaboration uses this production
 cloud to validate its software in real world conditions.
 
-\begin{table}
-\caption{Marketplace Statistics}
-\label{table:statistics}
-\begin{center}
-\begin{tabular}{lr}
-\hline
-\hline
+\begin{figure}
+\begin{overpic}[width=\columnwidth]{getrequests.pdf}
+\put(8,35){\mbox{\bfseries\scriptsize%
+\begin{tabular}{@{\ }l@{\ }r@{\ }}
 endorsers & 44 \\
 current appliances & 105 \\
 deprecated appliances & 170 \\
 expired appliances & 832 \\
-\hline
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{getrequests.pdf}
-\end{center}
-\caption{Marketplace GET Requests}
+\end{tabular}}}
+\end{overpic}
+\caption{Marketplace requests for a 31-day period starting 11 August
+  2013.  Weekend days are shaded.  The current number of appliances
+  and endorsers are also shown.}
 \label{fig:requests}
 \end{figure}
 
-As a core service, the Marketplace is heavily used by both members of
-the collaboration and users of the federated cloud.  Some statistics
-on its use can be found in Table~\ref{table:statistics}.  
-Figure~\ref{fig:requests} shows the number of daily requests for 
-metadata over a month long period. Overall the service has performed well, 
-with minor problems being addressed as the software evolves over time.  
-Some outstanding issues and potential solutions are described below.
+As a core service, the Marketplace accessed frequently by users to
+find appliances and by the cloud infrastructures when authorizing
+requests for new virtual machine instances.  Figure~\ref{fig:requests}
+shows statistics and the frequency of requests for the relatively
+light period in August\@.  The number of requests will scale with the
+number of users and the number of virtual machines being started.
+
+Overall the service has performed well, with minor problems being
+addressed as the software evolves over time.  Some outstanding issues
+and potential solutions are described below.
 
 \subsection{Availability}
 
