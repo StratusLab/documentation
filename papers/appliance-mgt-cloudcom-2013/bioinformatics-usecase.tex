@@ -1,56 +1,72 @@
 \section{Bioinformatics Appliance Metadata}
 \label{sec:bioinfo}
 
+Additionally to the two reference cloud infrastructures, a cloud infrastructure and a Marketplace\@ instance devoted to Biology has been deployed at the
+Institut de Biologie et Chimie des Prot\'eines (IBCP) in Lyon (IDB
+cloud~\cite{idbcloud}). Operating a separate Marketplace\@ aims to satisfy the availability, data protection and appliance evolution requirements as described in chapter VIII. Indeed, adding a marketplace devoted to the bioinformatics cloud has improved its availability by making it independent from the unavoidable unavailabilities of the central one. An other goal of this separate Marketplace is to be dedicated to the registration of biological appliances, and also because some bioinformatics appliances required to limit their visibility with reasons like, for example, the confidentiality linked to the related scientific projects. Moreover, a fact about some bioinformatics tools is that they may not follow some computing development best practices and then could lead to a strong impact on the creation process of related appliances in terms of number of intermediate appliances and verbosity in the Marketplace\@. 
+
 Biologists and bioinformaticians simultaneously use many of the
 bioinformatics tools from the thousands available in the international
 community. Frequently they also need to combine multiple software
 packages to study their data with either public, or their own,
-analysis pipelines. Helping scientists to easily identify appliances
+analysis pipelines. Helping scientists to easily identify suitable appliances
 that could assist in the analysis of their data is essential,
-especially in the context of federated clouds. In such environments
-appliances can be created by different experts and could be available
-in several places.  Having extensible appliance metadata helps users
-find appropriate appliances.
+especially in the context of federated clouds. 
 
-A Marketplace instance devoted to biology has been deployed at the
-Institut de Biologie et Chimie des Prot\'eines (IBCP) in Lyon (IDB
-cloud~\cite{idbcloud}). Here, bioinformatics experts define virtual
-appliances with pre-installed tools and workflows, that scientists can
-then deploy, on demand, on national research infrastructures.
+In such environments, appliances can be created by different experts and could be available
+in several places. Bioinformatics experts act as Creators and Endorsers to define virtual
+appliances with different bioinformatics tools and workflows. Scientists, as Users, can
+then deploy them, on demand, on a research infrastructure. So having additional appliance metadata helps users
+find appropriate appliances. We have extended the generic appliance metadata schema (Fig.~\ref{fig:metadata-example})
+with additional elements related to bioinformatics tools (Fig.~\ref{fig:biotool-schema}). These metadata can be used to select the
+suitable bioinformatics appliance according to the required tools, for example to identify appliances containing the tools BLAST or ClustalW2; or to filter the appliances according to the type of bioinformatics analysis to perform, in this case respectively sequence similarity search or multiple sequence alignment.
 
-As identifying and running the relevant bioinformatics appliances
-could be difficult, IBCP have extended the standard appliance metadata
-with additional elements, where bioinformatics tools are referenced
-and tagged with RDF metadata. These metadata can be used to select the
-right bioinformatics appliance according to the desired tools
-(\textit{e.g.} BLAST, ClustalW2) or the type of analysis to perform
-(\textit{e.g.} sequence or structural analysis).
+Bioinformatics experts, as appliance creators, pre-install the bioinformatics tools related to
+the analysis targeted by the new appliance. For example, to create a bioinformatics appliance related to gene or protein sequences analysis, bioinformaticians install BLAST and ClustalW2 in the virtual machine. Once the new appliance is saved, they described these tools by appending the related `bio:tool' descriptions in the appliance metadata (see Fig.~\ref{fig:biotool-exemple}). These
+bioinformatics-enhanced metadata are registered in the
+Marketplace\@. Bioinformaticians and biologists can then search
+the Marketplace with a SPARQL query to find an appropriate appliance containing these  tools, BLAST or ClustalW2 to do multiple sequence alignment of genes or proteins. To help bioinformaticians and biologists to avoid using SPARQL, which is a low level language, we linked the Marketplace\@ with the bioinformatics Web portal we have developed in front of the IDB cloud. On this portal we synchronize, yet manually, the list of suitable appliances  from the Marketplace\@ and provide users with popup menus to filter these appliances according to the above criteria. Finally running the desired bioinformatics appliance is easy
+as for any cloud appliance. 
 
-Bioinformatics experts pre-install the bioinformatics tools related to
-the analysis to be targeted by the new appliance. The `biotools' are
-described in the appliance metadata as RDF resources (see
-Fig.~\ref{fig:biotool-schema}), inserted into a complete description
-like that in Fig.~\ref{fig:metadata-example}, and this
-bioinformatics-enhanced metadata is registered in the
-Marketplace\@. Bioinformaticians and biologists are then able to query
-the Marketplace for an appliance containing a particular tool, for
-example ClustalW2 to do multiple sequence alignment of genes or
-proteins. Finally running the desired bioinformatics appliance is easy
-as for any cloud appliance.
 
 \begin{figure}
 \tiny
  \begin{center}
     \begin{verbatim}
-<bio:biotool rdf:parseType="Resource">
+<bio:tool rdf:parseType="Resource">
+  <dcterms:identifier>tool-name</dcterms:identifier>
+  <dcterms:description>
+    tool description
+  </dcterms:description>
+  <slterms:version>tool.version</slterms:version>
+</bio:tool>
+    \end{verbatim}
+  \end{center}
+ \caption{Schema of the `bio:tool' metadata}
+ \label{fig:biotool-schema}
+\end{figure}
+
+
+\begin{figure}
+\tiny
+ \begin{center}
+    \begin{verbatim}
+<bio:tool rdf:parseType="Resource">
+  <dcterms:identifier>blast+</dcterms:identifier>
+  <dcterms:description>
+    BLAST: sequence similarity search
+  </dcterms:description>
+  <slterms:version>2.2.27</slterms:version>
+</bio:tool>
+<bio:tool rdf:parseType="Resource">
   <dcterms:identifier>clustalw2</dcterms:identifier>
   <dcterms:description>
     ClustalW2: multiple sequence alignment
   </dcterms:description>
   <slterms:version>2.1</slterms:version>
-</bio:biotool>
+</bio:tool>
     \end{verbatim}
   \end{center}
- \caption{Example `biotool' metadata}
- \label{fig:biotool-schema}
+ \caption{Examples of `bio:tool' metadata for the tools BLAST and ClustalW2}
+ \label{fig:biotool-exemple}
 \end{figure}
