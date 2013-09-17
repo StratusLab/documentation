@@ -5,7 +5,7 @@ In addition to the reference cloud infrastructure, a cloud
 infrastructure devoted to biology (IDB cloud~\cite{idbcloud}), with a
 separate Marketplace instance, has been deployed at
 IBCP\footnote{Institut de Biologie et Chimie des Prot\'eines in Lyon,
-  France}.
+  France}. IDB cloud is the first brick of the future federated cloud infrastructure of the French Bioinformatics Institute.
 
 Biologists and bioinformaticians frequently combine multiple software
 packages (from the thousands available in the international community)
@@ -28,7 +28,7 @@ the generic appliance metadata schema
 bioinformatics tools (Fig.~\ref{fig:biotool-schema})\@. These metadata
 can be used to select suitable bioinformatics appliances containing
 the required tools by searching for the tools themselves (e.g. BLAST or
-ClustalW2) or the type of analysis (e.g. sequence similarity or
+ClustalW2) or the type of analysis (e.g. sequence similarity searching or
 multiple sequence alignment).  Appliance creators enhance the
 descriptions by appending `bio:tool' entries in the appliance metadata
 (see Fig.~\ref{fig:biotool-example}).
@@ -37,7 +37,7 @@ As with all metadata, the biotool information is indexed by the
 Marketplace, allowing bioinformaticians and biologists to search the
 Marketplace with a SPARQL query to find an appropriate appliance.
 SPARQL, however, operates at a rather low level, so to further
-simplify searches, the Marketplace was linked with with the IDB
+simplify searches, the Marketplace was linked with the IDB
 bioinformatics web portal.  The portal is synchronized (manually at
 this point) with the list of suitable appliances from the Marketplace\@. The
 portal provides users with popup menus to filter appliances according
