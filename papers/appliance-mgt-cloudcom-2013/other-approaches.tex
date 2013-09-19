@@ -82,6 +82,7 @@ portability of StratusLab appliances
 
 \subsection{Appliance Transport}
 
+\label{appliance-transport}
 In a federated cloud environment, the appliances usually are made
 available outside of a particular cloud infrastructure and must be
 transported to the cloud before use.  Most cloud distributions require
@@ -122,6 +123,15 @@ upload appliances that users can then download to use in their local
 cloud. This is done using the OpenNebula command-line client, or
 through the ``Sunstone'' GUI.
 
+The EGI Applications Database~\cite{AppDB}, AppDB, is a central service
+where appliance lists are published.   
+Vmcaster/vmcatcher (Sec.~\ref{appliance-transport}) tools are 
+integrated in AppDB, making possible producing, signing, and publishing 
+appliance lists.
+Each resources provider subscription to an appliance list is published
+in the AppDB, and appliances are automatically distributed to all those 
+resources provider that subscribed to the respective appliance list. 
+ 
 The StratusLab Marketplace is at the center of the appliance handling
 mechanisms in the StratusLab cloud distribution. It contains metadata
 about appliances and serves as a registry for shared appliances.  In
