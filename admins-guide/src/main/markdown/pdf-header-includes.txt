@@ -25,7 +25,7 @@
 
 \lstset{
 language=C,                             % Code langugage
-basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
+basicstyle=\footnotesize\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
 keywordstyle=\color{OliveGreen},        % Keywords font ('*' = uppercase)
 commentstyle=\color{gray},              % Comments font
 numbers=none,                           % Line nums position
