@@ -114,6 +114,13 @@ infrastructure.  The files for these CAs and VOs are installed in the
 `/etc/grid-security/` directory.  If these CAs are acceptable, then
 all of the necessary configuration has been done for you.
 
+> **NOTE**: Before the service will accept connections with grid
+> certificates, the **certificate revocation lists (CRLs) must be
+> generated**.  Do this by hand, by executing the command in the
+> `/etc/cron.d/fetch-crl-cron` file.  This will generally take a few
+> minutes to complete.  Until the CRLs are generated, connections
+> using a client certificate will fail.
+
 If you do not want to trust these CAs and want to use the default set
 of commercial CAs trusted by the java distribution, then you must
 modify one of the start up files for the CIMI server.  Edit the file
