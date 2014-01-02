@@ -11,7 +11,7 @@
   <parent>
     <groupId>eu.stratuslab.documentation</groupId>
     <artifactId>pkg</artifactId>
-    <version>13.12.1-SNAPSHOT</version>
+    <version>14.02.0-SNAPSHOT</version>
   </parent>
   
   <properties>
