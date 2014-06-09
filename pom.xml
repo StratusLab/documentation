@@ -4,7 +4,7 @@
 
   <groupId>eu.stratuslab.documentation</groupId>
   <artifactId>docs</artifactId>
-  <version>14.06.1.RC1-SNAPSHOT</version>
+  <version>14.06.0_RC3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Documentation</name>
   <description>Documentation</description>
@@ -12,7 +12,7 @@
   <parent>
     <groupId>eu.stratuslab</groupId>
     <artifactId>distribution</artifactId>
-    <version>14.06.0.RC1</version>
+    <version>14.06.0_RC3</version>
   </parent>
 
   <modules>
