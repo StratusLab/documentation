@@ -4,7 +4,7 @@
 
   <groupId>eu.stratuslab.documentation</groupId>
   <artifactId>docs</artifactId>
-  <version>14.06.0.RC1-SNAPSHOT</version>
+  <version>14.06.1.RC1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Documentation</name>
   <description>Documentation</description>
