@@ -1,6 +1,0 @@
-% ${project.description}
-% StratusLab Collaboration
-% Version ${project.version}
-
-
-

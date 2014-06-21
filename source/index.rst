@@ -13,10 +13,13 @@ the developers through `GitHub <http://github.com/stratuslab>`__ or
 our `support mailing list <mailto:support@stratuslab.eu>`__.
 
 .. toctree::
-   :titlesonly:
+   :maxdepth: 1
 
-   user-tutorial/index.rst
+   user-tutorial/index
    admin-tutorial/index
+   user-guide/index
+   admin-guide/index
+   contributor-guide/index
 
 Search
 ======

@@ -16,10 +16,6 @@
   </parent>
 
   <modules>
-    <module>users-guide</module>
-    <module>users-tutorial</module>
-    <module>admins-guide</module>
-    <module>contribs-guide</module>
     <module>pkg</module>
   </modules>
 
@@ -65,5 +61,50 @@
       <comments>Copyright (c) 2010-2013, StratusLab Collaborators</comments>
     </license>
   </licenses>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.tomdz.maven</groupId>
+        <artifactId>sphinx-maven-plugin</artifactId>
+        <version>1.0.2</version>
+        <configuration>
+          <sourceDirectory>source</sourceDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-html</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <phase>install</phase>
+            <configuration>
+              <builder>html</builder>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-pdf</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <phase>install</phase>
+            <configuration>
+              <builder>pdf</builder>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-epub</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <phase>install</phase>
+            <configuration>
+              <builder>epub</builder>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
