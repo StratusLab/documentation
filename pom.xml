@@ -31,7 +31,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>rpm-maven-plugin</artifactId>
-            <extensions>true</extensions>
+            <extensions>false</extensions>
             <configuration>
               <release>${RELEASE}</release>
               <summary>StratusLab Documentation</summary>
@@ -63,6 +63,16 @@
                 
               </mappings>
             </configuration>
+
+            <executions>
+              <execution>
+                <id>attachd-rpm</id>
+                <goals>
+                  <goal>attachd-rpm</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
           </plugin>
 
         </plugins>
