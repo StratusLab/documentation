@@ -23,9 +23,52 @@
           <exists>/usr/bin/rpmbuild</exists>
         </file>
       </activation>
-      <modules>
-        <module>rpm</module>
-      </modules>
+
+      <build>
+
+        <plugins>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>rpm-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <release>${RELEASE}</release>
+              <summary>StratusLab Documentation</summary>
+              <name>stratuslab-docs</name>
+              <group>System</group>
+              <vendor>StratusLab</vendor>
+              <packager>StratusLab</packager>
+              <copyright>Apache 2</copyright>
+              <url>http://stratuslab.eu/</url>
+              <needarch>noarch</needarch>
+              <description>
+                HTML documentation for the StratusLab cloud distribution.
+              </description>
+
+              <mappings>
+                
+                <mapping>
+                  <directory>/usr/share/stratuslab/${project.version}</directory>
+                  <filemode>644</filemode>
+                  <username>root</username>
+                  <groupname>root</groupname>
+                  <directoryIncluded>false</directoryIncluded>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/docs/html</location>
+                    </source>
+                  </sources>
+                </mapping>
+                
+              </mappings>
+            </configuration>
+          </plugin>
+
+        </plugins>
+
+      </build>
+
     </profile>
   </profiles>
 
