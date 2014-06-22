@@ -11,7 +11,7 @@
   <fileSets>
     
     <fileSet>
-      <directory>${project.basedir}/target/dependency/${project.version}</directory>
+      <directory>${project.basedir}/target/docs/html</directory>
       <outputDirectory>${project.version}</outputDirectory>
       <fileMode>0644</fileMode>
       <directoryMode>0755</directoryMode>

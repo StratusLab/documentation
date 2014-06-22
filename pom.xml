@@ -15,9 +15,19 @@
     <version>14.06.0_RC6-SNAPSHOT</version>
   </parent>
 
-  <modules>
-    <module>pkg</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>build-rpm</id>
+      <activation>
+        <file>
+          <exists>/usr/bin/rpmbuild</exists>
+        </file>
+      </activation>
+      <modules>
+        <module>rpm</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <scm>
     <connection>scm:git:ssh://git@github.com/StratusLab/documentation.git</connection>
@@ -77,34 +87,38 @@
             <goals>
               <goal>generate</goal>
             </goals>
-            <phase>install</phase>
+            <phase>compile</phase>
             <configuration>
               <builder>html</builder>
-            </configuration>
-          </execution>
-          <execution>
-            <id>build-pdf</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <phase>install</phase>
-            <configuration>
-              <builder>pdf</builder>
-            </configuration>
-          </execution>
-          <execution>
-            <id>build-epub</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <phase>install</phase>
-            <configuration>
-              <builder>epub</builder>
+              <outputDirectory>${project.build.directory}/docs/html</outputDirectory>
             </configuration>
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	
+	<executions>
+	  <execution>
+	    <id>bundle</id>
+	    <goals>
+	      <goal>single</goal>
+	    </goals>
+	    <phase>package</phase>
+	    <configuration>
+	      <appendAssemblyId>false</appendAssemblyId>
+	      <descriptors>
+		<descriptor>src/main/assembly/bundle.xml</descriptor>
+	      </descriptors>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+
     </plugins>
+
   </build>
 
 </project>
