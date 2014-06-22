@@ -12,11 +12,21 @@ administrators.  If the guides don't answer your questions, contact
 the developers through `GitHub <http://github.com/stratuslab>`__ or
 our `support mailing list <mailto:support@stratuslab.eu>`__.
 
+Tutorials
+=========
+
 .. toctree::
    :maxdepth: 1
 
    user-tutorial/index
    admin-tutorial/index
+
+Guides
+======
+
+.. toctree::
+   :maxdepth: 1
+
    user-guide/index
    admin-guide/index
    contributor-guide/index
