@@ -66,9 +66,9 @@
 
             <executions>
               <execution>
-                <id>attachd-rpm</id>
+                <id>attached-rpm</id>
                 <goals>
-                  <goal>attachd-rpm</goal>
+                  <goal>attached-rpm</goal>
                 </goals>
                 <phase>package</phase>
               </execution>
