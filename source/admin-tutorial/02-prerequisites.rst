@@ -37,6 +37,10 @@ for any KVM errors when trying to load the KVM kernel module.
 Operating System
 ----------------
 
+Be sure to read all of the operating system requirements before
+installing your machines.  This will save you from having to do
+the installation multiple times!
+
 Supported Versions
 ~~~~~~~~~~~~~~~~~~
 
@@ -149,7 +153,7 @@ repository, put the following into the file
 
     [StratusLab-Releases]
     name=StratusLab-Releases
-    baseurl=http://yum.stratuslab.eu/releases/centos-6.2-v13.02/
+    baseurl=http://yum.stratuslab.eu/releases/centos-6-v14.06.0_RC5/
     gpgcheck=0
 
 replacing the URL with the version you want to install.
@@ -174,14 +178,24 @@ DNS and Hostname
 
 Ensure that the **hostname** is properly setup on the Front End and the
 Node. The DNS must provide both the forward and reverse naming of the
-nodes. This is required for critical services to start.
+nodes.  For example::
 
-You can verify this on both the Front End and the Node with the
-command::
+    $ host cloud.lal.stratuslab.eu 
+    cloud.lal.stratuslab.eu is an alias for onehost-4.lal.in2p3.fr.
+    onehost-4.lal.in2p3.fr has address 134.158.75.4
+
+    $ host 134.158.75.4 
+    4.75.158.134.in-addr.arpa domain name pointer onehost-4.lal.in2p3.fr.
+
+Ensure that the host resolves to an IP address and that the IP address
+resolves back to the original name (or alias). 
+
+Also ensure that the hostname is properly set for the node::
 
     $ hostname -f
 
-Set the hostname if it is not correct.
+should return the full hostname (with domain).  Set the hostname if it
+is not correct.
 
 Throughout this tutorial we use the variables $FRONTEND\_HOST
 ($FRONTEND\_IP) and $NODE\_HOST ($NODE\_IP) for the Front End and Node
@@ -191,16 +205,22 @@ for your physical machines when running the commands.
 DHCP Server
 ~~~~~~~~~~~
 
-A DHCP server must be configured to assign static IP addresses
-corresponding to known MAC addresses for the virtual machines. These IP
-addresses must be publicly visible if the cloud instances are to be
-accessible from the internet.
+**You must have a range of free IP addresses that can be assigned to
+virtual machines.** The range should be large enough to handle the
+maximum number of virtual machines you expect to have running
+simultaneously on your infrastructure.
 
-If an external DHCP server is not available, the StratusLab installation
-command can be used to properly configure a DHCP server on the Front End
-for the virtual machines.
+These IP addresses must be publicly visible if the cloud instances are
+to be accessible from the internet.
 
-This uses a DHCP server on the Front End.
+In addition, a DHCP server must be configured to assign static IP
+addresses corresponding to known MAC addresses for the virtual
+machines.  You can use an external DHCP server or if one is not
+available (or not desired), the StratusLab installation command can be
+used to properly configure a DHCP server on the Front End for the
+virtual machines.
+
+This tutorial will start a DHCP server on the Front End by default.
 
 Network Bridge
 ~~~~~~~~~~~~~~
@@ -210,7 +230,7 @@ machines access to the internet. You can do this manually if you want,
 but the StratusLab installation scripts are capable of configuring this
 automatically.
 
-This tutorial allows the installation scripts to configure the network
+This tutorial uses the installation scripts to configure the network
 bridge.
 
 SSH Configuration
@@ -233,8 +253,9 @@ Check to see if there is already an SSH key pair in
     Enter passphrase (empty for no passphrase): 
     Enter same passphrase again: 
 
-Now ensure that you can log into the Front End from the Front End
-without needing a password. Do the following::
+Now do the necessary configuration to ensure that you can log into the
+Front End from the Front End with your SSH key (and without a
+password). Do the following::
 
     $ ssh-copy-id $FRONTEND_HOST
     The authenticity of host 'onehost-5.lal.in2p3.fr (134.158.75.5)' can't be established.
@@ -246,14 +267,28 @@ without needing a password. Do the following::
 
       .ssh/authorized_keys
 
-    to make sure we haven't added extra keys that you weren't expecting.
+    to make sure we haven't added extra keys that you weren't
+    expecting.
 
-Do the same thing for the node::
+and then the same thing for the node::
 
     $ ssh-copy-id $NODE_HOST
     ...
 
-And verify that the password-less access works as expected.
+After these commands you key should have been added to the
+`authorized_key` file on both nodes and should allow you to log in
+without a password.
+
+.. note::
+
+   If you machine does not have the `ssh-copy-id` command, then you
+   will have to do the configuration by hand.  Append the contents of
+   your `$HOME/.ssh/id_rsa.pub` file to the
+   `$HOME/.ssh/authorized_keys` file on both the Front End and the
+   Node.  You will also have to accept the host's SSH key the first
+   time you log in.
+
+Verify that the password-less access works as expected.
 
 ::
 

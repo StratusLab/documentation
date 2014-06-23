@@ -2,41 +2,22 @@
 Configuration Parameters
 ========================
 
-Principles
-----------
+There is a fair number of cloud services and a large number of
+associated parameters.  Fortunately, the default values for many of
+these services will work fine, so only a limited number of parameters
+actually need to be set.
 
-The entire StratusLab Cloud is configured from a single configuration
-file ``/etc/stratuslab/stratuslab.cfg``. This file contains many
-options, but only a few are required.
+This section describes the parameters that need to be set by service.
 
-StratusLab ships with a default configuration file in the standard
-location and a reference configuration file located in
-``/etc/stratuslab/stratuslab.cfg.ref``.
+Front End Parameter
+-------------------
 
-To simplify viewing the configuration parameters and changing them, the
-``stratus-config`` command can be used.
+For the Front End, you need only set the value of its IP address:: 
 
-To list the content of the configuration, and show the differences
-between the ``stratuslab.cfg`` file and the reference configuration, you
-can use the ``-k`` or ``--keys`` option::
-
-    $ stratus-config -k
-
-    ... lots of parameter values! ...
-
-To change a value, specify the key and the new value. To view a single
-value, simply specify the key.
-
-We will use this command to set the various configuration parameters
-below.
-
-VM Management Service
----------------------
-
-The parameters for the frontend and VM management::
-
-    $ stratus-config frontend_system centos
     $ stratus-config frontend_ip $FRONTEND_IP
+
+This must be set to the real IP address of the node.  The localhost
+value 127.0.0.1 will not produce a working system. 
 
 Storage Service
 ---------------
@@ -50,6 +31,8 @@ same IP address should be used.
 
     $ stratus-config persistent_disk_system centos
     $ stratus-config persistent_disk_ip $FRONTEND_IP
+    $ stratus-config persistent_disk_port 443
+    $ stratus-config persistent_disk_path pdisk
     $ stratus-config persistent_disk_merge_auth_with_proxy True 
 
 The Persistent Disk service and the Nodes communicate using a strategy
@@ -62,8 +45,8 @@ for the Persistent Disk service::
 
     $ stratus-config persistent_disk_lvm_device /dev/vg.02
 
-    # Provide detailed parameters for storage backend plugins.
-    # (NOTE: The opening and closing single quotes!)
+    # *** NOTE: Copy the following exactly.  Be careful of ***
+    # *** the opening and closing single quotes!           ***
     $ stratus-config persistent_disk_backend_sections '
     [%(persistent_disk_ip)s]
             type=LVM
@@ -73,8 +56,8 @@ for the Persistent Disk service::
             initiator_group =
     '
 
-If you've used another name for the LVM volume group, then change the
-above command.
+**If your LVM volume group name is not "vg.02", then change the values
+in the above commands.**
 
 Network configuration
 ---------------------
@@ -95,7 +78,9 @@ In this example, the Front-End is configured on IP address $FRONTEND\_IP
 and three IP/MAC address pairs are defined for virtual machines.
 
 **You must use the real values for the Front End IP addresses and for
-the range of addresses you will use for the virtual machines.**
+the range of addresses you will use for the virtual machines.**  The
+mac addresses are arbitrary, but it is a good idea to have the last
+four fields match the IPv4 network address.  
 
 More network parameters are described in the "one-network" section in
 the reference configuration file.
@@ -119,17 +104,9 @@ the Front End. Do the following::
 
 Use **your** values for these parameters!
 
-Finalize Front End Installation
--------------------------------
+Review Parameters
+-----------------
 
-Now that we have defined all of the configuration parameters, you can
-now do the full Front End installation by issuing the following
-command::
-
-    $ stratus-install -vv
-
-To get more details on what the command is (because of curiosity or
-errors), use the option ``-v``, ``-vv``, or ``-vvv``.
-
-If you run into errors, the ``stratus-install`` command can simply be
-rerun after adjusting the configuration parameters.
+Do a final review of all of the service parameters to make sure that
+they are correct.  If everything looks good, you're ready to do the
+Front End installation.
