@@ -2,9 +2,6 @@
 Front End Installation
 ======================
 
-Finalize Front End Installation
--------------------------------
-
 Now that we have defined all of the configuration parameters, you can
 now do the full Front End installation by issuing the following
 command::

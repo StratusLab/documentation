@@ -80,13 +80,11 @@ address of your Front End. For the "username" and "password" use
 
 Everything should be setup now. So try deploying a virtual machine. You
 can look in the Marketplace to find an interesting machine to deploy.
-We'll use a ttylinux image here. This is a micro distribution that boots
-very quickly and is ideal for tests.
+We'll use an Ubuntu image here.
 
 ::
 
-    # Deploy a ttylinux virtual machine. 
-    $ stratus-run-instance BN1EEkPiBx87_uLj2-sdybSI-Xb 
+    $ stratus-run-instance KhGzWhB9ZZv5ZkLSZqm6pkWx7ZF
 
      :::::::::::::::::::::::::
      :: Starting machine(s) ::
@@ -144,7 +142,7 @@ network::
      (RSA) to the list of known hosts.
 
 
-    #       # <- we're logged into the ttylinux virtual machine
+    #       # <- we're logged into the virtual machine
     # exit  # just logout of the session
     logout
     Connection to vm-42.lal.stratuslab.eu closed.
