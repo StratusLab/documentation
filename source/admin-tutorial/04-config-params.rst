@@ -56,8 +56,10 @@ for the Persistent Disk service::
             initiator_group =
     '
 
-**If your LVM volume group name is not "vg.02", then change the values
-in the above commands.**
+.. warning::
+
+   If your LVM volume group name is not "vg.02", then change the
+   values in the above commands.
 
 Network configuration
 ---------------------
