@@ -2,76 +2,115 @@
 Prerequisites
 =============
 
+This tutorial demonstrates a minimal installation of a StratusLab cloud
+on two physical machines.  Before trying to install the StratusLab
+software there are many prerequisites that must be satisfied by the
+hardware, operating system, and software. 
+
 Physical Machines
 -----------------
 
-This tutorial demonstrates a minimal installation of a StratusLab cloud
-on two physical machines. The physical machines should be relatively
-modern machines with the following **minimum** characteristics:
+The physical machines should be relatively modern machines with the
+following **minimum** characteristics:
 
--  1 **64-bit multicore** CPU (>= 4 cores) with **VT-x extensions**
+-  1 **64-bit multicore** CPU (>= 4 cores)
 -  4 GB of RAM
 -  200 GB local disk space
 
-**The hardware virtualization extensions must be enabled in the BIOS on
-the "Node" machine.** Many vendors ship machines with these extensions
-disabled.
+In general cloud infrastructures prefer "fat" machines; that is
+machines that have the maximum number of CPUs, RAM, and disk space as
+possible.  This is because the maximum size of a single virtual
+machine is limited by the size of the largest physical machine.
 
-In general cloud infrastructures prefer "fat" machines, that is machines
-that have a maximum number of CPUs, RAM, and disk space as possible.
-This is because the maximum size of a single virtual machine is limited
-by the size of the largest physical machine.
+Virtualization Support
+----------------------
 
-Software
---------
+The machine must have a CPU that supports the VT-x virtualization
+extensions and must have this support enabled in the BIOS.  **Many
+vendors ship machines with these extensions disabled.**
+
+RedHat has a `good document <http://virt-tools.org/learning/check-hardware-virt/>`__ 
+for checking if your machine will support virtualization.  In short, check
+the `/proc/cpuinfo` for the proper flags and check the `dmesg` console
+for any KVM errors when trying to load the KVM kernel module.
 
 Operating System
-~~~~~~~~~~~~~~~~
+----------------
+
+Supported Versions
+~~~~~~~~~~~~~~~~~~
 
 Install a minimal version of `CentOS 6 <http://www.centos.org>`__ on the
 two physical machines that will be used for the cloud infrastructure.
+Other distributions that are compatible with CentOS 6 will likely
+work; however, only CentOS 6 is systematically tested.
+
+Operating Systems in the Debian family (e.g. Ubuntu) are not currently
+supported. 
 
 Disable SELinux
 ~~~~~~~~~~~~~~~
 
-The SELinux system must be disabled on **all of the machines**. Normally
-this is enabled by default. To disable SELinux, ensure that the file
-``/etc/selinux/config`` has the following line::
+The SELinux system must be disabled on **all of the machines** in the
+cloud infrastructure.  The standard CentOS installation procedure
+normally activates SELinux.
+
+To disable SELinux, ensure that the file ``/etc/selinux/config`` has
+the following line::
 
     SELINUX=disabled
 
-**You must reboot the machine for this to take effect.**
+You can also use the commands ``getenforce`` and ``sestatus`` to find
+the current SELinux status.  Changes in this configuration are only
+taken into account after **rebooting the machine**. 
+
+You can reboot the machine to have your changes taken into account or
+disable SELinux temporarily::
+
+    $ echo 0 > /selinux/enforce
+
+This change will be lost at the next reboot unless you have also
+changed the ``/etc/selinux/config`` configuration file.
+    
+Disk Configuration
+------------------
+
+StratusLab allows for a variety of storage options behind the persistent
+disk service.
+
+This tutorial uses the default storage solution using LVM and iSCSI.
+Because of this, the machines **must be configured to use LVM for the
+disk storage.**
+
+The Front End will host the storage service and the physical storage
+associated with it.  It is strongly recommended that the Front End
+machine be configured with **two LVM groups**: one for the base
+operating system (~20 GB) and one for the StratusLab storage service
+(remaining space).  One LVM group is possible, but you risk starving
+normal system services of disk space.
+
+In the tutorial, we assume that the volume group names are "vg.01" for
+the operating system and "vg.02" for the StratusLab storage service on
+the Front End.  You can use other names, but change the commands and
+configuration parameters below as necessary.
+
+The "Node" machine can be configured with a single LVM group.
+
+Software
+--------
 
 Python Version
 ~~~~~~~~~~~~~~
 
 The default version of Python installed with CentOS should be correct.
-StratusLab requires a version of Python 2 with a version **2.6 or
-later**. The StratusLab command line tools **do not work with Python
-3**.
-
 Verify that the correct version of Python is installed::
 
     $ python --version
     Python 2.6.6
 
-Disk Configuration
-~~~~~~~~~~~~~~~~~~
-
-StratusLab allows for a variety of storage options behind the persistent
-disk service. The tutorial uses the defaults using LVM and iSCSI.
-
-**The machines must be configured to use LVM for the disk storage.**
-
-The Front End must be configured with two LVM groups: one for the base
-operating system (~20 GB) and one for the StratusLab storage service
-(remaining space).
-
-The "Node" machine can be configured with a single LVM group.
-
-Below, we assume that the volume group names are "vg.01" for the
-operating system and "vg.02" for the StratusLab storage service. You can
-use other names, but then change the commands below as necessary.
+StratusLab requires a version of Python 2 with a version **2.6 or
+later**. The StratusLab command line tools **do not work with Python
+3**.
 
 Package Repositories
 ~~~~~~~~~~~~~~~~~~~~
@@ -85,16 +124,24 @@ The StratusLab installation takes packages from four yum repositories:
    Certificates <http://repository.egi.eu/sw/production/cas/1/current/>`__.
 
 The configuration for the CentOS repository is done when the system is
-installed. The others require additional configuration.
+installed and the IGTF repository will be configured by the StratusLab
+tools as necessary.  The others require explicit configuration. 
 
-To configure **both** the Front End and Node for the EPEL repository, do
+EPEL Repository
+^^^^^^^^^^^^^^^
+
+Configure **both** the Front End and Node for the EPEL repository.  Do
 the following::
 
     $ wget -nd http://mirrors.ircam.fr/pub/fedora/epel/6/i386/epel-release-6-8.noarch.rpm 
     $ yum install -y epel-release-6-8.noarch.rpm
 
 This will add the necessary files to the ``/etc/yum.repos.d/``
-directory.
+directory.  You can find the latest version of the EPEL configuration
+RPM on the EPEL wiki.
+
+StratusLab Repository
+^^^^^^^^^^^^^^^^^^^^^
 
 To configure **both** the Front End and Node for the StratusLab
 repository, put the following into the file
@@ -107,6 +154,9 @@ repository, put the following into the file
 
 replacing the URL with the version you want to install.
 
+Cleanup and Upgrade
+^^^^^^^^^^^^^^^^^^^
+
 Although not strictly necessary, it is advisable to clear all of the yum
 caches and upgrade the packages to the latest versions::
 
@@ -115,6 +165,9 @@ caches and upgrade the packages to the latest versions::
 
 This may take some time if you installed the base operating system from
 old media.
+
+Network Setup
+-------------
 
 DNS and Hostname
 ~~~~~~~~~~~~~~~~
@@ -135,8 +188,33 @@ Throughout this tutorial we use the variables $FRONTEND\_HOST
 hostnames (IP addresses), respectively. Change these to the proper names
 for your physical machines when running the commands.
 
+DHCP Server
+~~~~~~~~~~~
+
+A DHCP server must be configured to assign static IP addresses
+corresponding to known MAC addresses for the virtual machines. These IP
+addresses must be publicly visible if the cloud instances are to be
+accessible from the internet.
+
+If an external DHCP server is not available, the StratusLab installation
+command can be used to properly configure a DHCP server on the Front End
+for the virtual machines.
+
+This uses a DHCP server on the Front End.
+
+Network Bridge
+~~~~~~~~~~~~~~
+
+A network bridge must be configured on the Node to allow virtual
+machines access to the internet. You can do this manually if you want,
+but the StratusLab installation scripts are capable of configuring this
+automatically.
+
+This tutorial allows the installation scripts to configure the network
+bridge.
+
 SSH Configuration
-~~~~~~~~~~~~~~~~~
+-----------------
 
 The installation scripts will automate most of the work, but the scripts
 require **password-less root access**:
@@ -197,28 +275,3 @@ And verify that the password-less access works as expected.
 
 Now that SSH is properly configured, the StratusLab scripts will be able
 to install software on both the Front End and the Node.
-
-DHCP Server
-~~~~~~~~~~~
-
-A DHCP server must be configured to assign static IP addresses
-corresponding to known MAC addresses for the virtual machines. These IP
-addresses must be publicly visible if the cloud instances are to be
-accessible from the internet.
-
-If an external DHCP server is not available, the StratusLab installation
-command can be used to properly configure a DHCP server on the Front End
-for the virtual machines.
-
-This uses a DHCP server on the Front End.
-
-Network Bridge
-~~~~~~~~~~~~~~
-
-A network bridge must be configured on the Node to allow virtual
-machines access to the internet. You can do this manually if you want,
-but the StratusLab installation scripts are capable of configuring this
-automatically.
-
-This tutorial allows the installation scripts to configure the network
-bridge.

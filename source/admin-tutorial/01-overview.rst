@@ -6,22 +6,22 @@ The StratusLab distribution provides a simple command line client to
 install, configure and start the StratusLab Cloud services and
 components.
 
-The default deployment has two types of machines:
+The deployment described in this tutorial requires two physical
+machines with a minimal version of CentOS 6 (or compatible) installed.
+The deployment consists of the two StratusLab machine types:
 
-1. **Front-End** - machine for VM management and storage services
-2. **Node** - machine that hosts virtual machines
+- **Front-End** - machine for VM management and storage services
+- **Node** - machine that hosts virtual machines
 
-A quick overview of the procedure is:
+The procedure for installing a minimal StratusLab cloud consists of
+the following steps: 
 
-1. Ensure all prerequisites are satisfied.
-2. Define all of the StratusLab service parameters.
-3. Install and configure the Front End, containing the VM management
-   service (OpenNebula) and the storage management (Persistent Disk)
-   service.
-4. Install and configure the Node(s) via SSH from the Front End. By
-   default `KVM <http://www.linux-kvm.org/>`__ is used for the
-   hypervisor on the Node(s).
-5. Validate the installation by starting a virtual machine.
+1. Verification of all of the prerequisites.
+2. Installation of the StratusLab administrator tools.
+3. Definition of all of the StratusLab service parameters.
+4. Configuration and installation of the Front End.
+5. Configuration and installation of the Node.
+6. Validation of the cloud installation.
 
 .. figure:: images/install-diagram.png
    :alt: Minimal StratusLab Cloud
