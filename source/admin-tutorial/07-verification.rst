@@ -7,11 +7,12 @@ principle this is a fully functional installation.  To ensure this is
 the case, we'll run the standard battery of tests on the cloud
 infrastructure as a normal user.
 
-User Configuration
-------------------
+Cloud User
+----------
 
-We will create a new StratusLab user account. Note that StratusLab
-accounts are independent of the Unix accounts on the machine itself.
+We will create a new StratusLab cloud user account. Note that
+StratusLab accounts are independent of the Unix accounts on the
+machine itself.
 
 Add the following line to the end of the file
 ``/etc/stratuslab/authn/login-pswd.properties``::
@@ -40,7 +41,8 @@ machine. Do the following as root::
 
     $ yum install -y stratuslab-cli-user
 
-It is very likely that the user client commands are already installed.
+This will do a system-wide installation of the StratusLab client from
+the RPM package.
 
 .. note::
 
@@ -48,27 +50,38 @@ It is very likely that the user client commands are already installed.
    ``pip`` for the client installation.  See the User Tutorial or User
    Guide for more information.
 
+.. warning::
+
+   The RPM and pip installations are incompatible.  Use only one
+   method for installing the client!
+
+Unix Account
+------------
+
 Now create a normal Unix user for testing::
 
     $ adduser sluser
+
+We've chosen the same name as the cloud user, but the unix and cloud
+user accounts are distinct.
 
 Now log in as the user and setup the account for using StratusLab. An
 SSH key pair is required to log into your virtual machines and the
 client requires that a complete client configuration file.
 
 Log in as the user and create an SSH key pair. This is similar to the
-process used for the root account on the machine.
-
-::
+process used for the root account on the machine::
 
     $ su - sluser
     $ ssh-keygen -q
     ...
 
-Now copy the reference configuration file into place and edit the
-parameters.
+You can create a passphrase for this SSH key if you want.  If you do,
+you'll need to provide the passphrase when logging into virtual
+machines.
 
-::
+Now copy the reference configuration file into place and edit the
+parameters::
 
     $ stratus-copy-config
     $ vi $HOME/.stratuslab/stratuslab-user.cfg
@@ -78,9 +91,63 @@ parameters in this file. For the "endpoint" use the hostname or IP
 address of your Front End. For the "username" and "password" use
 "sluser" and "slpass", respectively.
 
-Everything should be setup now. So try deploying a virtual machine. You
-can look in the Marketplace to find an interesting machine to deploy.
-We'll use an Ubuntu image here.
+Hello Cloud
+-----------
+
+Everything should be setup now.  So just "ping" the services to ensure
+that they are running and accessible.
+
+    $ stratus-describe-volumes 
+    No disk to show
+
+    $ stratus-describe-instance 
+    id  state     vcpu memory    cpu% host/ip                 name
+
+If the services do not respond, verify that the services are running
+and accessible through the nginx proxy.  You may need to restart the
+nginx server after the server configuration. 
+
+Storage Check
+-------------
+
+Because the virtual machine management infrastructure depends on
+the storage system.  We should first verify that the storage system
+works.
+
+Run through the complete lifecycle of a persistent disk::
+
+    $ stratus-create-volume --size 1 --tag HELLO
+    DISK 87955437-1baa-412b-87ed-71e59e45e0f4
+
+    $ stratus-describe-volumes 
+    :: DISK 87955437-1baa-412b-87ed-71e59e45e0f4
+       count: 0
+       owner: sluser
+       tag: HELLO
+       size: 1
+
+    $ stratus-delete-volume 87955437-1baa-412b-87ed-71e59e45e0f4 
+    DELETED 87955437-1baa-412b-87ed-71e59e45e0f4
+
+    $ stratus-describe-volumes 
+    No disk to show
+
+If the full lifecycle works, then you're ready to try to deploy a
+virtual machine. 
+
+Virtual Machine Check
+---------------------
+
+You installed manually the package which provides the load information
+for the cloud.  Check that the Node you configured is visible and not
+showing any errors::
+
+    $ -k https://${FRONTEND_HOST}/load.txt
+    ID NAME               RVM   TCPU   FCPU   ACPU   TMEM   FMEM   AMEM  STAT
+     0 134.158.48.52        0      0      0    100     0K     0K     0K  err
+
+If there are no machines listed or there is an error, you will need to
+correct this before going on. 
 
 ::
 
