@@ -47,6 +47,7 @@ for the Persistent Disk service::
 
     # *** NOTE: Copy the following exactly.  Be careful of ***
     # *** the opening and closing single quotes!           ***
+
     $ stratus-config persistent_disk_backend_sections '
     [%(persistent_disk_ip)s]
             type=LVM
@@ -70,9 +71,11 @@ Use the frontend as the general gateway for the cloud::
 
 Set the IP and mac addresses for virtual machines::
 
+    # space-separated list
     $ stratus-config one_public_network_addr \
         134.158.xx.yy 134.158.xx.yy 134.158.xx.yy
 
+    # space-separated list
     $ stratus-config one_public_network_mac \
         0a:0a:86:9e:49:2a 0a:0a:86:9e:49:2b 0a:0a:86:9e:49:2c
 
@@ -99,9 +102,11 @@ the Front End. Do the following::
     $ stratus-config dhcp_lease_time 3600
 
     $ stratus-config dhcp_one_public_network True
-    $ stratus-config dhcp_one_local_network_routers $FRONTEND_IP
-    $ stratus-config dhcp_one_local_network_domain_name lal.in2p3.fr
-    $ stratus-config dhcp_one_local_network_domain_name_servers \
+    $ stratus-config dhcp_one_public_network_routers $FRONTEND_IP
+    $ stratus-config dhcp_one_public_network_domain_name lal.in2p3.fr
+
+    # comma-separated list
+    $ stratus-config dhcp_one_public_network_domain_name_servers \
          134.158.91.80, 134.158.88.149
 
 Use **your** values for these parameters!

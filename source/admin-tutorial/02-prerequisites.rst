@@ -29,10 +29,20 @@ The machine must have a CPU that supports the VT-x virtualization
 extensions and must have this support enabled in the BIOS.  **Many
 vendors ship machines with these extensions disabled.**
 
-RedHat has a `good document <http://virt-tools.org/learning/check-hardware-virt/>`__ 
-for checking if your machine will support virtualization.  In short, check
-the `/proc/cpuinfo` for the proper flags and check the `dmesg` console
-for any KVM errors when trying to load the KVM kernel module.
+RedHat has a `good document
+<http://virt-tools.org/learning/check-hardware-virt/>`__ for checking
+if your machine will support virtualization.  In short, check the
+`/proc/cpuinfo` for the proper flags::
+
+    $ grep vmx /proc/cpuinfo 
+
+and check the `dmesg` console for any KVM errors when trying to load
+the KVM kernel module::
+
+    $ dmesg | grep kvm
+
+looking for any messages about KVM not supporting virtualisation or
+having it disabled in BIOS.
 
 Operating System
 ----------------
@@ -100,6 +110,21 @@ configuration parameters below as necessary.
 
 The "Node" machine can be configured with a single LVM group.
 
+You can see the configured volume groups with the command::
+
+    $ vgdisplay
+
+     --- Volume group ---
+     VG Name               rootvg
+     System ID             
+     Format                lvm2
+     ...
+
+You'll need the volume group name "VG Name" of the volume group you'll
+be using for the cloud storage.  Verify that the device associated
+with the group name exists.  Here for example, the device is
+`/dev/rootvg`.
+
 Software
 --------
 
@@ -130,6 +155,9 @@ The StratusLab installation takes packages from four yum repositories:
 The configuration for the CentOS repository is done when the system is
 installed and the IGTF repository will be configured by the StratusLab
 tools as necessary.  The others require explicit configuration. 
+
+The directory `/etc/yum.repos.d` contains the currently configured yum
+repositories.
 
 EPEL Repository
 ^^^^^^^^^^^^^^^
