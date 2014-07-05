@@ -97,6 +97,8 @@ Hello Cloud
 Everything should be setup now.  So just "ping" the services to ensure
 that they are running and accessible.
 
+::
+
     $ stratus-describe-volumes 
     No disk to show
 
@@ -142,7 +144,7 @@ You installed manually the package which provides the load information
 for the cloud.  Check that the Node you configured is visible and not
 showing any errors::
 
-    $ -k https://${FRONTEND_HOST}/load.txt
+    $ curl -k https://${FRONTEND_HOST}/load.txt
     ID NAME               RVM   TCPU   FCPU   ACPU   TMEM   FMEM   AMEM  STAT
      0 134.158.48.52        0      0      0    100     0K     0K     0K  err
 
