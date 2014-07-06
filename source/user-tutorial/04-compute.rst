@@ -209,13 +209,24 @@ CloudInit Contextualization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CloudInit is a very flexible contextualization mechanism that is
-becoming a *de facto* standard.  StratusLab supports this mechanism,
-although it currently is not the default.
+becoming a *de facto* standard.  StratusLab supports this mechanism.
+You can make CloudInit the default contextualization mechanism by
+setting the `default_context_method` value in your configuration
+file:: 
+
+    default_context_method = cloud-init
+
+You can set this for a specific cloud infrastructure or globally in
+the defaults section. 
 
 To start a virtual machine using CloudInit, use the ``--cloud-init``
-option.  For example::
+option or the ``--context-method`` option.  The following two commands
+have the same effect::
 
     $ stratus-run-instance --cloud-init "" \
+        KhGzWhB9ZZv5ZkLSZqm6pkWx7ZF
+
+    $ stratus-run-instance --context-method cloud-init \
         KhGzWhB9ZZv5ZkLSZqm6pkWx7ZF
 
 The ``--cloud-init`` option **requires** a value.  Passing the empty
