@@ -62,7 +62,7 @@ Build System
 ------------
 
 The collaboration has chosen to use Maven as its build system.
-Consequently, all of the code is build using the standard Maven
+Consequently, all of the code is built using the standard Maven
 workflows. The collaboration maintains a common top-level ``pom.xml``
 file to manage plug-ins and dependencies. New dependencies should be
 discussed on the developers' mailing list and then added to the
@@ -84,14 +84,17 @@ Code Formatting
 ~~~~~~~~~~~~~~~
 
 Developers should generally follow the well-known style guides for their
-code. Specifically, follow the `Oracle style
-guide <http://www.oracle.com/technetwork/java/codeconv-138413.html>`__
-for java and the `PEP8 style
-guide <http://www.python.org/dev/peps/pep-0008/>`__ for Python.
+code. Specifically,
 
-IDEs such as Eclipse and PyCharm make formatting the code to these
-specifications easier. StratusLab has a PyCharm licence for its
-developers; ask for the license key.
+  * Clojure: `Clojure Style Guide <https://github.com/bbatsov/clojure-style-guide>`__
+  * Java: `Oracle style guide <http://www.oracle.com/technetwork/java/codeconv-138413.html>`__
+  * Python: `PEP8 style guide <http://www.python.org/dev/peps/pep-0008/>`__
+
+Spaces are preferred over tabs with indentation depending on the
+language (2 for Clojure; 4 for others).  
+
+IDEs such as Eclipse, IntelliJ, and PyCharm make formatting the code
+to these specifications easier.  Their use is recommended.
 
 Static Analysis
 ~~~~~~~~~~~~~~~

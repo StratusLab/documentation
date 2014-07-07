@@ -10,7 +10,7 @@ This scheme allows the overall system to scale with multiple service
 instances while maintaining consistent configurations between them.
 
 Couchbase Connection Parameters
-===============================
+-------------------------------
 
 The Couchbase connection parameters must reside in a file on the
 physical machine to bootstrap the configuration mechanism. This file
@@ -36,7 +36,7 @@ will be used. Services may have a default value for the ``cfg_docid``
 value.
 
 Service Instance Configuration
-==============================
+------------------------------
 
 After reading the Couchbase connection parameters, the service should
 read its configuration from a document in Couchbase. The document

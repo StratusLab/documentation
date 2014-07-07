@@ -21,18 +21,16 @@ Tagging and Packaging
 ---------------------
 
 All of the tagging and packaging of the releases are handled through
-manually-triggered jobs in Hudson. The "tagging" jobs should be executed
-first, with the "release" jobs executed afterwards for both CentOS and
-OpenSuSE.
+manually-triggered jobs in Jenkins.
 
 Note that these must be done in the correct order to ensure that the
-proper dependencies are picked up. The proper dependencies will need to
-be updated by hand in the pom files.
+proper dependencies are picked up. The proper dependencies will need
+to be updated by hand in the pom files.
 
 Publishing
 ----------
 
-The releases are made available through yum repositories. Again, Hudson
+The releases are made available through yum repositories. Again, Jenkins
 is used to create the content of these repositories. They must be copied
 by hand to the StratusLab yum repository machine.
 
