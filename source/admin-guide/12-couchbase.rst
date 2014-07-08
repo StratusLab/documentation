@@ -7,11 +7,11 @@ components of the system by allowing them to stateless and by acting as
 a means for coordinating the components of the system.
 
 StratusLab uses `Couchbase <http://couchbase.com>`__ for this
-distributed database. It was chosen because of its ability to store and
-to index JSON-formatted documents efficiency, matching well the needs of
-managing cloud resources through the CIMI data model. It is easy to
-deploy for small database, while retaining the ability to scale to very
-large systems.
+distributed database. It was chosen because of its ability to store
+and to index JSON-formatted documents efficiency, closely matching the
+needs of managing cloud resources through the CIMI data model. It is
+easy to deploy for small database, while retaining the ability to
+scale to very large systems.
 
 Because all other StratusLab components rely on having access to the
 Couchbase database, it is the first component that must be installed.
@@ -20,19 +20,20 @@ Service Overview
 ----------------
 
 Couchbase is available as a standard RPM package from the Couchbase
-website. The company distributes two versions of the database from their
-website: a "community" version and an "enterprise" version.
+website. The company distributes two versions of the database:
 
-The community version is open source and released under the Apache 2
-license (the same as for StratusLab). StratusLab uses this version for
-all of its own deployments and tests. For convenience, the RPM package
-for Couchbase is included in the StratusLab yum repository.
+- The **community version** is open source and released under the
+  Apache 2 license (the same as for StratusLab). StratusLab uses this
+  version for all of its own deployments and tests. For convenience,
+  the RPM package for Couchbase is included in the StratusLab yum
+  repository.
 
-The enterprise version requires the purchase of a commercial license for
-anything other than small test deployments. However the commercial
-support for deployment problems and software bugs may be interesting for
-those deploying mission-critical cloud infrastructures. StratusLab
-should work with the enterprise version, but does not require it.
+- The **enterprise version** requires the purchase of a commercial
+  license for anything other than small test deployments.  The
+  commercial support may be interesting for mission-critical cloud
+  infrastructures. StratusLab should work with the enterprise version,
+  but does not require it.  The enterprise version is not
+  systematically tested by the StratusLab collaboration.
 
 +--------------------+--------------------------------------------+
 | init.d script      | couchbase-server                           |
@@ -127,26 +128,31 @@ database on the machine. Do the following:
     Starting couchbase-server       [OK]
 
 You can get more detailed output if you add the ``-vvv`` option. This
-command installs the necessary packages and then setup the database. The
-last line should indicate that Couchbase has been started; if successful
-you will see an "OK" indication.
+command installs the necessary packages and then sets up the
+database. The last line should indicate that Couchbase has been
+started; if successful you will see an "OK" indication.
 
-The installation creates an administrator account for the database
-called 'admin'. The randomly generated password for this account is
-available in ``/opt/couchbase/cluster-password.txt``.
+.. note::
 
-If you wish, you can use the Couchbase web interface to view the current
-status of the cluster. This interface is available on port 8091, but by
-default, is only accessible locally on the machine. To view it remotely
-you will need to tunnel to the machine:
+   The installation creates an administrator account for the database
+   called 'admin'. The randomly generated password for this account is
+   available in ``/opt/couchbase/cluster-password.txt``.
+
+Verification
+------------
+
+The easiest way to verify that Couchbase has been correctly installed
+is to use the Couchbase web interface. This interface is available on
+port 8091, but by default, is only accessible locally on the
+machine. To view it remotely you will need to tunnel to the machine:
 
 ::
 
     $ ssh -L2000:cep.example.org:8091 -N root@cep.example.org
 
-in a separate terminal window. You can then connect to the interface on
-the "http://localhost:2000/" URL. You will have to use the "admin"
-account with the generated password to log in.
+in a separate terminal window. You can then connect to the interface
+on the "http://localhost:2000/" URL. **You must use the "admin"
+account with the generated password to log in.**
 
 If everything has been installed correctly, you should see a display
 similar to the screenshot below.
