@@ -28,6 +28,12 @@ system area to make it available for all users on the system.
    for newer versions of ``pip`` you will have to use the ``--pre``
    option to allow pre-release versions to be installed.
 
+.. note::
+
+   For CentOS, the client can also be installed via the yum package
+   repository.  The RPM and ``pip`` installations conflict with one
+   another, so only one of these methods should be used.
+
 .. warning::
 
    On Mac OS X with the latest version of ``pip``, the system-wide
