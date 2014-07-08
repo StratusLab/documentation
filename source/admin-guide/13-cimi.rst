@@ -40,7 +40,7 @@ The service is written in `clojure <http://clojure.org/>`__ and uses
 the `Ring <https://github.com/ring-clojure/ring>`__ and `Compojure
 <https://github.com/weavejester/compojure>`__ frameworks for
 implementing the web service.  The
-`Friend<https://github.com/cemerick/friend>`__ framework is used for
+`Friend <https://github.com/cemerick/friend>`__ framework is used for
 authentication.
 
 The characteristics of the service are summarized in the following
@@ -108,8 +108,8 @@ by the StratusLab RPM packages.
 The default installation will generate a self-signed certificate for
 the service.  If you want to use a certificate signed by an accredited
 certificate authority, you must install it in the
-`/etc/stratuslab/nginx-proxy/` directory.  The certificate and key
-must be in the `cert.pem` and `cert.key` files, respectively.
+``/etc/stratuslab/nginx-proxy/`` directory.  The certificate and key
+must be in the ``cert.pem`` and ``cert.key`` files, respectively.
 
 Administrator Account
 ~~~~~~~~~~~~~~~~~~~~~
