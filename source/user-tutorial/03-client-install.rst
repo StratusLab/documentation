@@ -28,6 +28,13 @@ system area to make it available for all users on the system.
    for newer versions of ``pip`` you will have to use the ``--pre``
    option to allow pre-release versions to be installed.
 
+.. warning::
+
+   On Mac OS X with the latest version of ``pip``, the system-wide
+   installation will not work correctly because of a change in where
+   data files are placed.  A user-level or ``virtualenv`` installation
+   is recommended to work around this problem.
+
 If you don't want a system-wide installation of the client, you can do
 a user-level installation using the option ``--user``.  However in
 this case, you will need to modify your environment, adding for
