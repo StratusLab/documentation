@@ -259,7 +259,7 @@ machine.
 Pass this script to a virtual machine based on a CentOS image::
 
     $ stratus-run-instance \
-        --cloud-init "x-shellscript,run-http.sh" \
+        --cloud-init "x-shellscript,run-httpd.sh" \
         KT8gOU8gve_k3UFL7p5Els57My2
 
 After a couple of minutes, you should be able to visit the url
