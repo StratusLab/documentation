@@ -108,7 +108,7 @@ The commands for attaching and detaching persistent disks dynamically
 are::
 
     $ stratus-attach-volume --instance ${VM_ID} VOLUME_UUID
-    $ stratus-detach-volume VOLUME_UUID
+    $ stratus-detach-volume --instance ${VM_ID} VOLUME_UUID
 
 These can be used at any time while the virtual machine is running.
 Within the virtual machine, the volume must still be mounted from the
