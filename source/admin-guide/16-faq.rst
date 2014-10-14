@@ -17,6 +17,7 @@ Connect to each of the nodes to ensure that all of the iSCSI mounts
 are present.
 
 ::
+
     # iscsiadm -m session
 
 If the links are not correctly mounted (bad links will blink in the
@@ -32,6 +33,7 @@ The commands for this (assuming that you're logged into the frontend
 as `root`), are:
 
 ::
+
     # su - oneadmin
     $ for vm in `onevm list all |grep unk | awk ‘{print $1}’`; \
         do; \
