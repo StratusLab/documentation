@@ -106,6 +106,17 @@ machine with the command::
 
 The relevant capabilities are in the "flags" part of the response. 
 
+How to fix the keyboard mapping for virt-manager?
+-------------------------------------------------
 
+Occasionally when debugging problems with virtual machines it is
+useful to use `virt-manager` via X11 to bring up the machine console.
+The default configuration unfortunately makes the keyboard mapping
+completely useless.  To fix this, you must use the `-k` option when
+starting virtual machines with QEMU.
 
-    
+To do this, follow the same procedure as for exposing the CPU flags
+above and add the `-k en-us` option to the qemu command line.  This
+will cause the keyboard mapping to always be a US English.  You may
+use other language values, although the US English is the safest
+default.
