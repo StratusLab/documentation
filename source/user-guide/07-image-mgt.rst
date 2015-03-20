@@ -93,6 +93,7 @@ Now use the ``stratus-create-image`` command to create the new image:
       -a apache2,chkconfig \
       --type m1.xlarge \
       --comment "ubuntu create image test" \
+      --title "My first image" \
       --author "Joe Builder" \
       --author-email builder@example.org \
       HZTKYZgX7XzSokCHMB60lS0wsiv
